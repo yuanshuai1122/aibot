@@ -92,23 +92,21 @@ public class UserService {
   public ResponseResult<String> register(RegisterDTO dto) {
 
     Integer userParentId = 0;
-    String shareCode = null;
     Integer shareUserParentId = null;
 
     // 验证推广码是否存在
     if (StringUtils.isNotBlank(dto.getShareCode())) {
-      Long shareId = ShareCodeUtils.codeToId(dto.getShareCode());
+      Integer shareId = ShareCodeUtils.codeToId(dto.getShareCode());
       // TODO 这里查缓存
       User shareUser = userMapper.selectById(shareId);
       if (null == shareUser) {
         return new ResponseResult<>(ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getCode(), ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getMsg());
       }
       userParentId = shareUser.getId();
-      shareCode = dto.getShareCode();
 
-      if (null != shareUser.getShareCode()) {
-        User shareParentUser = userMapper.selectById(ShareCodeUtils.codeToId(shareUser.getShareCode()));
-        shareUserParentId = shareParentUser.getId();
+      // 赋值父id
+      if (shareUser.getUserParentId() != 0) {
+        shareUserParentId = shareUser.getUserParentId();
       }
 
     }
@@ -128,11 +126,14 @@ public class UserService {
     }
 
     // 注册
-    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, shareCode, new Date());
+    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_ERROR.getCode(), ResultCode.USER_REGISTER_ERROR.getMsg());
     }
+    // 插入注册码
+    registerUser.setShareCode(ShareCodeUtils.idToCode(registerUser.getId()));
+    userMapper.updateById(registerUser);
 
     // 插入到关系表
     if (userParentId != 0) {

@@ -13,13 +13,13 @@ public class ShareCodeTest {
 
   @Test
   void idToCode() {
-    String code = ShareCodeUtils.idToCode(2L);
+    String code = ShareCodeUtils.idToCode(2);
     System.out.println(code);
   }
 
   @Test
   void codeToId() {
-    Long id = ShareCodeUtils.codeToId("EAHYZ7");
+    Integer id = ShareCodeUtils.codeToId("EA64PE");
     System.out.println(id);
   }
 

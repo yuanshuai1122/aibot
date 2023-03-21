@@ -36,7 +36,7 @@ public class ShareCodeUtils {
    * @param id
    * @return
    */
-  public static String idToCode(Long id) {
+  public static String idToCode(Integer id) {
     char[] buf = new char[BIN_LEN];
     int charPos = BIN_LEN;
     // 当id除以数组长度结果大于0，则进行取模操作，并以取模的值作为数组的坐标获得对应的字符
@@ -69,9 +69,9 @@ public class ShareCodeUtils {
    * @param code
    * @return
    */
-  public static Long codeToId(String code) {
+  public static Integer codeToId(String code) {
     char[] charArray = code.toCharArray();
-    long result = 0L;
+    int result = 0;
     for (int i = 0; i < charArray.length; i++) {
       int index = 0;
       for (int j = 0; j < BIN_LEN; j++) {
