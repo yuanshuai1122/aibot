@@ -22,6 +22,7 @@ public enum ResultCode {
   NOT_PERMISSION(204,"无权限访问"),
   USER_REGISTER_REPEAT(205,"注册失败，用户已存在"),
   USER_REGISTER_ERROR(206,"注册失败"),
+  USER_REGISTER_SHARE_CODE_NOT_EXIT(207,"注册失败，推广码不存在"),
   /* 业务错误 301 - 399*/
   DATA_NOT_FOUND(301,"没有数据");
 

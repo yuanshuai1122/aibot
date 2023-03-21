@@ -5,19 +5,25 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chatgpt.beans.ResponseResult;
 import com.chatgpt.beans.User;
+import com.chatgpt.beans.UserRelation;
 import com.chatgpt.beans.dto.LoginDTO;
 import com.chatgpt.beans.dto.RegisterDTO;
 import com.chatgpt.constants.enums.ResultCode;
 import com.chatgpt.mapper.UserMapper;
+import com.chatgpt.mapper.UserRelationMapper;
 import com.chatgpt.utils.JwtUtil;
 import com.chatgpt.utils.RedisKeyUtils;
+import com.chatgpt.utils.ShareCodeUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.dreamlu.mica.core.result.R;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,6 +41,9 @@ public class UserService {
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
+
+  @Autowired
+  private UserRelationMapper userRelationMapper;
 
   /**
    * 用户登录服务
@@ -82,6 +91,28 @@ public class UserService {
    */
   public ResponseResult<String> register(RegisterDTO dto) {
 
+    Integer userParentId = 0;
+    String shareCode = null;
+    Integer shareUserParentId = null;
+
+    // 验证推广码是否存在
+    if (StringUtils.isNotBlank(dto.getShareCode())) {
+      Long shareId = ShareCodeUtils.codeToId(dto.getShareCode());
+      // TODO 这里查缓存
+      User shareUser = userMapper.selectById(shareId);
+      if (null == shareUser) {
+        return new ResponseResult<>(ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getCode(), ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getMsg());
+      }
+      userParentId = shareUser.getId();
+      shareCode = dto.getShareCode();
+
+      if (null != shareUser.getShareCode()) {
+        User shareParentUser = userMapper.selectById(ShareCodeUtils.codeToId(shareUser.getShareCode()));
+        shareUserParentId = shareParentUser.getId();
+      }
+
+    }
+
     // 查询目前登录的用户 来验证是否已经被注册
     String value = redisTemplate.opsForValue().get(RedisKeyUtils.getLoginKey(dto.getAccount()));
     if (null != value) {
@@ -97,10 +128,20 @@ public class UserService {
     }
 
     // 注册
-    User registerUser = new User(null, dto.getAccount(), dto.getPassword());
+    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, shareCode, new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_ERROR.getCode(), ResultCode.USER_REGISTER_ERROR.getMsg());
+    }
+
+    // 插入到关系表
+    if (userParentId != 0) {
+      UserRelation userRelation = new UserRelation(null, userParentId, registerUser.getId(), 1);
+      userRelationMapper.insert(userRelation);
+    }
+    if (null != shareUserParentId) {
+      UserRelation userRelation = new UserRelation(null, shareUserParentId, registerUser.getId(), 2);
+      userRelationMapper.insert(userRelation);
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "注册成功");

@@ -1,9 +1,10 @@
 package com.chatgpt.beans;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * 用户实体
@@ -24,4 +25,12 @@ public class User {
   private String account;
 
   private String password;
+
+  private Integer userParentId;
+
+  private String shareCode;
+
+  private Date createTime;
+
+
 }
