@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * 商品实体
  *
@@ -24,7 +26,7 @@ public class Product {
   /**
    * 商品价格
    */
-  private Integer productPrice;
+  private BigDecimal productPrice;
 
   /**
    * 商品描述

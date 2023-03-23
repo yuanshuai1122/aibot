@@ -13,7 +13,16 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class OrderProductDTO {
 
+  /**
+   * 商品id
+   */
   @NotBlank
   private Integer productId;
+
+  /**
+   * 数量
+   */
+  @NotBlank
+  private Integer count;
 
 }

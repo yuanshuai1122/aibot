@@ -2,7 +2,8 @@ package com.chatgpt.controller;
 
 import com.chatgpt.beans.entity.ResponseResult;
 import com.chatgpt.beans.dto.OrderProductDTO;
-import com.chatgpt.service.PayService;
+import com.chatgpt.constants.enums.ResultCode;
+import com.chatgpt.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,18 +21,20 @@ import javax.validation.Valid;
  */
 @RestController
 @Slf4j
-@RequestMapping("/pay")
-public class PayController {
+@RequestMapping("/order")
+public class OrderController {
 
   @Autowired
-  private PayService payService;
+  private OrderService orderService;
 
 
-  @PostMapping("/product")
+  @PostMapping("/create")
   public ResponseResult<Object> orderProduct(@RequestBody @Valid OrderProductDTO dto) {
+    if (dto.getProductId() <= 0 || dto.getCount() <= 0) {
+      return new ResponseResult<>(ResultCode.PARAM_IS_INVAlID.getCode(), ResultCode.PARAM_IS_INVAlID.getMsg(), null);
+    }
 
-    return payService.orderProduct(dto);
-
+    return orderService.orderProduct(dto);
   }
 
 }
