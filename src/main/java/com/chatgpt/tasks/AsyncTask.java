@@ -1,7 +1,7 @@
 package com.chatgpt.tasks;
 
-import com.chatgpt.beans.ChatLog;
-import com.chatgpt.beans.ChatSensitiveLog;
+import com.chatgpt.beans.entity.ChatLog;
+import com.chatgpt.beans.entity.ChatSensitiveLog;
 import com.chatgpt.mapper.ChatLogMapper;
 import com.chatgpt.mapper.ChatSensitiveLogMapper;
 import lombok.extern.slf4j.Slf4j;

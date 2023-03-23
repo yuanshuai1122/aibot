@@ -1,4 +1,4 @@
-package com.chatgpt.beans;
+package com.chatgpt.beans.entity;
 
 import com.chatgpt.constants.enums.ResultCode;
 import com.fasterxml.jackson.annotation.JsonInclude;

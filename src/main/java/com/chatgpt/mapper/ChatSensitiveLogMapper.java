@@ -1,7 +1,7 @@
 package com.chatgpt.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.chatgpt.beans.ChatSensitiveLog;
+import com.chatgpt.beans.entity.ChatSensitiveLog;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

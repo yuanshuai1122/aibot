@@ -1,21 +1,16 @@
 package com.chatgpt.controller;
 
-import com.chatgpt.beans.ChatLog;
 import com.chatgpt.beans.ChatResult.ChatResult;
-import com.chatgpt.beans.ResponseResult;
+import com.chatgpt.beans.entity.ResponseResult;
 import com.chatgpt.beans.dto.ChatCommonDTO;
 import com.chatgpt.beans.dto.chatProcess.ChatProcess;
 import com.chatgpt.service.ChatApiService;
-import com.theokanning.openai.completion.CompletionChoice;
-import com.theokanning.openai.completion.CompletionRequest;
-import com.theokanning.openai.service.OpenAiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * chatgpt的api版控制器

@@ -1,12 +1,9 @@
 package com.chatgpt.controller;
 
-import com.chatgpt.beans.ResponseResult;
-import com.chatgpt.beans.User;
+import com.chatgpt.beans.entity.ResponseResult;
 import com.chatgpt.beans.dto.LoginDTO;
 import com.chatgpt.beans.dto.RegisterDTO;
-import com.chatgpt.constants.enums.ResultCode;
 import com.chatgpt.service.UserService;
-import com.chatgpt.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

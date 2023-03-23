@@ -1,13 +1,11 @@
 package com.chatgpt.service;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.chatgpt.beans.ChatLog;
+import com.chatgpt.beans.entity.ChatLog;
 import com.chatgpt.beans.ChatResult.ChatResult;
-import com.chatgpt.beans.ChatSensitiveLog;
+import com.chatgpt.beans.entity.ChatSensitiveLog;
 import com.chatgpt.beans.ChatStreamResult.ChatStreamResult;
-import com.chatgpt.beans.ResponseResult;
+import com.chatgpt.beans.entity.ResponseResult;
 import com.chatgpt.beans.dto.ChatCommonDTO;
 import com.chatgpt.beans.dto.chatProcess.ChatProcess;
 import com.chatgpt.beans.vo.ChatStreamVO;
@@ -25,15 +23,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**

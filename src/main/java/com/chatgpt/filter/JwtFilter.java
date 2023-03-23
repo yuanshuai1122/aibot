@@ -2,7 +2,7 @@ package com.chatgpt.filter;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
-import com.chatgpt.beans.ResponseResult;
+import com.chatgpt.beans.entity.ResponseResult;
 import com.chatgpt.constants.enums.ResultCode;
 import com.chatgpt.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;

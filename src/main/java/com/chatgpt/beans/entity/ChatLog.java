@@ -1,4 +1,4 @@
-package com.chatgpt.beans;
+package com.chatgpt.beans.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

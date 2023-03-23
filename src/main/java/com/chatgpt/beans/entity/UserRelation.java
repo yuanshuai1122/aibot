@@ -1,36 +1,30 @@
-package com.chatgpt.beans;
+package com.chatgpt.beans.entity;
+
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
 
-import java.util.Date;
-
 /**
- * 用户实体
+ * 用户关系表
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:32
+ * @create: 2023-03-21 12:04
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class User {
+public class UserRelation {
 
   @TableId(type = IdType.AUTO)
   private Integer id;
 
-  private String account;
-
-  private String password;
-
   private Integer userParentId;
 
-  private String shareCode;
+  private Integer userChildrenId;
 
-  private Date createTime;
-
+  private Integer userLevel;
 
 }

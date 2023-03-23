@@ -1,11 +1,10 @@
 package com.chatgpt.service;
 
 import com.alibaba.fastjson2.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.chatgpt.beans.ResponseResult;
-import com.chatgpt.beans.User;
-import com.chatgpt.beans.UserRelation;
+import com.chatgpt.beans.entity.ResponseResult;
+import com.chatgpt.beans.entity.User;
+import com.chatgpt.beans.entity.UserRelation;
 import com.chatgpt.beans.dto.LoginDTO;
 import com.chatgpt.beans.dto.RegisterDTO;
 import com.chatgpt.constants.enums.ResultCode;
@@ -14,15 +13,12 @@ import com.chatgpt.mapper.UserRelationMapper;
 import com.chatgpt.utils.JwtUtil;
 import com.chatgpt.utils.RedisKeyUtils;
 import com.chatgpt.utils.ShareCodeUtils;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import net.dreamlu.mica.core.result.R;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 

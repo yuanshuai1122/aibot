@@ -1,15 +1,15 @@
 package com.chatgpt.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.chatgpt.beans.entity.User;
+import com.chatgpt.beans.entity.Product;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 用户mapper
+ * 商品mapper
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:50
+ * @create: 2023-03-23 18:07
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface ProductMapper extends BaseMapper<Product> {
 }
