@@ -10,6 +10,14 @@ export function login(data) {
     data
   })
 }
+// 注册
+export function register(data) {
+  return request({
+    url: api.Register,
+    method: 'post',
+    data
+  })
+}
 
 // 用户信息 post 方法
 export function getUserInfo() {

@@ -1,8 +1,8 @@
 <template>
   <div class="login-content">
     <van-cell-group class="content">
-      <van-field v-model="logForm.account" label="账号" placeholder="请输入账号" />
-      <van-field v-model="logForm.password" label="密码" placeholder="请输入密码" />
+      <van-field class="field" v-model="logForm.account" label="账号" placeholder="请输入账号" />
+      <van-field class="field" v-model="logForm.password" label="密码" placeholder="请输入密码" />
     </van-cell-group>
     <van-button class="submit-btn" round type="success" @click="loginBtn">登录</van-button>
   </div>
@@ -36,11 +36,8 @@ export default {
             path:'/index'
           })
         }
-
       })
     },
-
-
   },
 }
 </script>
@@ -57,8 +54,11 @@ export default {
   background: url(@/assets/login.png) no-repeat fixed;
 }
 .content{
-  background-color: rgb(0 0 0 / 46%) !important;
+  background: none;
   /*background-color: red;*/
+}
+.field{
+  background: none;
 }
 .submit-btn{
   margin-top: 2vh;
