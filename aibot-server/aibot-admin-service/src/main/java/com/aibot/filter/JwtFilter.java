@@ -63,15 +63,11 @@ public class JwtFilter implements Filter
       }
       Integer id = userData.get("id").asInt();
       String account = userData.get("account").asString();
-      String password= userData.get("password").asString();
-      String userParentId = userData.get("userParentId").asString();
-      String shareCode = userData.get("shareCode").asString();
+      String role= userData.get("role").asString();
       //拦截器 拿到用户信息，放到request中
       request.setAttribute("id", id);
       request.setAttribute("account", account);
-      request.setAttribute("password", password);
-      request.setAttribute("userParentId", userParentId);
-      request.setAttribute("shareCode", shareCode);
+      request.setAttribute("role", role);
       chain.doFilter(req, res);
     }
   }

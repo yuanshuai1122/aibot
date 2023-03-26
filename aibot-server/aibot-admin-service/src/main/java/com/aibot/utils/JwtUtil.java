@@ -1,5 +1,6 @@
 package com.aibot.utils;
 
+import com.aibot.beans.entity.LoginUser;
 import com.aibot.beans.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -35,7 +36,7 @@ public class JwtUtil {
   /**
    * 生成用户token,设置token超时时间
    */
-  public static String createToken(User user) {
+  public static String createToken(LoginUser user) {
     //过期时间
     Date expireDate = new Date(System.currentTimeMillis() + EXPIRATION * 1000);
     Map<String, Object> map = new HashMap<>();
@@ -46,9 +47,7 @@ public class JwtUtil {
             //可以将基本信息放到claims中
             .withClaim("id", user.getId())//userId
             .withClaim("account", user.getAccount())//userName
-            .withClaim("password", user.getPassword())//password
-            .withClaim("userParentId", user.getUserParentId())
-            .withClaim("shareCode", user.getShareCode())
+            .withClaim("role", user.getRole())
             .withExpiresAt(expireDate) //超时设置,设置过期的日期
             .withIssuedAt(new Date()) //签发时间
             .sign(Algorithm.HMAC256(SECRET)); //SECRET加密

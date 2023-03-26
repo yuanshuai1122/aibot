@@ -2,6 +2,7 @@ package com.aibot.controller;
 
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.entity.User;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,17 @@ public class UserController {
     log.info("开始请求登录, account: {}", dto.getAccount());
     return userService.login(dto);
 
+  }
+
+  /**
+   * 获取下级用户
+   * @param account 账号
+   * @param level 等级
+   * @return 用户信息
+   */
+  @GetMapping("/sub")
+  public ResponseResult<User> subUsers(@RequestParam(value = "account", required = false) String account, @RequestParam(value = "level", required = false) Integer level) {
+    return userService.subUsers(account, level);
   }
 
 }
