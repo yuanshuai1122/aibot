@@ -19,14 +19,20 @@ import '@/assets/css/index.scss'
 // 移动端适配
 import 'amfe-flexible'
 
-import { Field,CellGroup,Toast } from 'vant';
+import { Field,CellGroup,Grid, GridItem,Cell} from 'vant';
+import { Image as VanImage } from 'vant';
 
 // filters
 import './filters'
 Vue.config.productionTip = false
+
+
+Vue.use(VanImage);
 Vue.use(Field);
 Vue.use(CellGroup);
-Vue.use(Toast);
+Vue.use(Grid);
+Vue.use(GridItem);
+Vue.use(Cell);
 new Vue({
   el: '#app',
   router,
