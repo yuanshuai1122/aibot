@@ -20,11 +20,25 @@ export default {
     return {
       tabbars: [
         {
-          title: '首页',
+          title: '对话',
           to: {
-            name: 'Home'
+            name: 'Chat'
           },
-          icon: 'home-o'
+          icon: 'comment-o'
+        },
+        {
+          title: '创作',
+          to: {
+            name: 'Classify'
+          },
+          icon: 'edit'
+        },
+        {
+          title: '任务',
+          to: {
+            name: 'Task'
+          },
+          icon: 'flag-o'
         },
         {
           title: '关于我',

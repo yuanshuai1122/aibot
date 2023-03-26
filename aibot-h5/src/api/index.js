@@ -1,6 +1,6 @@
 const api = {
   Login: '/user/login',
-  UserInfo: '/user/userinfo',
+  UserInfo: '/user/info',
   UserName: '/user/name'
 }
 

@@ -4,6 +4,16 @@
  */
 export const constantRouterMap = [
   {
+    path: '/login',
+    component: () => import('@/views/login'),
+    hidden: true
+  },
+  // {
+  //   path: '/register',
+  //   component: () => import('@/views/register'),
+  //   hidden: true
+  // },
+  {
     path: '/',
     component: () => import('@/views/layouts/index'),
     redirect: '/home',
@@ -13,10 +23,22 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: '/home',
-        name: 'Home',
-        component: () => import('@/views/home/index'),
-        meta: { title: '首页', keepAlive: false }
+        path: '/index',
+        name: 'Chat',
+        component: () => import('@/views/home/chat'),
+        meta: { title: '对话', keepAlive: false }
+      },
+      {
+        path: '/edit',
+        name: 'Classify',
+        component: () => import('@/views/home/edit'),
+        meta: { title: '创作', keepAlive: false }
+      },
+      {
+        path: '/task',
+        name: 'Task',
+        component: () => import('@/views/home/task'),
+        meta: { title: '任务', keepAlive: false }
       },
       {
         path: '/about',
