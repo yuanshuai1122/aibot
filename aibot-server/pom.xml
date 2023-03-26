@@ -8,11 +8,11 @@
         <version>2.6.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.chatgpt</groupId>
-    <artifactId>chatgpt</artifactId>
+    <groupId>com.aibot</groupId>
+    <artifactId>aibot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>chatgpt</name>
-    <description>chatgpt</description>
+    <name>aibot</name>
+    <description>aibot服务端</description>
     <properties>
         <java.version>17</java.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -132,10 +132,16 @@
         </dependency>
 
 <!--        敏感词校验-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.houbb</groupId>-->
+<!--            <artifactId>sensitive-word</artifactId>-->
+<!--            <version>0.2.0</version>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>com.github.houbb</groupId>
-            <artifactId>sensitive-word</artifactId>
-            <version>0.2.0</version>
+            <groupId>io.github.toolgood</groupId>
+            <artifactId>toolgood-words</artifactId>
+            <version>3.1.0.0</version>
         </dependency>
 
 <!--        springboot 数据验证-->

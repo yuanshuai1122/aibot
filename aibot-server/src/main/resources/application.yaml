@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8090
 
 
 #  DataSource Config
@@ -8,10 +8,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   redis:
-    host: 182.61.11.252
-    port: 6379
-    password: yuanshuai520
-    database: 4
+    host: bj-crs-qp6lsebw.sql.tencentcdb.com
+    port: 20356
+    password: aoL$Yk0SDIvU&zKW
+    database: 9
   datasource:
     dynamic:
       druid:
@@ -31,6 +31,7 @@ spring:
         chatgptdb:
           driver-class-name: com.mysql.cj.jdbc.Driver
           type: com.alibaba.druid.pool.DruidDataSource
-          url: jdbc:mysql://182.61.11.252:3306/chatgpt_db?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+          url: jdbc:mysql://bj-cynosdbmysql-grp-o9u7ldum.sql.tencentcdb.com:21457/aibot_db?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
           username: root
-          password: yuanshuai520
+          password: hh%Gy&rTYM@oepc6
+

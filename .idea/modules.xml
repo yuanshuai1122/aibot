@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/aibot.iml" filepath="$PROJECT_DIR$/.idea/aibot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aibot-server/aibot.iml" filepath="$PROJECT_DIR$/aibot-server/aibot.iml" />
     </modules>
   </component>
 </project>
