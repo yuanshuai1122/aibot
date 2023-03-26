@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d42bf3f-f619-44ce-84d0-08de02d2bbe2" name="Changes" comment="" />
+    <list default="true" id="0d42bf3f-f619-44ce-84d0-08de02d2bbe2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +21,9 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="rp5ubnf2" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2NXfnmDVkKGHSVlxMkCTjoqZBVz" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -31,6 +36,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -41,6 +47,7 @@
       <option name="presentableId" value="Default" />
       <updated>1679815518741</updated>
       <workItem from="1679815522105" duration="40000" />
+      <workItem from="1679844947281" duration="18000" />
     </task>
     <servers />
   </component>
