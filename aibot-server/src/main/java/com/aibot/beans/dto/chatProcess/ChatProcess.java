@@ -18,7 +18,4 @@ public class ChatProcess {
   @NotBlank
   private String prompt;
 
-  @NotBlank
-  private String chatKey;
-
 }

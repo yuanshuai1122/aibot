@@ -31,6 +31,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
@@ -65,11 +66,6 @@ public class ChatApiService {
    */
   private volatile String messageId;
 
-  /**
-   * 用户Apikey
-   */
-  private volatile Integer userApiKey;
-
   @Autowired
   private AsyncTaskExecutePool asyncTaskExecutePool;
 
@@ -81,6 +77,9 @@ public class ChatApiService {
 
   @Autowired
   private ChatSuccessLogMapper chatSuccessLogMapper;
+
+  @Autowired
+  private HttpServletRequest request;
 
 
   public ResponseResult<ChatResult> chatCommon(ChatCommonDTO dto) {
@@ -132,24 +131,6 @@ public class ChatApiService {
     SseEmitter emitter = new SseEmitter();
     log.info("创建SseEmitter, {}", emitter);
 
-    // 缓存中获取userKey
-    String value = redisTemplate.opsForValue().get(RedisKeyUtils.getChatKey(signKey));
-    if (null == value) {
-      emitter.completeWithError(new RuntimeException(signKey + "|获取用户key信息失败"));
-      ChatFailureLog chatFailureLog = new ChatFailureLog(null, userApiKey, messageId, conversionId, signKey + "|获取用户key信息失败", new Date());
-      asyncTask.setChatLogFailure(chatFailureLog);
-      return null;
-    }
-
-    // 转换实体
-    //ChatUserKey chatUserKey = JSON.parseObject(value, ChatUserKey.class);
-    //userApiKey = chatUserKey.getId();
-    //// 次数-1
-    //chatUserKey.setRemainTimes(chatUserKey.getRemainTimes() - 1);
-    //chatUserKeyMapper.updateById(chatUserKey);
-    //// 清除缓存
-    //redisTemplate.delete(RedisKeyUtils.getChatKey(signKey));
-
     // 获取随机一条key
     ChatApiKey apiKey = chatApiKeyMapper.selectRandomKey();
 
@@ -185,16 +166,16 @@ public class ChatApiService {
     builder.writeTimeout(Duration.ofSeconds(300));
     OkHttpClient okHttpClient = builder.build();
 
-    Request request = new Request.Builder()
+    Request req = new Request.Builder()
             .url(ApiBaseUrl.BASE_CHAT_URL)
             .headers(Headers.of(headers))
             .post(RequestBody.create(JSON.toJSONString(data), MediaType.parse("application/json")))
             .build();
-    log.info("构建请求request: {}", request);
+    log.info("构建请求request: {}", req);
 
     // 新建线程发送 SSE 事件流数据
     asyncTaskExecutePool.chatAsyncTaskPool().execute(() -> {
-      try (Response response = okHttpClient.newCall(request).execute()) {
+      try (Response response = okHttpClient.newCall(req).execute()) {
 
         log.info("开始推流......");
 
@@ -212,7 +193,7 @@ public class ChatApiService {
                 // 写入数据库
                 ChatSuccessLog chatSuccessLog = new ChatSuccessLog(
                         null,
-                        userApiKey,
+                        Integer.parseInt(request.getAttribute("id").toString()),
                         ChatRoleEnum.ASSISTANT.getRole(),
                         messageId,
                         conversionId,
@@ -258,7 +239,7 @@ public class ChatApiService {
             }
           }
         } else {
-          ChatFailureLog chatFailureLog = new ChatFailureLog(null, userApiKey, messageId, conversionId, "CHAT响应失败或响应为空", new Date());
+          ChatFailureLog chatFailureLog = new ChatFailureLog(null, Integer.parseInt(request.getAttribute("id").toString()), messageId, conversionId, "CHAT响应失败或响应为空", new Date());
           asyncTask.setChatLogFailure(chatFailureLog);
           emitter.completeWithError(new RuntimeException("CHAT响应失败或响应为空"));
         }
@@ -267,7 +248,7 @@ public class ChatApiService {
         log.info("请求chat流式接口发生异常, e: {}", e.toString());
         // 发送 SSE 事件流数据出现异常时需要调用 completeWithError() 方法
         emitter.completeWithError(new RuntimeException("请求服务器发生异常，请重试"));
-        ChatFailureLog chatFailureLog = new ChatFailureLog(null, userApiKey, messageId, conversionId, "请求服务器发生异常，请重试", new Date());
+        ChatFailureLog chatFailureLog = new ChatFailureLog(null, Integer.parseInt(request.getAttribute("id").toString()), messageId, conversionId, "请求服务器发生异常，请重试", new Date());
         asyncTask.setChatLogFailure(chatFailureLog);
         throw new RuntimeException("请求服务器发生异常，请重试");
       }finally {
@@ -305,13 +286,10 @@ public class ChatApiService {
     }
 
     // 写日志数据库
-    ChatSuccessLog chatSuccessLog = new ChatSuccessLog(null, 1, ChatRoleEnum.USER.getRole(), ValueUtils.getMessageUUID(), signKey, process.getPrompt(), new Date());
+    ChatSuccessLog chatSuccessLog = new ChatSuccessLog(null, Integer.parseInt(request.getAttribute("id").toString()), ChatRoleEnum.USER.getRole(), ValueUtils.getMessageUUID(), signKey, process.getPrompt(), new Date());
     asyncTask.setChatLog(chatSuccessLog);
     // 放入缓存队列
     push(signKey, JSON.toJSONString(chatSuccessLog));
-
-    // 将chatKey信息放入缓存
-    redisTemplate.opsForValue().set(RedisKeyUtils.getChatKey(signKey), JSON.toJSONString(""), 5, TimeUnit.MINUTES);
 
     // 返回key
     log.info("请求chatSign结束, 返回值key: {}", signKey);

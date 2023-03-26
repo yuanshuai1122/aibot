@@ -1,5 +1,7 @@
 package com.aibot.service;
 
+import com.aibot.beans.vo.UserInfoVO;
+import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.aibot.beans.dto.LoginDTO;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +43,9 @@ public class UserService {
 
   @Autowired
   private UserRelationMapper userRelationMapper;
+  
+  @Autowired
+  private HttpServletRequest request;
 
   /**
    * 用户登录服务
@@ -48,36 +54,23 @@ public class UserService {
    */
   public ResponseResult<String> login(LoginDTO dto) {
 
-    // 查询缓存
-    String value = redisTemplate.opsForValue().get(RedisKeyUtils.getLoginKey(dto.getAccount()));
-    if (null != value) {
-      User user = JSON.parseObject(value, User.class);
-      if (!user.getPassword().equals(dto.getPassword())) {
-        return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
-      }
-      String token = JwtUtil.createToken(user);
-      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", token);
-    }
+    // TODO 这里记得做防刷
 
     // 查询数据库
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getAccount, dto.getAccount());
     User user = userMapper.selectOne(wrapper);
+    // 用户不存在
     if (null == user) {
       return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
     }
+    // 密码不正确
     if (!user.getPassword().equals(dto.getPassword())) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
 
-    // 写入缓存
-    redisTemplate.opsForValue().set(RedisKeyUtils.getLoginKey(user.getAccount()), JSON.toJSONString(user), 24, TimeUnit.HOURS);
-
     // 返回token
-
-    String token = JwtUtil.createToken(user);
-
-    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", token);
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
   }
 
   /**
@@ -107,21 +100,16 @@ public class UserService {
 
     }
 
-    // 查询目前登录的用户 来验证是否已经被注册
-    String value = redisTemplate.opsForValue().get(RedisKeyUtils.getLoginKey(dto.getAccount()));
-    if (null != value) {
-      return new ResponseResult<>(ResultCode.USER_REGISTER_REPEAT.getCode(), ResultCode.USER_REGISTER_REPEAT.getMsg());
-    }
-
-    // 查询数据库
+    // 查询数据库 验证是否已注册
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getAccount, dto.getAccount());
     User user = userMapper.selectOne(wrapper);
+    // 已经注册
     if (null != user) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_REPEAT.getCode(), ResultCode.USER_REGISTER_REPEAT.getMsg());
     }
 
-    // 注册
+    // 开始注册
     User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
@@ -142,5 +130,24 @@ public class UserService {
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "注册成功");
+  }
+
+  /**
+   * 获取登录用户信息
+   * @return 登录用户信息
+   */
+  public ResponseResult<UserInfoVO> info() {
+
+    UserInfoVO userInfo = new UserInfoVO();
+
+    String account = request.getAttribute("account").toString();
+    log.info("开始获取登录信息, account: {}", account);
+    String maskAccount = ValueUtils.getMaskAccount(account);
+    userInfo.setAccount(maskAccount);
+
+    // TODO 这里先写死
+    userInfo.setAvatar("http://img.520touxiang.com/uploads/allimg/2018121219/umqqfexihiv.jpg");
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", userInfo);
   }
 }

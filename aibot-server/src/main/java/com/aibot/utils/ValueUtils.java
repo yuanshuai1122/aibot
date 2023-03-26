@@ -1,5 +1,7 @@
 package com.aibot.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -40,6 +42,18 @@ public class ValueUtils {
       buffer.append(s.toUpperCase());
     }
     return buffer.toString();
+  }
+
+  /**
+   * 账号掩码
+   * @param account 账号
+   * @return
+   */
+  public static String getMaskAccount(String account) {
+    if (StringUtils.isBlank(account)) {
+      return "";
+    }
+    return "******" + account.substring(account.length() - 2);
   }
 
 }

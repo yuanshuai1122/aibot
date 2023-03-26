@@ -21,7 +21,7 @@ import java.util.Map;
  * @create: 2023-03-20 11:35
  */
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = "/*")
+@WebFilter(filterName = "JwtFilter", urlPatterns = "/*", asyncSupported = true)
 public class JwtFilter implements Filter
 {
   @Override

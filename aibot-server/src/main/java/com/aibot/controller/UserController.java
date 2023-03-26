@@ -4,6 +4,7 @@ import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RegisterDTO;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.entity.User;
+import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,22 +30,21 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseResult<String> login(@RequestBody @Valid LoginDTO dto) {
-
+    log.info("开始请求登录, account: {}", dto.getAccount());
     return userService.login(dto);
 
   }
 
   @PostMapping("/register")
   public ResponseResult<String> register(@RequestBody @Valid RegisterDTO dto) {
-
+    log.info("开始请求注册，account: {}", dto.getAccount());
     return userService.register(dto);
 
   }
 
   @GetMapping("/info")
-  public ResponseResult<String> info() {
-    log.info("info....");
-    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "成功", "121212");
+  public ResponseResult<UserInfoVO> info() {
+    return userService.info();
   }
 
 }
