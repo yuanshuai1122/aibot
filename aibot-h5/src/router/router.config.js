@@ -8,11 +8,11 @@ export const constantRouterMap = [
     component: () => import('@/views/login'),
     hidden: true
   },
-  // {
-  //   path: '/register',
-  //   component: () => import('@/views/register'),
-  //   hidden: true
-  // },
+  {
+    path: '/register',
+    component: () => import('@/views/register'),
+    hidden: true
+  },
   {
     path: '/',
     component: () => import('@/views/layouts/index'),
