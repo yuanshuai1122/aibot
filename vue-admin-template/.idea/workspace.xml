@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce7af86d-7065-46a9-b96f-8979b27bef7d" name="Changes" comment="" />
+    <list default="true" id="ce7af86d-7065-46a9-b96f-8979b27bef7d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/beans/entity/LoginUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/beans/entity/UserAdmin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/constants/enums/UserRoleEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/mapper/UserAdminMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/filter/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-server/aibot-admin-service/src/main/java/com/aibot/utils/JwtUtil.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +45,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679828010326</updated>
-      <workItem from="1679828013375" duration="1470000" />
+      <workItem from="1679828013375" duration="2667000" />
     </task>
     <servers />
   </component>

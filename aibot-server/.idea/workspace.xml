@@ -4,93 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99e14ed7-dc25-4f7e-a577-88f96da853f9" name="Changes" comment="代码调试优化">
-      <change afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/LoginDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/ResponseResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/UserOrders.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/UserRelation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/enums/ResultCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/filter/JwtFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/ProductMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/UserOrdersMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/UserRelationMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/ChatgptApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/ChatgptApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatResult/ChatResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatResult/ChatResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatResult/Choices.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatResult/Choices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatResult/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatResult/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatResult/Usage.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatResult/Usage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatStreamResult/ChatStreamResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatStreamResult/ChatStreamResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatStreamResult/Choices.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatStreamResult/Choices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/ChatStreamResult/Delta.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/ChatStreamResult/Delta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/ChatCommonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/ChatCommonDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/ChatKeyUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/ChatKeyUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/ImagesCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/ImagesCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/LoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/dto/LoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/OrderProductDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/OrderProductDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/RegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/RegisterDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/dto/chatProcess/ChatProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/dto/chatProcess/ChatProcess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/ChatApiKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/ChatApiKey.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/ChatFailureLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/ChatFailureLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/ChatSensitiveLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/ChatSensitiveLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/ChatSuccessLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/entity/ChatSuccessLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/ResponseResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/entity/ResponseResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/UserOrders.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/entity/UserOrders.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/entity/UserRelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/beans/entity/UserRelation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/vo/ChatStreamVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/vo/ChatStreamVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/vo/ImageUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/vo/ImageUrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/vo/ImagesUrlCreateVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/vo/ImagesUrlCreateVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/beans/vo/UserInfoVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/beans/vo/UserInfoVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/config/AsyncTaskExecutePool.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/AsyncTaskExecutePool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/config/CORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/CORSFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/config/OkHttpClientSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/OkHttpClientSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/config/SseEmitterPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/SseEmitterPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/ApiBaseUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/ApiBaseUrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/ApiKeyConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/ApiKeyConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/enums/ChatKeyStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/enums/ChatKeyStatusEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/enums/ChatRoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/enums/ChatRoleEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/enums/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/constants/enums/ResultCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/constants/enums/UserKeyTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/constants/enums/UserKeyTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/controller/ChatApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/controller/ChatApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/filter/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/ChatApiKeyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/ChatApiKeyMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/ChatFailureLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/ChatFailureLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/ChatSensitiveLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/ChatSensitiveLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/ChatSuccessLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/ChatSuccessLogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/mapper/ProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/UserOrdersMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/mapper/UserOrdersMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/mapper/UserRelationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/mapper/UserRelationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/service/ChatApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/ChatApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/service/ImagesApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/ImagesApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/tasks/AsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/tasks/AsyncTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/DateUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/IPUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/IPUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/utils/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/OkHttpUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/OkHttpUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/RedisKeyUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/RedisKeyUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/RequestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/RequestUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/ShareCodeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/ShareCodeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aibot/utils/ValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/ValueUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml.sk" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/resources/application.yaml.sk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/aibot/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/test/java/com/aibot/Test.java" afterDir="false" />
-    </list>
+    <list default="true" id="99e14ed7-dc25-4f7e-a577-88f96da853f9" name="Changes" comment="。。。" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,6 +13,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -163,7 +78,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AibotAdminServiceApplication">
+  <component name="RunManager" selected="Spring Boot.ChatgptApplication (1)">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -196,6 +111,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ChatgptApplication (2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="aibot-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.aibot.ChatgptApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ChatgptApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="aibot-server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.aibot.ChatgptApplication" />
@@ -212,7 +134,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679815675632</updated>
-      <workItem from="1679815678764" duration="10017000" />
+      <workItem from="1679815678764" duration="19346000" />
     </task>
     <task id="LOCAL-00001" summary="代码调试优化">
       <created>1679821084867</created>
@@ -221,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679821084867</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="。。。">
+      <created>1679843916561</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679843916561</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +169,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="代码调试优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="代码调试优化" />
+    <MESSAGE value="。。。" />
+    <option name="LAST_COMMIT_MESSAGE" value="。。。" />
   </component>
 </project>
