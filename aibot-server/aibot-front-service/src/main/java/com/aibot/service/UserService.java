@@ -1,6 +1,8 @@
 package com.aibot.service;
 
+import com.aibot.beans.entity.UserInfo;
 import com.aibot.beans.vo.UserInfoVO;
+import com.aibot.mapper.UserInfoMapper;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -45,6 +47,9 @@ public class UserService {
   @Autowired
   private HttpServletRequest request;
 
+  @Autowired
+  private UserInfoMapper userInfoMapper;
+
   /**
    * 用户登录服务
    * @param dto 用户登录实体
@@ -84,7 +89,6 @@ public class UserService {
     // 验证推广码是否存在
     if (StringUtils.isNotBlank(dto.getShareCode())) {
       Integer shareId = ShareCodeUtils.codeToId(dto.getShareCode());
-      // TODO 这里查缓存
       User shareUser = userMapper.selectById(shareId);
       if (null == shareUser) {
         return new ResponseResult<>(ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getCode(), ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getMsg());
@@ -116,6 +120,11 @@ public class UserService {
     // 插入注册码
     registerUser.setShareCode(ShareCodeUtils.idToCode(registerUser.getId()));
     userMapper.updateById(registerUser);
+
+    // 插入到用户信息表
+    UserInfo userInfo = new UserInfo();
+    userInfo.setUserId(registerUser.getId());
+    userInfoMapper.insert(userInfo);
 
     // 插入到关系表
     if (userParentId != 0) {

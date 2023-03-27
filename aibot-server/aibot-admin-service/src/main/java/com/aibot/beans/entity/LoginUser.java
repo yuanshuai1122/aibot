@@ -11,10 +11,19 @@ import lombok.Data;
 @Data
 public class LoginUser {
 
+  /**
+   * ID
+   */
   private Integer id;
 
+  /**
+   * 账号
+   */
   private String account;
 
+  /**
+   * 角色
+   */
   private String role;
 
 }

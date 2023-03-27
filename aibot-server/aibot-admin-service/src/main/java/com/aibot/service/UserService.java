@@ -1,10 +1,7 @@
 package com.aibot.service;
 
 import com.aibot.beans.dto.LoginDTO;
-import com.aibot.beans.entity.LoginUser;
-import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.entity.User;
-import com.aibot.beans.entity.UserAdmin;
+import com.aibot.beans.entity.*;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserAdminMapper;
@@ -13,10 +10,12 @@ import com.aibot.mapper.UserRelationMapper;
 import com.aibot.utils.JwtUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户服务
@@ -37,6 +36,9 @@ public class UserService {
   @Autowired
   private HttpServletRequest request;
 
+  @Autowired
+  private UserRelationMapper userRelationMapper;
+
 
   /**
    * 用户登录服务
@@ -44,8 +46,6 @@ public class UserService {
    * @return 登录结果
    */
   public ResponseResult<String> login(LoginDTO dto) {
-
-    // TODO 这里记得做防刷
 
     LoginUser loginUser = new LoginUser();
 
@@ -87,10 +87,31 @@ public class UserService {
    * @param level 等级
    * @return 用户信息
    */
-  public ResponseResult<User> subUsers(String account, Integer level) {
+  public ResponseResult<List<User>> subUsers(String account, Integer level, Integer pageNum, Integer pageSize) {
 
     // 获取用户的角色
     String role = request.getAttribute("role").toString();
+
+    if (role.equals(UserRoleEnum.COMMON_USER.getRole())) {
+      int userId = Integer.parseInt(request.getAttribute("id").toString());
+      QueryWrapper<UserRelation> reWapper = new QueryWrapper<>();
+      reWapper.lambda().eq(UserRelation::getUserParentId, userId);
+      if (null != level) {
+        reWapper.lambda().eq(UserRelation::getUserLevel, level);
+      }
+      // 查询user关系
+      List<UserRelation> userRelations = userRelationMapper.selectList(reWapper);
+      if (userRelations.size() <= 0) {
+        return null;
+      }
+
+    }
+
+
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    if (StringUtils.isNotBlank(account)) {
+      wrapper.lambda().like(User::getAccount, account);
+    }
 
     // 超管可以查询全部用户
 

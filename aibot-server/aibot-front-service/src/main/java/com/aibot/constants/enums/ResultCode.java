@@ -29,8 +29,13 @@ public enum ResultCode {
   PRODUCT_NOT_FOUND(302, "商品不存在"),
 
 
+  VISIT_OUT_TIMES(401,"访问频繁，请稍后再试"),
 
-  VISIT_OUT_TIMES(401,"访问频繁，请稍后再试")
+  /* 短信错误 */
+  SMS_PARAMS_ERROR(601, "发送短信参数有误"),
+  SMS_SYSTEM_ERROR(602, "发送短息出现系统错误"),
+  SMS_TIMES_ERROR(603, "发端短信太频繁，请稍后再试"),
+  SMS_FALIURE_ERROR(603, "发端短信失败，请稍后再试"),
 
 
   ;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 用户控制器
@@ -40,8 +41,11 @@ public class UserController {
    * @return 用户信息
    */
   @GetMapping("/sub")
-  public ResponseResult<User> subUsers(@RequestParam(value = "account", required = false) String account, @RequestParam(value = "level", required = false) Integer level) {
-    return userService.subUsers(account, level);
+  public ResponseResult<List<User>> subUsers(@RequestParam(value = "account", required = false) String account,
+                                       @RequestParam(value = "level", required = false) Integer level,
+                                       @RequestParam("pageNum") Integer pageNum,
+                                       @RequestParam("pageSize") Integer pageSize) {
+    return userService.subUsers(account, level, pageNum, pageSize);
   }
 
 }
