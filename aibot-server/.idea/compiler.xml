@@ -9,17 +9,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="aibot-admin-service" />
         <module name="aibot-front-service" />
-      </profile>
-      <profile name="Annotation profile for aibot-server" enabled="true">
-        <sourceOutputDir name="aibot-front-service/target/generated-sources/annotations" />
-        <sourceTestOutputDir name="aibot-front-service/target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="aibot-server" />
+        <module name="aibot" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aibot-server" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="aibot" options="-parameters" />
       <module name="aibot-admin-service" options="-parameters" />
       <module name="aibot-front-service" options="-parameters" />
       <module name="aibot-server" options="-parameters" />
