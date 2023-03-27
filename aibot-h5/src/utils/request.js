@@ -21,9 +21,6 @@ service.interceptors.request.use(
         forbidClick: true
       })
     }
-    // if (store.getters.token) {
-    //   config.headers['authorization'] = getToken()
-    // }
     config.headers['authorization'] = getToken()
     return config
   },
@@ -39,13 +36,7 @@ service.interceptors.response.use(
     Toast.clear()
     const res = response.data
     if (res.status && res.status !== 200) {
-      // 登录超时,重新登录
-      if (res.status === 401) {
-        store.dispatch('FedLogOut').then(() => {
-          location.reload()
-        })
-      }
-      return Promise.reject(res || 'error')
+      console.log(".............")
     } else {
       return Promise.resolve(res)
     }

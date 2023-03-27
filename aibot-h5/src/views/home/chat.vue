@@ -2,15 +2,28 @@
   <div class="app-container">
     <div class="chat-center">
       <div v-for="item in messageList">
-        <van-cell :value="item.message" />
+        <van-cell :value="item.message">
+          <template #title>
+              <van-image
+                v-if="item.role=='user'"
+                style="margin: 1vh"
+                width="5vh"
+                height="5vh"
+                fit="contain"
+                :src="avatar"
+
+              />
+            <van-image
+              v-else
+              style="margin: 1vh"
+              width="5vh"
+              height="5vh"
+              fit="contain"
+              src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            />
+          </template>
+        </van-cell>
       </div>
-      <!--  <div >-->
-      <!--    <van-cell :value="aiChat" />-->
-      <!--  </div>-->
-
-
-      <!--  <span style="width: 100%;height: 5vh" :value="userSend"></span>-->
-      <!--  <span v-model="userHear"></span>-->
     </div>
 
     <div class="chat-footer">
@@ -39,21 +52,18 @@ export default {
   name: 'chat',
   data(){
     return{
+      //用户头像
+      avatar:'',
       //用户输入内容
       content:'',
       //  用户发送
       messageList:[
-        // {
-        //   role: '',
-        //   message:''
-        // }
       ],
       userSend:'',
       //  用户接受
       userHear:'',
       chatMessage: '',
       messageListIndex: null,
-      //aiChat:''
     }
   },
   created(){
@@ -64,6 +74,7 @@ export default {
     getUser(){
       getUserInfo().then(res=>{
         console.log(res)
+        this.avatar=res.data.avatar
       })
     },
     getMessage(data) {
@@ -140,12 +151,15 @@ export default {
   background: none;
 }
 .van-cell{
+  width: 95%;
   display: flex;
-  justify-content: center;
+  /*justify-content: center;*/
   align-items: center;
-  height: 5vh;
+  /*height: 5vh;*/
   border-radius: 1vh;
   border: 0.1vh solid #cccccc;
+  padding: 1vh;
+  margin: 1vh;
 }
 .van-button{
   border-radius: 1vh;
@@ -155,5 +169,15 @@ export default {
   height: 87.2vh;
   overflow-y: auto
 }
+.van-cell__title, .van-cell__value {
+  -webkit-box-flex: 1;
+   -webkit-flex: 0;
+   flex: inherit;
 
+}
+.van-cell__value>span{
+  display: inline-block;
+  text-align: left;
+  word-break: break-all;
+}
 </style>
