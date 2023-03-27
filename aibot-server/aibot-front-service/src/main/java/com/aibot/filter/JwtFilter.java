@@ -1,10 +1,10 @@
 package com.aibot.filter;
 
+import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.constants.enums.ResultCode;
-import com.aibot.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;

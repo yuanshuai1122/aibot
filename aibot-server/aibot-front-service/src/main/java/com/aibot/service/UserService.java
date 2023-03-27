@@ -3,6 +3,7 @@ package com.aibot.service;
 import com.aibot.beans.entity.UserInfo;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.mapper.UserInfoMapper;
+import com.aibot.utils.JwtUtil;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,7 +15,6 @@ import com.aibot.beans.entity.UserRelation;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
-import com.aibot.utils.JwtUtil;
 import com.aibot.utils.ShareCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -127,13 +127,10 @@ public class UserService {
     userInfoMapper.insert(userInfo);
 
     // 插入到关系表
+    UserRelation userRelation = new UserRelation(null, registerUser.getId(), registerUser.getId(), 0);
+    userRelationMapper.insert(userRelation);
     if (userParentId != 0) {
-      UserRelation userRelation = new UserRelation(null, userParentId, registerUser.getId(), 1);
-      userRelationMapper.insert(userRelation);
-    }
-    if (null != shareUserParentId) {
-      UserRelation userRelation = new UserRelation(null, shareUserParentId, registerUser.getId(), 2);
-      userRelationMapper.insert(userRelation);
+      userRelationMapper.insertRegRelation(registerUser.getId(), userParentId);
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "注册成功");

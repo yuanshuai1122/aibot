@@ -28,6 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,6 +174,9 @@ public class ChatApiService {
     log.info("构建请求request: {}", req);
 
     // 新建线程发送 SSE 事件流数据
+    // 设置子线程共享
+    ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    RequestContextHolder.setRequestAttributes(sra, true);
     asyncTaskExecutePool.chatAsyncTaskPool().execute(() -> {
       try (Response response = okHttpClient.newCall(req).execute()) {
 

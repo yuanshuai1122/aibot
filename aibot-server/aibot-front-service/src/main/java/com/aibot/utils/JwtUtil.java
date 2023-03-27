@@ -1,23 +1,23 @@
 package com.aibot.utils;
 
-import com.auth0.jwt.JWT;
+import com.aibot.beans.entity.User;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.aibot.beans.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.auth0.jwt.JWT;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Jwt工具类，生成JWT和认证
+ * jwt
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:34
+ * @create: 2023-03-27 22:20
  */
 public class JwtUtil {
 
@@ -25,7 +25,7 @@ public class JwtUtil {
   /**
    * 密钥
    */
-  private static final String SECRET = "+gr8tBHr/YRDMF4r17UuNH2eZzp1oE7f";
+  private static final String SECRET = "K1R2KTZ5ZiUggWQWiqoe";
 
   /**
    * 过期时间
@@ -45,7 +45,7 @@ public class JwtUtil {
             .withHeader(map)// 添加头部
             //可以将基本信息放到claims中
             .withClaim("id", user.getId())//userId
-            .withClaim("account", user.getAccount())//userName
+            .withClaim("account", user.getAccount())//account
             .withClaim("password", user.getPassword())//password
             .withClaim("userParentId", user.getUserParentId())
             .withClaim("shareCode", user.getShareCode())
