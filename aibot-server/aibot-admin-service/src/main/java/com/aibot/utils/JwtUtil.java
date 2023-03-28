@@ -1,6 +1,5 @@
 package com.aibot.utils;
 
-import com.aibot.beans.entity.LoginUser;
 import com.aibot.beans.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -15,10 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Jwt工具类，生成JWT和认证
+ * jwt
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:34
+ * @create: 2023-03-27 22:20
  */
 public class JwtUtil {
 
@@ -26,7 +25,7 @@ public class JwtUtil {
   /**
    * 密钥
    */
-  private static final String SECRET = "+gr8tBHr/YRDMF4r17UuNH2eZzp1oE7f";
+  private static final String SECRET = "K1R2KTZ5ZiUggWQWiqoe";
 
   /**
    * 过期时间
@@ -36,7 +35,7 @@ public class JwtUtil {
   /**
    * 生成用户token,设置token超时时间
    */
-  public static String createToken(LoginUser user) {
+  public static String createToken(User user) {
     //过期时间
     Date expireDate = new Date(System.currentTimeMillis() + EXPIRATION * 1000);
     Map<String, Object> map = new HashMap<>();
@@ -46,7 +45,10 @@ public class JwtUtil {
             .withHeader(map)// 添加头部
             //可以将基本信息放到claims中
             .withClaim("id", user.getId())//userId
-            .withClaim("account", user.getAccount())//userName
+            .withClaim("account", user.getAccount())//account
+            .withClaim("password", user.getPassword())//password
+            .withClaim("userParentId", user.getUserParentId())
+            .withClaim("shareCode", user.getShareCode())
             .withClaim("role", user.getRole())
             .withExpiresAt(expireDate) //超时设置,设置过期的日期
             .withIssuedAt(new Date()) //签发时间

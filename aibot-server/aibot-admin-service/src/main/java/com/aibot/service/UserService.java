@@ -3,6 +3,7 @@ package com.aibot.service;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.*;
 import com.aibot.constants.enums.ResultCode;
+import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserAdminMapper;
 import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
@@ -44,22 +45,6 @@ public class UserService {
    */
   public ResponseResult<String> login(LoginDTO dto) {
 
-    LoginUser loginUser = new LoginUser();
-
-    // 查询管理员表
-    QueryWrapper<UserAdmin> adminWrapper = new QueryWrapper<>();
-    adminWrapper.lambda()
-            .eq(UserAdmin::getAccount, dto.getAccount())
-            .eq(UserAdmin::getPassword, dto.getPassword());
-    UserAdmin userAdmin = userAdminMapper.selectOne(adminWrapper);
-    if (null != userAdmin) {
-      loginUser.setId(userAdmin.getId());
-      loginUser.setAccount(userAdmin.getAccount());
-      loginUser.setRole(userAdmin.getRole());
-      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(loginUser));
-    }
-
-
     // 查询数据库
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda()
@@ -71,11 +56,7 @@ public class UserService {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
 
-    // 返回token
-    loginUser.setId(user.getId());
-    loginUser.setAccount(user.getAccount());
-    loginUser.setRole(UserRoleEnum.COMMON_USER.getRole());
-    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(loginUser));
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
   }
 
 
@@ -85,7 +66,6 @@ public class UserService {
     String role = request.getAttribute("role").toString();
 
 
-    // 超管可以查询全部用户
 
     return null;
   }

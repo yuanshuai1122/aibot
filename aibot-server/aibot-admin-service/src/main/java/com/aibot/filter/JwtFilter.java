@@ -1,7 +1,6 @@
 package com.aibot.filter;
 
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.constants.enums.ResultCode;
 import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
@@ -53,23 +52,27 @@ public class JwtFilter implements Filter
     else {
 
       if (token == null) {
-        //response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
-        response401(response, "token不存在");
+        response401(response, "请登录");
         return;
       }
 
       Map<String, Claim> userData = JwtUtil.verifyToken(token);
       if (userData == null) {
-        //response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
-        response401(response, "token不存在");
+        response401(response, "登录已失效，请重新登录");
         return;
       }
       Integer id = userData.get("id").asInt();
       String account = userData.get("account").asString();
-      String role= userData.get("role").asString();
+      String password= userData.get("password").asString();
+      String userParentId = userData.get("userParentId").asString();
+      String shareCode = userData.get("shareCode").asString();
+      String role = userData.get("role").asString();
       //拦截器 拿到用户信息，放到request中
       request.setAttribute("id", id);
       request.setAttribute("account", account);
+      request.setAttribute("password", password);
+      request.setAttribute("userParentId", userParentId);
+      request.setAttribute("shareCode", shareCode);
       request.setAttribute("role", role);
       chain.doFilter(req, res);
     }
