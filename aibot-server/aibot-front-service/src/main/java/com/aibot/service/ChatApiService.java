@@ -255,7 +255,7 @@ public class ChatApiService {
         asyncTask.setChatLogFailure(chatFailureLog);
         throw new RuntimeException("请求服务器发生异常，请重试");
       }finally {
-        log.info("推流顺利结束，回收sse emitter: {}", emitter);
+        log.info("推流顺利结束，结束sse emitter: {}", emitter);
         emitter.complete();
       }
     });

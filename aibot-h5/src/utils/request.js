@@ -3,7 +3,7 @@ import store from '@/store'
 import { Toast } from 'vant'
 // 根据环境不同引入不同api地址
 import { baseApi } from '@/config'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from "@/utils/auth";
 // create an axios instance
 const service = axios.create({
   baseURL: baseApi, // url = base api url + request url
@@ -36,13 +36,17 @@ service.interceptors.response.use(
     Toast.clear()
     const res = response.data
     if (res.status && res.status !== 200) {
-      console.log(".............")
+      if (res.status === 401) {
+        removeToken()
+      }
     } else {
       return Promise.resolve(res)
     }
   },
   error => {
     Toast.clear()
+    // 删除token
+    removeToken()
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }

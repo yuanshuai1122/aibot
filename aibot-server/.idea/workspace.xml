@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99e14ed7-dc25-4f7e-a577-88f96da853f9" name="Changes" comment="接短信">
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-front-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/pom.xml" afterDir="false" />
+    <list default="true" id="99e14ed7-dc25-4f7e-a577-88f96da853f9" name="Changes" comment="注册多级分销">
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/src/config/env.development.js" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/src/config/env.development.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/src/config/env.production.js" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/src/config/env.production.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/src/permission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/src/utils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../aibot-h5/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-h5/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/filter/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/CORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/config/CORSFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/filter/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/UserRelationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/mapper/UserRelationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/ChatApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/ChatApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-front-service/src/main/java/com/aibot/utils/JwtUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +148,7 @@
       <option name="presentableId" value="Default" />
       <updated>1679815675632</updated>
       <workItem from="1679815678764" duration="19346000" />
+      <workItem from="1679973307427" duration="1707000" />
     </task>
     <task id="LOCAL-00001" summary="代码调试优化">
       <created>1679821084867</created>
@@ -159,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679843916561</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="注册多级分销">
+      <created>1679930089829</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1679930089829</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +192,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="代码调试优化" />
     <MESSAGE value="。。。" />
-    <option name="LAST_COMMIT_MESSAGE" value="。。。" />
+    <MESSAGE value="注册多级分销" />
+    <option name="LAST_COMMIT_MESSAGE" value="注册多级分销" />
   </component>
 </project>

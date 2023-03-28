@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 /**
@@ -52,13 +53,15 @@ public class JwtFilter implements Filter
     else {
 
       if (token == null) {
-        response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
+        //response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
+        response401(response, "token不存在");
         return;
       }
 
       Map<String, Claim> userData = JwtUtil.verifyToken(token);
       if (userData == null) {
-        response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
+        //response.getWriter().write(JSON.toJSONString(new ResponseResult<String>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg())));
+        response401(response, "token不存在");
         return;
       }
       Integer id = userData.get("id").asInt();
@@ -79,6 +82,28 @@ public class JwtFilter implements Filter
   /** 判断是否为白名单路径 **/
   private boolean isPermitted(String requestURI) {
     return requestURI.endsWith("/user/login") || requestURI.endsWith("/user/register");
+  }
+
+  /**
+   * 无需转发，直接返回Response信息
+   */
+  private void response401(ServletResponse resp, String msg) {
+    HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
+    httpServletResponse.setStatus(401);
+    httpServletResponse.setCharacterEncoding("UTF-8");
+    httpServletResponse.setContentType("application/json; charset=utf-8");
+    PrintWriter out = null;
+    try {
+      out = httpServletResponse.getWriter();
+      String data = JSON.toJSONString(new ResponseResult<String>(401, "无权访问(Unauthorized):" + msg, null));
+      out.append(data);
+    } catch (IOException e) {
+      log.error(e.getMessage());
+    } finally {
+      if (out != null) {
+        out.close();
+      }
+    }
   }
 
 }

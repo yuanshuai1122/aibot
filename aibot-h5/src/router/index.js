@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { constantRouterMap } from './router.config.js'
+import NProgress from "nprogress";
+import { getToken } from "@/utils/auth";
 
 // hack router push callback
 const originalPush = Router.prototype.push
@@ -26,5 +28,40 @@ export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+
+
+NProgress.configure({
+  showSpinner: false
+})
+
+const whiteList = ['/login','/register']
+console.log(getToken())
+// 路由前置守卫
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  if (getToken()) {
+    if (to.path === '/login') {
+      next({
+        path: '/index'
+      })
+      NProgress.done()
+    } else {
+      next()
+    }
+  }else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      // 在免登录白名单，直接进入
+      next()
+    } else {
+      next(`/login`) // 否则全部重定向到登录页
+      // next() // 否则全部重定向到登录页
+      NProgress.done()
+    }
+  }
+})
+
+router.afterEach(() => {
+  NProgress.done()
+})
 
 export default router
