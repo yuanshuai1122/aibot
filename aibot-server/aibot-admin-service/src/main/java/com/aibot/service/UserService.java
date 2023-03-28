@@ -2,6 +2,7 @@ package com.aibot.service;
 
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.*;
+import com.aibot.beans.vo.SubUserList;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserAdminMapper;
@@ -9,11 +10,17 @@ import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
 import com.aibot.utils.JwtUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务
@@ -60,10 +67,43 @@ public class UserService {
   }
 
 
-  public ResponseResult<List<User>> subUsers(String account, String nickName,String trueName, String cerNumber, Integer pageNum, Integer pageSize) {
+  public ResponseResult<List<SubUserList>> subUsers(String account, String nickName, String trueName, String cerNumber, Integer pageNum, Integer pageSize) {
 
     // 获取用户的角色
     String role = request.getAttribute("role").toString();
+    if (StringUtils.isBlank(role)) {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户角色不存在", null);
+    }
+
+    // 超管
+    if (role.equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
+
+      // 获取所有用户信息
+      MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
+              .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime)
+              .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
+              .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
+              ;
+      // 分页
+      Page<SubUserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), SubUserList.class, wrapper);
+
+      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", listPage.getRecords());
+
+    }else if (role.equals(UserRoleEnum.CHANNEL.getRole())) {
+      // 查询用户下的userId
+      QueryWrapper<UserRelation> relationWrapper = new QueryWrapper<>();
+      relationWrapper.lambda()
+              .eq(UserRelation::getUserParentId, Integer.parseInt(request.getAttribute("id").toString()))
+              .gt(UserRelation::getUserLevel, 0);
+      List<UserRelation> userRelations = userRelationMapper.selectList(relationWrapper);
+      // 收集用户id
+      ArrayList<Integer> userIdList = new ArrayList<>();
+      for (UserRelation userRelation : userRelations) {
+        userIdList.add(userRelation.getUserChildrenId());
+      }
+
+      // ...
+    }
 
 
 

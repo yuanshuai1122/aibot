@@ -1,8 +1,8 @@
 package com.aibot.controller;
 
+import com.aibot.beans.vo.SubUserList;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.entity.User;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +36,13 @@ public class UserController {
 
 
 
-  @GetMapping("/sub")
-  public ResponseResult<List<User>> subUsers(@RequestParam(value = "account", required = false) String account,
-                                       @RequestParam(value = "nickName", required = false) String nickName,
-                                       @RequestParam(value = "trueName", required = false) String trueName,
-                                       @RequestParam(value = "cerNumber", required = false) String cerNumber,
-                                       @RequestParam("pageNum") Integer pageNum,
-                                       @RequestParam("pageSize") Integer pageSize) {
+  @GetMapping("/info")
+  public ResponseResult<List<SubUserList>> subUsers(@RequestParam(value = "account", required = false) String account,
+                                                      @RequestParam(value = "nickName", required = false) String nickName,
+                                                      @RequestParam(value = "trueName", required = false) String trueName,
+                                                      @RequestParam(value = "cerNumber", required = false) String cerNumber,
+                                                      @RequestParam("pageNum") Integer pageNum,
+                                                      @RequestParam("pageSize") Integer pageSize) {
     return userService.subUsers(account, nickName,trueName, cerNumber ,pageNum, pageSize);
   }
 
