@@ -1,8 +1,7 @@
 const api = {
-  Login: '/user/login',
-  UserInfo: '/user/info',
-  UserName: '/user/name',
-  Register:'/user/register',
+  Login: '/api/user/login',
+  UserInfo: '/api/user/info',
+  Register:'/api/user/register',
   ChatSign:'/api/chat/sign',
   ChatStream:'/api/chat/stream'
 }

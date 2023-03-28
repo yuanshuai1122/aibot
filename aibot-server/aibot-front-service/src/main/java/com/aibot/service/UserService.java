@@ -2,6 +2,7 @@ package com.aibot.service;
 
 import com.aibot.beans.entity.UserInfo;
 import com.aibot.beans.vo.UserInfoVO;
+import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserInfoMapper;
 import com.aibot.utils.JwtUtil;
 import com.aibot.utils.ValueUtils;
@@ -112,7 +113,7 @@ public class UserService {
     }
 
     // 开始注册
-    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, new Date());
+    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, UserRoleEnum.USER.getRole(), new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_ERROR.getCode(), ResultCode.USER_REGISTER_ERROR.getMsg());

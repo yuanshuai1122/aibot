@@ -34,18 +34,16 @@ public class UserController {
 
   }
 
-  /**
-   * 获取下级用户
-   * @param account 账号
-   * @param level 等级
-   * @return 用户信息
-   */
+
+
   @GetMapping("/sub")
   public ResponseResult<List<User>> subUsers(@RequestParam(value = "account", required = false) String account,
-                                       @RequestParam(value = "level", required = false) Integer level,
+                                       @RequestParam(value = "nickName", required = false) String nickName,
+                                       @RequestParam(value = "trueName", required = false) String trueName,
+                                       @RequestParam(value = "cerNumber", required = false) String cerNumber,
                                        @RequestParam("pageNum") Integer pageNum,
                                        @RequestParam("pageSize") Integer pageSize) {
-    return userService.subUsers(account, level, pageNum, pageSize);
+    return userService.subUsers(account, nickName,trueName, cerNumber ,pageNum, pageSize);
   }
 
 }

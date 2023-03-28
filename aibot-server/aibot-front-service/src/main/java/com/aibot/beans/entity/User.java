@@ -30,6 +30,8 @@ public class User {
 
   private String shareCode;
 
+  private String role;
+
   private Date createTime;
 
 

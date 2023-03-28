@@ -21,7 +21,7 @@ import javax.validation.Valid;
  */
 @RestController
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/chat")
 public class ChatApiController {
 
   private final ChatApiService chatApiService;
@@ -39,13 +39,13 @@ public class ChatApiController {
   //  return chatApiService.chatCommon(dto);
   //}
 
-  @PostMapping("/chat/sign")
+  @PostMapping("/sign")
   public ResponseResult<String> chatSign(@RequestBody @Valid ChatProcess process) {
     log.info("开始请求chatsign：{}", process);
     return chatApiService.chatSign(process);
   }
 
-  @GetMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public SseEmitter chatStream(@RequestParam("signKey") String signKey) {
     log.info("开始请求chat(Stream版), key: {}", signKey);
     return chatApiService.chatStream(signKey);
