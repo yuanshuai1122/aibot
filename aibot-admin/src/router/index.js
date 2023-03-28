@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NProgress from "nprogress";
+import { getToken } from "@/utils/auth";
 
 Vue.use(Router)
 
@@ -55,26 +57,24 @@ export const constantRoutes = [
     }]
   },
 
+  // {
+  //   path: '/example',
+  //   // component: Layout,
+  //   // redirect: '/example/table',
+  //   name: 'User',
+  //   component: () => import('@/views/user/index'),
+  //   meta: { title: '用户管理', icon: 'el-icon-s-help' }
+  // },
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
+    redirect: '/dashboard',
+    children: [{
+      path: '/example/table',
+      name: 'example',
+      component: () => import('@/views/user/index'),
+      meta: { title: '用户管理', icon: 'dashboard' }
+    }]
   },
 
   {
@@ -171,6 +171,41 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
+
+// NProgress.configure({
+//   showSpinner: false
+// })
+//
+// const whiteList = ['/login']
+// console.log(getToken())
+// // 路由前置守卫
+// router.beforeEach((to, from, next) => {
+//   NProgress.start()
+//   if (getToken()) {
+//     if (to.path === '/login') {
+//       next({
+//         path: '/dashboard'
+//       })
+//       NProgress.done()
+//     } else {
+//       next()
+//     }
+//   }else {
+//     if (whiteList.indexOf(to.path) !== -1) {
+//       // 在免登录白名单，直接进入
+//       next()
+//     } else {
+//       next(`/login`) // 否则全部重定向到登录页
+//       // next() // 否则全部重定向到登录页
+//       NProgress.done()
+//     }
+//   }
+// })
+//
+// router.afterEach(() => {
+//   NProgress.done()
+// })
+
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {

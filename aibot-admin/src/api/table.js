@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function getUserList(params) {
   return request({
-    url: '/vue-admin-template/table/list',
+    url: '/user/info',
     method: 'get',
     params
   })
