@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,12 +38,12 @@ public class UserController {
 
 
   @GetMapping("/info")
-  public ResponseResult<List<SubUserList>> subUsers(@RequestParam(value = "account", required = false) String account,
-                                                      @RequestParam(value = "nickName", required = false) String nickName,
-                                                      @RequestParam(value = "trueName", required = false) String trueName,
-                                                      @RequestParam(value = "cerNumber", required = false) String cerNumber,
-                                                      @RequestParam("pageNum") Integer pageNum,
-                                                      @RequestParam("pageSize") Integer pageSize) {
+  public ResponseResult<HashMap<String, Object>> subUsers(@RequestParam(value = "account", required = false) String account,
+                                          @RequestParam(value = "nickName", required = false) String nickName,
+                                          @RequestParam(value = "trueName", required = false) String trueName,
+                                          @RequestParam(value = "cerNumber", required = false) String cerNumber,
+                                          @RequestParam("pageNum") Integer pageNum,
+                                          @RequestParam("pageSize") Integer pageSize) {
     return userService.subUsers(account, nickName,trueName, cerNumber ,pageNum, pageSize);
   }
 

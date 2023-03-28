@@ -5,7 +5,6 @@ import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.SubUserList;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
-import com.aibot.mapper.UserAdminMapper;
 import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
 import com.aibot.utils.JwtUtil;
@@ -14,13 +13,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 用户服务
@@ -34,9 +32,6 @@ public class UserService {
 
   @Autowired
   private UserMapper userMapper;
-
-  @Autowired
-  private UserAdminMapper userAdminMapper;
 
   @Autowired
   private HttpServletRequest request;
@@ -67,7 +62,7 @@ public class UserService {
   }
 
 
-  public ResponseResult<List<SubUserList>> subUsers(String account, String nickName, String trueName, String cerNumber, Integer pageNum, Integer pageSize) {
+  public ResponseResult<HashMap<String, Object>> subUsers(String account, String nickName, String trueName, String cerNumber, Integer pageNum, Integer pageSize) {
 
     // 获取用户的角色
     String role = request.getAttribute("role").toString();
@@ -83,11 +78,30 @@ public class UserService {
               .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime)
               .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
               .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
+              .like(StringUtils.isNotBlank(account), User::getAccount, account)
+              .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
+              .like(StringUtils.isNotBlank(trueName), UserInfo::getTrueName, trueName)
+              .like(StringUtils.isNotBlank(cerNumber), UserInfo::getCerNumber, cerNumber)
               ;
+
       // 分页
       Page<SubUserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), SubUserList.class, wrapper);
+      List<SubUserList> result = new ArrayList<>();
+      List<SubUserList> records = listPage.getRecords();
+      for (SubUserList record1 : records) {
+        for (SubUserList record2 : records) {
+          if (record2.getUserParentId().equals(record1.getId())) {
+            record2.setUserParentName(record1.getNickName());
+            result.add(record2);
+          }
+        }
+      }
 
-      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", listPage.getRecords());
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("userList", records);
+      map.put("totalCount", listPage.getTotal());
+
+      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
 
     }else if (role.equals(UserRoleEnum.CHANNEL.getRole())) {
       // 查询用户下的userId
@@ -102,11 +116,40 @@ public class UserService {
         userIdList.add(userRelation.getUserChildrenId());
       }
 
-      // ...
+      // 查询列表
+      // 获取所有用户信息
+      MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
+              .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime)
+              .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
+              .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
+              .like(StringUtils.isNotBlank(account), User::getAccount, account)
+              .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
+              .like(StringUtils.isNotBlank(trueName), UserInfo::getTrueName, trueName)
+              .like(StringUtils.isNotBlank(cerNumber), UserInfo::getCerNumber, cerNumber)
+              .in(userIdList.size()>0, User::getId, userIdList)
+              ;
+      // 分页
+      Page<SubUserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), SubUserList.class, wrapper);
+      List<SubUserList> result = new ArrayList<>();
+      List<SubUserList> records = listPage.getRecords();
+      for (SubUserList record1 : records) {
+        for (SubUserList record2 : records) {
+          if (record2.getUserParentId().equals(record1.getId())) {
+            record2.setUserParentName(record1.getNickName());
+            result.add(record2);
+          }
+        }
+      }
+
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("userList", records);
+      map.put("totalCount", listPage.getTotal());
+
+      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
+
+    }else {
+      return null;
     }
 
-
-
-    return null;
   }
 }
