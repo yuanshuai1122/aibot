@@ -27,6 +27,8 @@ public enum ResultCode {
   /* 业务错误 301 - 399*/
   DATA_NOT_FOUND(301,"没有数据"),
   PRODUCT_NOT_FOUND(302, "商品不存在"),
+  PRODUCT_UPDATE_FAILURE(303, "更新商品信息失败"),
+  PRODUCT_CREATE_FAILURE(304, "新增商品信息失败"),
 
 
 

@@ -1,11 +1,9 @@
-package com.aibot.beans.entity;
+package com.aibot.beans.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.*;
+import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 商品实体
@@ -13,19 +11,13 @@ import java.util.Date;
  * @author: yuanshuai
  * @create: 2023-03-23 18:05
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Product {
-
-  @TableId(type = IdType.AUTO)
-  private Integer id;
+@Data
+public class CreateProductDTO {
 
   /**
    * 商品名称
    */
+  @NotBlank
   private String productName;
 
   /**
@@ -36,6 +28,7 @@ public class Product {
   /**
    * 商品背景图
    */
+  @NotBlank
   private String imgUrl;
 
   /**
@@ -51,16 +44,7 @@ public class Product {
   /**
    * 商品描述
    */
+  @NotBlank
   private String productDescription;
-
-  /**
-   * 创建时间
-   */
-  private Date createTime;
-
-  /**
-   * 修改时间
-   */
-  private Date updateTime;
 
 }

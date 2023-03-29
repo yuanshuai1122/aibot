@@ -1,8 +1,8 @@
-package com.aibot.beans.entity;
+package com.aibot.beans.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,14 +13,9 @@ import java.util.Date;
  * @author: yuanshuai
  * @create: 2023-03-23 18:05
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Product {
+@Data
+public class UpdateProductDTO {
 
-  @TableId(type = IdType.AUTO)
   private Integer id;
 
   /**
@@ -52,15 +47,5 @@ public class Product {
    * 商品描述
    */
   private String productDescription;
-
-  /**
-   * 创建时间
-   */
-  private Date createTime;
-
-  /**
-   * 修改时间
-   */
-  private Date updateTime;
 
 }
