@@ -19,7 +19,7 @@ import '@/assets/css/index.scss'
 // 移动端适配
 import 'amfe-flexible'
 
-import { Field,CellGroup,Grid, GridItem,Cell} from 'vant';
+import { Field,CellGroup,Grid, GridItem,Cell,Radio,RadioGroup} from 'vant';
 import { Image as VanImage } from 'vant';
 
 // filters
@@ -28,6 +28,8 @@ Vue.config.productionTip = false
 
 
 Vue.use(VanImage);
+Vue.use(Radio);
+Vue.use(RadioGroup);
 Vue.use(Field);
 Vue.use(CellGroup);
 Vue.use(Grid);
