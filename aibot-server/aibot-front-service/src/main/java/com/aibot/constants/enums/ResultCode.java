@@ -28,6 +28,7 @@ public enum ResultCode {
   /* 业务错误 301 - 399*/
   DATA_NOT_FOUND(301,"没有数据"),
   PRODUCT_NOT_FOUND(302, "商品不存在"),
+  PRODUCT_NOT_PERMIT(303, "商品库存不足或已下架"),
 
 
   VISIT_OUT_TIMES(401,"访问频繁，请稍后再试"),

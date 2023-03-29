@@ -40,6 +40,11 @@ public class Product {
   private Integer count;
 
   /**
+   * 是否上架
+   */
+  private Integer putStatus;
+
+  /**
    * 商品描述
    */
   private String productDescription;

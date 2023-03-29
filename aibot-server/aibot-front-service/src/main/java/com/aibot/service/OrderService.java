@@ -39,6 +39,9 @@ public class OrderService {
     if (null == product) {
       return new ResponseResult<>(ResultCode.PRODUCT_NOT_FOUND.getCode(), ResultCode.PRODUCT_NOT_FOUND.getMsg());
     }
+    if (product.getCount() < dto.getCount() || product.getPutStatus() == 0) {
+      return new ResponseResult<>(ResultCode.PRODUCT_NOT_PERMIT.getCode(), ResultCode.PRODUCT_NOT_PERMIT.getMsg());
+    }
 
     // 创建订单
     //UserOrders orders = new UserOrders(
