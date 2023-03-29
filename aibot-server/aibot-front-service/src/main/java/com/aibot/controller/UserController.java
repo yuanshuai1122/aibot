@@ -1,6 +1,7 @@
 package com.aibot.controller;
 
 import com.aibot.beans.dto.LoginDTO;
+import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.dto.RegisterDTO;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.UserInfoVO;
@@ -43,6 +44,12 @@ public class UserController {
   @GetMapping("/info")
   public ResponseResult<UserInfoVO> info() {
     return userService.info();
+  }
+
+
+  @PostMapping("/realname")
+  public ResponseResult<Object> realname(@RequestBody @Valid RealNameDTO dto) {
+    return userService.realname(dto);
   }
 
 }

@@ -1,18 +1,17 @@
 package com.aibot.service;
 
-import com.aibot.beans.entity.UserInfo;
+import com.aibot.beans.dto.RealNameDTO;
+import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserInfoMapper;
+import com.aibot.mapper.UserRealnameMapper;
 import com.aibot.utils.JwtUtil;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RegisterDTO;
-import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.entity.User;
-import com.aibot.beans.entity.UserRelation;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
@@ -50,6 +49,9 @@ public class UserService {
 
   @Autowired
   private UserInfoMapper userInfoMapper;
+
+  @Autowired
+  private UserRealnameMapper userRealnameMapper;
 
   /**
    * 用户登录服务
@@ -154,5 +156,44 @@ public class UserService {
     userInfo.setAvatar("http://img.520touxiang.com/uploads/allimg/2018121219/umqqfexihiv.jpg");
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", userInfo);
+  }
+
+  /**
+   * 实名接口
+   * @param dto
+   * @return
+   */
+  public ResponseResult<Object> realname(RealNameDTO dto) {
+
+    // TODO 查询本地实名库
+    QueryWrapper<UserRealname> realnameWrapper = new QueryWrapper<>();
+    realnameWrapper.lambda()
+            .eq(UserRealname::getTrueName, dto.getTrueName())
+            .eq(UserRealname::getCerNumber, dto.getCerNumber());
+    UserRealname userRealname = userRealnameMapper.selectOne(realnameWrapper);
+    if (null == userRealname) {
+      // TODO 调用第三方实名接口
+    }
+
+    // 写入用户信息表
+    int userId = Integer.parseInt(request.getAttribute("userId").toString());
+    QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(UserInfo::getUserId, userId);
+    UserInfo userInfo = new UserInfo();
+    userInfo.setTrueName(dto.getTrueName());
+    userInfo.setCerNumber(dto.getCerNumber());
+    int update = userInfoMapper.update(userInfo, wrapper);
+    if (update <= 0) {
+      return new ResponseResult<>(ResultCode.USER_REAL_NAME_FAILURE.getCode(), ResultCode.USER_REAL_NAME_FAILURE.getMsg());
+    }
+
+    // 写入到实名表
+    UserRealname realname = new UserRealname(null, userId, dto.getTrueName(), dto.getCerNumber(), 1, new Date(), new Date());
+    int insert = userRealnameMapper.insert(realname);
+    if (insert <= 0) {
+      return new ResponseResult<>(ResultCode.USER_REAL_NAME_FAILURE.getCode(), ResultCode.USER_REAL_NAME_FAILURE.getMsg());
+    }
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "实名成功", null);
   }
 }
