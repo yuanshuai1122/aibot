@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 商品实体
@@ -29,8 +30,28 @@ public class Product {
   private BigDecimal productPrice;
 
   /**
+   * 商品背景图
+   */
+  private String imgUrl;
+
+  /**
+   * 商品剩余数量
+   */
+  private Integer count;
+
+  /**
    * 商品描述
    */
   private String productDescription;
+
+  /**
+   * 创建时间
+   */
+  private Date createTime;
+
+  /**
+   * 修改时间
+   */
+  private Date updateTime;
 
 }
