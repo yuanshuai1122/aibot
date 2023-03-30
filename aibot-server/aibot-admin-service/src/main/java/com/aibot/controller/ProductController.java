@@ -30,8 +30,8 @@ public class ProductController {
 
 
   @GetMapping("/list")
-  public ResponseResult<HashMap<String, Object>> productList(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-    return productService.productList(pageNum, pageSize);
+  public ResponseResult<HashMap<String, Object>> productList(@RequestParam(value = "productName", required = false) String productName, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+    return productService.productList(productName, pageNum, pageSize);
   }
 
   @GetMapping("/info")

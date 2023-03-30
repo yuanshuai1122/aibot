@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Date;
  * @create: 2023-03-28 13:40
  */
 @Data
-public class SubUserList {
+public class UserList {
 
   @TableId(type = IdType.AUTO)
   private Integer id;
@@ -45,6 +46,11 @@ public class SubUserList {
   private String role;
 
   /**
+   * 状态
+   */
+  private Integer status;
+
+  /**
    * 昵称
    */
   private String nickName;
@@ -58,6 +64,11 @@ public class SubUserList {
    * 身份证号
    */
   private String cerNumber;
+
+  /**
+   * 余额
+   */
+  private BigDecimal amount;
 
   /**
    * 创建时间

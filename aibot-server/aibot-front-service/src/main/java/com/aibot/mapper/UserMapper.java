@@ -2,6 +2,7 @@ package com.aibot.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.aibot.beans.entity.User;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @create: 2023-03-20 11:50
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends MPJBaseMapper<User> {
 }

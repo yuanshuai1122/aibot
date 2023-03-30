@@ -4,12 +4,9 @@ import com.aibot.beans.dto.CreateProductDTO;
 import com.aibot.beans.dto.UpdateProductDTO;
 import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.entity.User;
-import com.aibot.beans.vo.SubUserList;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.ProductMapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 商品服务
@@ -42,15 +38,17 @@ public class ProductService {
    * 查询已上架商品列表
    * @return
    */
-  public ResponseResult<HashMap<String, Object>> productList(Integer pageNum, Integer pageSize) {
+  public ResponseResult<HashMap<String, Object>> productList(String productName, Integer pageNum, Integer pageSize) {
 
     String role = request.getAttribute("role").toString();
-    if (StringUtils.isBlank(role) || UserRoleEnum.USER.getRole().equals(role)) {
+    if (StringUtils.isBlank(role) || !UserRoleEnum.SUPER_ADMIN.getRole().equals(role)) {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户权限不足", null);
     }
 
     MPJLambdaWrapper<Product> wrapper = new MPJLambdaWrapper<Product>()
-            .eq(UserRoleEnum.CHANNEL.getRole().equals(role), Product::getPutStatus, 1);
+            .eq(Product::getPutStatus, 1)
+            .like(StringUtils.isNotBlank(productName), Product::getProductName, productName)
+            ;
 
     Page<Product> productPage = productMapper.selectJoinPage(new Page<>(pageNum, pageSize), Product.class, wrapper);
     HashMap<String, Object> map = new HashMap<>();
@@ -69,9 +67,6 @@ public class ProductService {
     }
 
     Product product = productMapper.selectById(id);
-    if (null == product) {
-      return new ResponseResult<>(ResultCode.PRODUCT_NOT_FOUND.getCode(), ResultCode.PRODUCT_NOT_FOUND.getMsg());
-    }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", product);
 

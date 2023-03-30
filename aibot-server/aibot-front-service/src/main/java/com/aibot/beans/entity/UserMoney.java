@@ -4,37 +4,42 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 用户实体
+ * 用户钱包
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:32
+ * @create: 2023-03-30 12:34
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class User {
+public class UserMoney {
 
   @TableId(type = IdType.AUTO)
   private Integer id;
 
-  private String account;
+  /**
+   * 用户id
+   */
+  private Integer userId;
 
-  private String password;
+  /**
+   * 余额
+   */
+  private BigDecimal amount;
 
-  private Integer userParentId;
-
-  private String shareCode;
-
-  private String role;
-
-  private Integer status;
-
+  /**
+   * 创建时间
+   */
   private Date createTime;
 
-
+  /**
+   * 修改时间
+   */
+  private Date updateTime;
 }

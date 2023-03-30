@@ -2,7 +2,7 @@ package com.aibot.service;
 
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.*;
-import com.aibot.beans.vo.SubUserList;
+import com.aibot.beans.vo.UserList;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.UserMapper;
@@ -57,6 +57,12 @@ public class UserService {
     if (null == user) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
+    if (user.getStatus() == 1) {
+      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "账号状态异常，登录失败");
+    }
+    if (!user.getRole().equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
+      return new ResponseResult<>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg());
+    }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
   }
@@ -70,86 +76,42 @@ public class UserService {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户角色不存在", null);
     }
 
-    // 超管
-    if (role.equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
-
-      // 获取所有用户信息
-      MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
-              .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime)
-              .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
-              .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
-              .like(StringUtils.isNotBlank(account), User::getAccount, account)
-              .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
-              .like(StringUtils.isNotBlank(trueName), UserInfo::getTrueName, trueName)
-              .like(StringUtils.isNotBlank(cerNumber), UserInfo::getCerNumber, cerNumber)
-              ;
-
-      // 分页
-      Page<SubUserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), SubUserList.class, wrapper);
-      List<SubUserList> result = new ArrayList<>();
-      List<SubUserList> records = listPage.getRecords();
-      for (SubUserList record1 : records) {
-        for (SubUserList record2 : records) {
-          if (record2.getUserParentId().equals(record1.getId())) {
-            record2.setUserParentName(record1.getNickName());
-            result.add(record2);
-          }
-        }
-      }
-
-      HashMap<String, Object> map = new HashMap<>();
-      map.put("userList", records);
-      map.put("totalCount", listPage.getTotal());
-
-      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
-
-    }else if (role.equals(UserRoleEnum.CHANNEL.getRole())) {
-      // 查询用户下的userId
-      QueryWrapper<UserRelation> relationWrapper = new QueryWrapper<>();
-      relationWrapper.lambda()
-              .eq(UserRelation::getUserParentId, Integer.parseInt(request.getAttribute("id").toString()))
-              .gt(UserRelation::getUserLevel, 0);
-      List<UserRelation> userRelations = userRelationMapper.selectList(relationWrapper);
-      // 收集用户id
-      ArrayList<Integer> userIdList = new ArrayList<>();
-      for (UserRelation userRelation : userRelations) {
-        userIdList.add(userRelation.getUserChildrenId());
-      }
-
-      // 查询列表
-      // 获取所有用户信息
-      MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
-              .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime)
-              .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
-              .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
-              .like(StringUtils.isNotBlank(account), User::getAccount, account)
-              .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
-              .like(StringUtils.isNotBlank(trueName), UserInfo::getTrueName, trueName)
-              .like(StringUtils.isNotBlank(cerNumber), UserInfo::getCerNumber, cerNumber)
-              .in(userIdList.size()>0, User::getId, userIdList)
-              ;
-      // 分页
-      Page<SubUserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), SubUserList.class, wrapper);
-      List<SubUserList> result = new ArrayList<>();
-      List<SubUserList> records = listPage.getRecords();
-      for (SubUserList record1 : records) {
-        for (SubUserList record2 : records) {
-          if (record2.getUserParentId().equals(record1.getId())) {
-            record2.setUserParentName(record1.getNickName());
-            result.add(record2);
-          }
-        }
-      }
-
-      HashMap<String, Object> map = new HashMap<>();
-      map.put("userList", records);
-      map.put("totalCount", listPage.getTotal());
-
-      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
-
-    }else {
-      return null;
+    // 验证权限
+    if (!role.equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
+      return new ResponseResult<>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg(), null);
     }
+
+    // 获取所有用户信息
+    MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
+            .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime, User::getStatus)
+            .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
+            .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
+            .innerJoin(UserMoney.class, UserMoney::getUserId, User::getId)
+            .select(UserMoney::getAmount)
+            .like(StringUtils.isNotBlank(account), User::getAccount, account)
+            .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
+            .like(StringUtils.isNotBlank(trueName), UserInfo::getTrueName, trueName)
+            .like(StringUtils.isNotBlank(cerNumber), UserInfo::getCerNumber, cerNumber)
+            ;
+
+    // 分页
+    Page<UserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), UserList.class, wrapper);
+    List<UserList> result = new ArrayList<>();
+    List<UserList> records = listPage.getRecords();
+    for (UserList record1 : records) {
+      for (UserList record2 : records) {
+        if (record2.getUserParentId().equals(record1.getId())) {
+          record2.setUserParentName(record1.getNickName());
+          result.add(record2);
+        }
+      }
+    }
+
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("userList", result);
+    map.put("totalCount", listPage.getTotal());
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
 
   }
 }

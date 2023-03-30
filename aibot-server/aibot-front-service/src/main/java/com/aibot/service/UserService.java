@@ -4,8 +4,7 @@ import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.enums.UserRoleEnum;
-import com.aibot.mapper.UserInfoMapper;
-import com.aibot.mapper.UserRealnameMapper;
+import com.aibot.mapper.*;
 import com.aibot.utils.JwtUtil;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
@@ -13,8 +12,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RegisterDTO;
 import com.aibot.constants.enums.ResultCode;
-import com.aibot.mapper.UserMapper;
-import com.aibot.mapper.UserRelationMapper;
 import com.aibot.utils.ShareCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +20,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -53,6 +51,9 @@ public class UserService {
   @Autowired
   private UserRealnameMapper userRealnameMapper;
 
+  @Autowired
+  private UserMoneyMapper userMoneyMapper;
+
   /**
    * 用户登录服务
    * @param dto 用户登录实体
@@ -69,6 +70,9 @@ public class UserService {
     // 用户不存在
     if (null == user) {
       return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+    }
+    if (user.getStatus() == 1) {
+      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
     }
     // 密码不正确
     if (!user.getPassword().equals(dto.getPassword())) {
@@ -87,7 +91,6 @@ public class UserService {
   public ResponseResult<String> register(RegisterDTO dto) {
 
     Integer userParentId = 0;
-    Integer shareUserParentId = null;
 
     // 验证推广码是否存在
     if (StringUtils.isNotBlank(dto.getShareCode())) {
@@ -97,11 +100,6 @@ public class UserService {
         return new ResponseResult<>(ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getCode(), ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getMsg());
       }
       userParentId = shareUser.getId();
-
-      // 赋值父id
-      if (shareUser.getUserParentId() != 0) {
-        shareUserParentId = shareUser.getUserParentId();
-      }
 
     }
 
@@ -115,7 +113,7 @@ public class UserService {
     }
 
     // 开始注册
-    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, UserRoleEnum.USER.getRole(), new Date());
+    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, UserRoleEnum.USER.getRole(), 0, new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_ERROR.getCode(), ResultCode.USER_REGISTER_ERROR.getMsg());
@@ -135,6 +133,10 @@ public class UserService {
     if (userParentId != 0) {
       userRelationMapper.insertRegRelation(registerUser.getId(), userParentId);
     }
+
+    // 插入到钱包
+    UserMoney userMoney = new UserMoney(null, registerUser.getId(), new BigDecimal(0), new Date(), new Date());
+    userMoneyMapper.insert(userMoney);
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "注册成功");
   }

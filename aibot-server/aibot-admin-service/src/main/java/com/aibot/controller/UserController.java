@@ -1,6 +1,5 @@
 package com.aibot.controller;
 
-import com.aibot.beans.vo.SubUserList;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.service.UserService;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 用户控制器

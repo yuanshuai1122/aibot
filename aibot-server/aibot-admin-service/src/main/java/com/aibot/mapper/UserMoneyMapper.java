@@ -1,17 +1,15 @@
 package com.aibot.mapper;
 
-import com.aibot.beans.entity.User;
+import com.aibot.beans.entity.UserMoney;
 import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 用户mapper
+ * 用户钱包mapper
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:50
+ * @create: 2023-03-30 12:39
  */
 @Mapper
-public interface UserMapper extends MPJBaseMapper<User> {
-
-
+public interface UserMoneyMapper extends MPJBaseMapper<UserMoney> {
 }

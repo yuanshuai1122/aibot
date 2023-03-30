@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.aibot.filter")
-public class ChatgptApplication {
+public class AiBotFrontApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(ChatgptApplication.class, args);
+    SpringApplication.run(AiBotFrontApplication.class, args);
   }
 
   @Bean
