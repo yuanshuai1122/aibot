@@ -28,33 +28,39 @@
       </el-table-column>
       <el-table-column
         prop="account"
-        label="手机号"
-        width="150">
+        label="手机号">
       </el-table-column>
       <el-table-column
         prop="trueName"
-        label="真实姓名"
-        width="150">
+        label="真实姓名">
+      </el-table-column>
+      <el-table-column
+        prop="cerNumber"
+        label="身份证号">
       </el-table-column>
       <el-table-column
         prop="nickName"
-        label="昵称"
-        width="150">
+        label="昵称">
       </el-table-column>
       <el-table-column
         prop="role"
-        label="角色"
-        width="150">
+        label="角色">
       </el-table-column>
       <el-table-column
         prop="shareCode"
-        label="邀请码"
-        width="150">
+        label="邀请码">
+      </el-table-column>
+      <el-table-column
+        prop="amount"
+        label="余额">
       </el-table-column>
       <el-table-column
         prop="userParentName"
-        label="上级用户昵称"
-        width="150">
+        label="上级用户昵称">
+      </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="创建时间">
       </el-table-column>
       <el-table-column
         label="操作">
@@ -62,13 +68,6 @@
     </el-table>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
                 :limit.sync="queryParams.pageSize" @pagination="getList" />
-<!--    <el-pagination-->
-<!--      background-->
-<!--      layout="prev, pager, next"-->
-<!--      :total="total"-->
-<!--      :page-size.sync="queryParams.pageSize"-->
-<!--      @size-change="getList">-->
-<!--    </el-pagination>-->
   </div>
 
 </template>
