@@ -4,6 +4,9 @@ import com.aibot.beans.dto.CreateProductDTO;
 import com.aibot.beans.dto.UpdateProductDTO;
 import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.entity.User;
+import com.aibot.beans.entity.UserInfo;
+import com.aibot.beans.vo.ProductVO;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.ProductMapper;
@@ -40,17 +43,15 @@ public class ProductService {
    */
   public ResponseResult<HashMap<String, Object>> productList(String productName, Integer pageNum, Integer pageSize) {
 
-    String role = request.getAttribute("role").toString();
-    if (StringUtils.isBlank(role) || !UserRoleEnum.SUPER_ADMIN.getRole().equals(role)) {
-      return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户权限不足", null);
-    }
-
     MPJLambdaWrapper<Product> wrapper = new MPJLambdaWrapper<Product>()
+            .select(Product::getId, Product::getProductName, Product::getProductPrice, Product::getImgUrl, Product::getCount, Product::getPutStatus, Product::getProductDescription, Product::getCreateTime, Product::getUpdateTime)
+            .innerJoin(UserInfo.class, UserInfo::getUserId, Product::getTenantId)
+            .selectAs(UserInfo::getNickName, ProductVO::getTenantName)
             .eq(Product::getPutStatus, 1)
             .like(StringUtils.isNotBlank(productName), Product::getProductName, productName)
             ;
 
-    Page<Product> productPage = productMapper.selectJoinPage(new Page<>(pageNum, pageSize), Product.class, wrapper);
+    Page<ProductVO> productPage = productMapper.selectJoinPage(new Page<>(pageNum, pageSize), ProductVO.class, wrapper);
     HashMap<String, Object> map = new HashMap<>();
     map.put("productList", productPage.getRecords());
     map.put("totalCount", productPage.getTotal());
@@ -80,7 +81,7 @@ public class ProductService {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户权限不足", null);
     }
 
-    Product product = new Product(dto.getId(), dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), null, new Date());
+    Product product = new Product(dto.getId(),null,  dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), null, new Date());
     int flag = productMapper.updateById(product);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.PRODUCT_UPDATE_FAILURE.getCode(), ResultCode.PRODUCT_UPDATE_FAILURE.getMsg());
@@ -96,7 +97,9 @@ public class ProductService {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户权限不足", null);
     }
 
-    Product product = new Product(null, dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), new Date(), new Date());
+    String tenantId = request.getAttribute("tenantId").toString();
+
+    Product product = new Product(null, Integer.parseInt(tenantId),dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), new Date(), new Date());
     int flag = productMapper.insert(product);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.PRODUCT_CREATE_FAILURE.getCode(), ResultCode.PRODUCT_CREATE_FAILURE.getMsg());

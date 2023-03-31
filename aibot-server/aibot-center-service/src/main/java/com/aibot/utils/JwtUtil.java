@@ -50,7 +50,6 @@ public class JwtUtil {
             .withClaim("userParentId", user.getUserParentId())
             .withClaim("shareCode", user.getShareCode())
             .withClaim("role", user.getRole())
-            .withClaim("tenantId", user.getTenantId())
             .withExpiresAt(expireDate) //超时设置,设置过期的日期
             .withIssuedAt(new Date()) //签发时间
             .sign(Algorithm.HMAC256(SECRET)); //SECRET加密

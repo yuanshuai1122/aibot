@@ -32,8 +32,6 @@ public class User {
 
   private String role;
 
-  private Integer tenantId;
-
   private Integer status;
 
   private Date createTime;

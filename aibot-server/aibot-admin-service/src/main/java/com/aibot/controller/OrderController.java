@@ -1,6 +1,7 @@
 package com.aibot.controller;
 
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.OrderStatus;
 import com.aibot.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 订单控制器
@@ -27,12 +29,18 @@ public class OrderController {
   private OrderService orderService;
 
   @GetMapping("/list")
-  public ResponseResult<HashMap<String, Object>> productList(@RequestParam(value = "nickName", required = false) String nickName,
+  public ResponseResult<HashMap<String, Object>> orderList(@RequestParam(value = "nickName", required = false) String nickName,
                                                              @RequestParam(value = "productName", required = false) String productName,
                                                              @RequestParam(value = "orderStatus", required = false) String orderStatus,
                                                              @RequestParam("pageNum") Integer pageNum,
                                                              @RequestParam("pageSize") Integer pageSize) {
-    return orderService.productList(nickName, productName, orderStatus, pageNum, pageSize);
+    return orderService.orderList(nickName, productName, orderStatus, pageNum, pageSize);
+  }
+
+  @GetMapping("/status/list")
+  public ResponseResult<List<OrderStatus>> orderStatusList() {
+
+    return orderService.orderStatusList();
   }
 
 }
