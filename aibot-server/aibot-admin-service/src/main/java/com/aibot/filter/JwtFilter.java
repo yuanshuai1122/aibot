@@ -1,10 +1,13 @@
 package com.aibot.filter;
 
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.config.TenantIdManager;
+import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -22,8 +25,11 @@ import java.util.Map;
  */
 @Slf4j
 @WebFilter(filterName = "JwtFilter", urlPatterns = "/*", asyncSupported = true)
-public class JwtFilter implements Filter
-{
+public class JwtFilter implements Filter {
+
+  @Autowired
+  private TenantIdManager tenantIdManager;
+
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
   }
@@ -63,10 +69,23 @@ public class JwtFilter implements Filter
       }
       Integer id = userData.get("id").asInt();
       String account = userData.get("account").asString();
-      String password= userData.get("password").asString();
+      String password = userData.get("password").asString();
       String userParentId = userData.get("userParentId").asString();
       String shareCode = userData.get("shareCode").asString();
       String role = userData.get("role").asString();
+      Integer tenantId = userData.get("tenantId").asInt();
+
+      log.info("登录角色为: {}", role);
+      // 判断登录权限
+      if (!UserRoleEnum.SUPER_ADMIN.getRole().equals(role) && !UserRoleEnum.CHANNEL.getRole().equals(role)) {
+        response401(response, "权限不足");
+        return;
+      }
+
+      // 将id放入租户
+      tenantIdManager.setCurrentTenantId(Long.parseLong(String.valueOf(id)));
+
+
       //拦截器 拿到用户信息，放到request中
       request.setAttribute("id", id);
       request.setAttribute("account", account);
@@ -74,6 +93,7 @@ public class JwtFilter implements Filter
       request.setAttribute("userParentId", userParentId);
       request.setAttribute("shareCode", shareCode);
       request.setAttribute("role", role);
+      request.setAttribute("tenantId", tenantId);
       chain.doFilter(req, res);
     }
   }

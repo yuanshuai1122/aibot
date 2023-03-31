@@ -48,16 +48,12 @@ public class UserService {
   public ResponseResult<String> login(LoginDTO dto) {
 
     // 查询数据库
-    QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-            .eq(User::getAccount, dto.getAccount())
-            .eq(User::getPassword, dto.getPassword());
-    User user = userMapper.selectOne(wrapper);
+    User user = userMapper.selectUserLogin(dto.getAccount(), dto.getPassword());
     // 用户不存在或者密码错误
     if (null == user) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
-    if (user.getStatus() == 1) {
+    if (user.getStatus() != 0) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "账号状态异常，登录失败");
     }
     if (!user.getRole().equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
@@ -69,17 +65,6 @@ public class UserService {
 
 
   public ResponseResult<HashMap<String, Object>> subUsers(String account, String nickName, String trueName, String cerNumber, Integer pageNum, Integer pageSize) {
-
-    // 获取用户的角色
-    String role = request.getAttribute("role").toString();
-    if (StringUtils.isBlank(role)) {
-      return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户角色不存在", null);
-    }
-
-    // 验证权限
-    if (!role.equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
-      return new ResponseResult<>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg(), null);
-    }
 
     // 获取所有用户信息
     MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()

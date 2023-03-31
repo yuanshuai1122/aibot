@@ -1,4 +1,4 @@
-package com.aibot.beans.entity;
+package com.aibot.beans.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Product {
+public class ProductVO {
 
   @TableId(type = IdType.AUTO)
   private Integer id;
@@ -26,7 +26,7 @@ public class Product {
   /**
    * 租户id
    */
-  private Integer tenantId;
+  private String tenantName;
 
   /**
    * 商品名称
