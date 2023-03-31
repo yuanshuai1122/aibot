@@ -44,16 +44,16 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    if (response.code == 401) {
-      console.log("登录过期，删除本地缓存")
-      removeToken()
-    }
+    // if (response.code == 401) {
+    //   console.log("登录过期，删除本地缓存")
+    //   removeToken()
+    // }
 
     return Promise.resolve(response.data)
   },
   error => {
-    console.log("登录过期，删除本地缓存")
-    removeToken()
+    // console.log("登录过期，删除本地缓存")
+    // removeToken()
     console.log('err' + error) // for debug
     Message({
       message: error.message,

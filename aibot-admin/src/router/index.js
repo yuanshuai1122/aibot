@@ -93,6 +93,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/distribution',
+    component: Layout,
+    children: [
+      {
+        path: '/distribution/index',
+        name: 'product',
+        component: () => import('@/views/distribution/index'),
+        meta: { title: '分销管理', icon: 'form' }
+      }
+    ]
+  },
 
   // {
   //   path: '/nested',
