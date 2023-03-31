@@ -19,51 +19,66 @@
 <!--    用户列表-->
     <el-table
       :data="tableData"
-      style="width: 100%"
-      border>
+      style="width: 100%">
       <el-table-column
         label="序号"
         type="index"
-        width="120">
+        width="80"
+      align="center">
+      </el-table-column>
+      <el-table-column
+        prop="tenantName"
+        label="所属商户"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="account"
-        label="手机号">
+        label="手机号"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="trueName"
-        label="真实姓名">
+        label="真实姓名"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="cerNumber"
-        label="身份证号">
+        label="身份证号"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="nickName"
-        label="昵称">
+        label="昵称"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="role"
-        label="角色">
+        label="角色"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="shareCode"
-        label="邀请码">
+        label="邀请码"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="amount"
-        label="余额">
+        label="余额"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="userParentName"
-        label="上级用户昵称">
+        label="上级用户昵称"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="createTime"
-        label="创建时间">
+        label="创建时间"
+        align="center">
       </el-table-column>
       <el-table-column
-        label="操作">
+        label="操作"
+        align="center">
       </el-table-column>
     </el-table>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"

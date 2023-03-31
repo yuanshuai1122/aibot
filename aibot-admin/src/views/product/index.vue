@@ -13,18 +13,27 @@
       :data="productData"
       style="width: 100%">
       <el-table-column
+        type="index"
+        label="序号"
+        width="80"
+        align="center">
+      </el-table-column>
+      <el-table-column
         prop="productName"
         label="商品名称"
-        width="180">
+        width="180"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="productPrice"
-        label="商品价格">
+        label="商品价格"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="imgUrl"
         label="商品背景"
-        width="180">
+        width="180"
+        align="center">
         <template slot-scope="scope">
         <el-image
           style="width: 100px; height: 100px"
@@ -36,11 +45,13 @@
       <el-table-column
         prop="count"
         label="数量"
-        width="180">
+        width="180"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="putStatus"
-        label="上架状态">
+        label="上架状态"
+        align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.putStatus===1">上架</span>
           <span v-if="scope.row.putStatus===0">下架</span>
@@ -48,15 +59,18 @@
       </el-table-column>
       <el-table-column
         prop="productDescription"
-        label="商品描述">
+        label="商品描述"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="createTime"
-        label="创建时间">
+        label="创建时间"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="updateTime"
-        label="更新时间">
+        label="更新时间"
+        align="center">
       </el-table-column>
     </el-table>
     <pagination v-show="totalCount > 0" :total="totalCount" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />

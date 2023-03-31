@@ -26,33 +26,50 @@
     :data="statusData"
     style="width: 100%">
     <el-table-column
+      type="index"
+      label="序号"
+      width="80"
+    align="center">
+    </el-table-column>
+    <el-table-column
+      prop="tenantName"
+      label="所属商户"
+      align="center">
+    </el-table-column>
+    <el-table-column
       prop="nickName"
       label="昵称"
-      width="180">
+      align="center">
     </el-table-column>
     <el-table-column
       prop="productName"
-      label="商品名称">
+      label="商品名称"
+      align="center">
     </el-table-column>
     <el-table-column
       prop="quantity"
-      label="数量">
+      label="数量"
+      align="center">
     </el-table-column>
     <el-table-column
       prop="totalAmount"
-      label="总价">
+      label="总价"
+      align="center">
     </el-table-column>
     <el-table-column
       prop="orderStatus"
-      label="状态">
+      label="状态"
+      align="center">
     </el-table-column>
     <el-table-column
       prop="orderTime"
-      label="下单时间">
+      label="下单时间"
+      align="center">
     </el-table-column>
     <el-table-column
       prop="payTime"
-      label="支付时间">
+      label="支付时间"
+      align="center">
     </el-table-column>
   </el-table>
   <pagination v-show="totalCount > 0" :total="totalCount" :page.sync="queryParams.pageNum"

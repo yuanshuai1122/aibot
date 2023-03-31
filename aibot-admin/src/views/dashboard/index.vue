@@ -3,9 +3,7 @@
     <ul class="card-item">
 
       <li>
-        <h2>今日新增用户<el-tooltip  effect="dark" content="统计通过4A单点登录的所有应用的登录次数,统计今日新增登录数" placement="top">
-          <span class="el-icon-info"></span>
-        </el-tooltip></h2>
+        <h2>今日新增用户</h2>
         <h3>{{dataInfo.todayUsers}}</h3>
 <!--        <div class="card-item-data"></div>-->
         <div class="card-item-info">
@@ -14,9 +12,7 @@
         </div>
       </li>
       <li>
-        <h2>今日订单数<el-tooltip  effect="dark" content="统计接入4A的用户数量,统计今日新增的用户数量" placement="top">
-          <span class="el-icon-info"></span>
-        </el-tooltip></h2>
+        <h2>今日订单数</h2>
         <h3>{{dataInfo.todayOrders}}</h3>
         <div class="card-item-info">
           <span>总计订单数:</span>
@@ -24,9 +20,7 @@
         </div>
       </li>
       <li>
-        <h2>今日收款金额<el-tooltip  effect="dark" content="统计在4A平台的操作数量,统计今日新增的操作数量" placement="top">
-          <span class="el-icon-info"></span>
-        </el-tooltip></h2>
+        <h2>今日收款金额</h2>
         <h3>{{dataInfo.todayAmount}}</h3>
         <div class="card-item-info">
           <span>总计收款金额:</span>
