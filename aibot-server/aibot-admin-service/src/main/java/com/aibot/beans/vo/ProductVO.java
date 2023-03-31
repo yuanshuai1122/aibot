@@ -24,7 +24,7 @@ public class ProductVO {
   private Integer id;
 
   /**
-   * 租户id
+   * 租户名称
    */
   private String tenantName;
 

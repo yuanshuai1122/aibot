@@ -23,6 +23,11 @@ public class UserOrdersVO {
   private Integer id;
 
   /**
+   * 租户id
+   */
+  private String tenantName;
+
+  /**
    * 用户id
    */
   private String nickName;

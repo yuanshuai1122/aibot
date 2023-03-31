@@ -1,5 +1,6 @@
 package com.aibot.config;
 
+import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.utils.EntityUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class MyBatisPlusConfig {
 
   @Autowired
   private TenantIdManager tenantIdManager;
+
+  @Autowired
+  private HttpServletRequest request;
 
   @Bean
   public MybatisPlusInterceptor paginationInterceptor() {
@@ -47,7 +52,6 @@ public class MyBatisPlusConfig {
 
       @Override
       public boolean ignoreTable(String tableName) {
-        //return TenantLineHandler.super.ignoreTable(tableName);
         /**
          * 此处的list，临时用作拦截
          * 原因是：下面的表解析方法，用的是大驼峰转下划线，再跟sql拦截器拦截到的表名对比，如果匹配到了，则认为该表需要多租户拼接
@@ -55,21 +59,14 @@ public class MyBatisPlusConfig {
          * @TableName 这个注解能否完成该职责，目前还未测试，以后再说。
          */
         List<String> list = new ArrayList<>();
-        list.add("user");
-        list.add("product");
-        list.add("user_orders");
-        if (list.contains(tableName)) {
-          return false;
+        // 超管不做拦截
+        if (!UserRoleEnum.SUPER_ADMIN.getRole().equals(request.getAttribute("role").toString())) {
+          list.add("user");
+          list.add("product");
+          list.add("user_orders");
         }
-        return true;
-        //EntityTableCache instance = EntityTableCache.getInstance();
-        //if (null == instance || null == instance.getCacheData(tableName)) {
-        //  //如果未初始化到，不拼接租户id
-        //  return true;
-        //}
-        //String entityPath = EntityTableCache.getInstance().getCacheData(tableName).toString();
-        ////该方法会将大驼峰转为下划线，并完成初始化
-        //return !EntityUtils.isHaveAttr(entityPath, COLUMN_TENANTID);
+
+        return !list.contains(tableName);
 
       }
 

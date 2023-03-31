@@ -56,9 +56,6 @@ public class UserService {
     if (user.getStatus() != 0) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "账号状态异常，登录失败");
     }
-    if (!user.getRole().equals(UserRoleEnum.SUPER_ADMIN.getRole())) {
-      return new ResponseResult<>(ResultCode.NOT_PERMISSION.getCode(), ResultCode.NOT_PERMISSION.getMsg());
-    }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
   }
