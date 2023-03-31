@@ -1,7 +1,9 @@
 <template>
-  <div >
+  <div class="app-content">
+    <div class="app-header">
     <div style="color: #f8f8f8 ">您好，</div>
     <div style="color: #f8f8f8 ">欢迎来到云网AI</div>
+    </div>
     <div class="login-content">
     <van-cell-group class="content">
       <van-field class="field" v-model="logForm.account" label="账号" placeholder="请输入账号" />
@@ -75,16 +77,30 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-content{
   width: 100%;
-  height: 100vh;
+  height: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
+  padding-top: 4vh;
   background-size: cover;
   background: url(@/assets/bg.png) no-repeat fixed #333333;
+}
+.app-content{
+  width: 100%;
+  height: 100vh;
+  //flex-direction: column;
+  //align-items: center;
+  //justify-content: center;
+  background-size: cover;
+  background: url(@/assets/bg.png) no-repeat fixed #333333;
+}
+.app-header{
+  padding-top: 15vh;
+  padding-left: 8vh;
 }
 .content{
   width: 80%;
@@ -93,7 +109,8 @@ export default {
 }
 .field{
   width: 100%;
-  background-color: #212230 ;
+  //background-color: #cccccc ;
+  /*color: #f8f8f8!important;*/
   margin-top: 3vh;
   border: 0.1vh solid black;
   border-radius: 3vh;
@@ -101,11 +118,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.van-field__control{
-  color: white;
-}
+
 .van-cell-group{
-  background: none;
+  /*background: none;*/
   display: flex;
   flex-direction: column;
   justify-content: center;

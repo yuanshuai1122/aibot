@@ -79,6 +79,7 @@ export default {
   padding: 2vh;
   width: 42vh;
   height: 10vh;
+  background-color: #202058;
 }
 .container-footer{
   padding: 2vh;
