@@ -44,8 +44,14 @@ export const constantRouterMap = [
         path: '/about',
         name: 'About',
         component: () => import('@/views/home/about'),
-        meta: { title: '关于我', keepAlive: false }
+        meta: { title: '关于我', keepAlive: false },
       }
     ]
-  }
+  },
+  {
+    path: '/realName',
+    name: 'realName',
+    component: () => import('@/views/home/realName'),
+    meta: { title: '实名认证', keepAlive: false }
+  },
 ]

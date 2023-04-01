@@ -60,3 +60,25 @@ export default {
   }
 }
 </script>
+<style>
+.layout-content{
+  background-color: rgb(10,9,26);
+}
+.van-tabbar{
+  background-color:#303046;
+}
+.van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
+   border-width: 0 0;
+}
+.van-cell__value--alone {
+   color: white;
+  text-align: left;
+}
+.van-field__control{
+  color: white;
+}
+.van-tabbar-item--active {
+  color: white;
+  background: none;
+}
+</style>

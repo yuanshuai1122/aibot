@@ -109,8 +109,6 @@ export default {
 }
 .field{
   width: 100%;
-  //background-color: #cccccc ;
-  /*color: #f8f8f8!important;*/
   margin-top: 3vh;
   border: 0.1vh solid black;
   border-radius: 3vh;

@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="chat-center">
+      <van-empty v-show="messageList.length==0" style="padding-top: 15vh" image="search" description="发送消息给AI" />
       <div v-for="item in messageList">
         <van-cell :value="item.message">
           <template #title>
@@ -18,7 +19,7 @@
               style="margin: 1vh"
               width="5vh"
               height="5vh"
-              fit="contain"
+              fit="fill"
               src="https://img01.yzcdn.cn/vant/cat.jpeg"
             />
           </template>
@@ -28,7 +29,7 @@
 
     <div class="chat-footer">
       <van-cell-group style="background: none">
-        <van-field style="background: none" v-model="content" label="" placeholder="发送消息给AI" >
+        <van-field style="background: none" v-model="content" label="" placeholder="请输入" >
           <template #button>
             <van-button size="small" type="default" @click="sendBtn">发送</van-button>
           </template>

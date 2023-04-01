@@ -19,14 +19,16 @@ import '@/assets/css/index.scss'
 // 移动端适配
 import 'amfe-flexible'
 
-import { Field,CellGroup,Grid, GridItem,Cell,Radio,RadioGroup} from 'vant';
+import { Field,CellGroup,Grid, GridItem,Cell,Radio,RadioGroup,Empty,Tab, Tabs,} from 'vant';
 import { Image as VanImage } from 'vant';
+
+
 
 // filters
 import './filters'
 Vue.config.productionTip = false
 
-
+Vue.use(Empty);
 Vue.use(VanImage);
 Vue.use(Radio);
 Vue.use(RadioGroup);
@@ -35,6 +37,8 @@ Vue.use(CellGroup);
 Vue.use(Grid);
 Vue.use(GridItem);
 Vue.use(Cell);
+Vue.use(Tab);
+Vue.use(Tabs);
 new Vue({
   el: '#app',
   router,

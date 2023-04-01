@@ -37,3 +37,21 @@ export function getUserName(params) {
     hideloading: true
   })
 }
+// 获取创作列表
+export function getEditList(params) {
+  return request({
+    url: api.EditList,
+    method: 'get',
+    params,
+    hideloading: true
+  })
+}
+// 获取创作列表
+export function realNameApi(data) {
+  return request({
+    url: api.RealName,
+    method: 'post',
+    data:data,
+    hideloading: true
+  })
+}
