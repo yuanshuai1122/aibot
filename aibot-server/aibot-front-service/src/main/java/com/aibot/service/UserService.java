@@ -54,6 +54,9 @@ public class UserService {
   @Autowired
   private UserMoneyMapper userMoneyMapper;
 
+  @Autowired
+  private TenantInfoMapper tenantInfoMapper;
+
   /**
    * 用户登录服务
    * @param dto 用户登录实体
@@ -63,20 +66,25 @@ public class UserService {
 
     // TODO 这里记得做防刷
 
+    // 查询租户
+    String serverName = request.getServerName();
+    log.info("登录域名：{}", serverName);
+    QueryWrapper<TenantInfo> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(TenantInfo::getTenantHost, serverName);
+    TenantInfo tenantInfo = tenantInfoMapper.selectOne(wrapper);
+    log.info("租户信息: {}", tenantInfo);
+    if (null == tenantInfo) {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "站点异常，请联系管理员");
+    }
+
     // 查询数据库
-    QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper.lambda().eq(User::getAccount, dto.getAccount());
-    User user = userMapper.selectOne(wrapper);
+    User user = userMapper.selectUserLogin(dto.getAccount(), dto.getPassword(), tenantInfo.getTenantId());
     // 用户不存在
     if (null == user) {
-      return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
     if (user.getStatus() == 1) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
-    }
-    // 密码不正确
-    if (!user.getPassword().equals(dto.getPassword())) {
-      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
     }
 
     // 返回token
@@ -152,17 +160,25 @@ public class UserService {
    */
   public ResponseResult<UserInfoVO> info() {
 
-    UserInfoVO userInfo = new UserInfoVO();
+    QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(UserInfo::getUserId, Integer.parseInt(request.getAttribute("id").toString()));
+    UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+    if (null == userInfo) {
+      return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+    }
 
-    String account = request.getAttribute("account").toString();
-    log.info("开始获取登录信息, account: {}", account);
-    String maskAccount = ValueUtils.getMaskAccount(account);
-    userInfo.setAccount(maskAccount);
+    UserInfoVO userInfoVO = new UserInfoVO();
+    userInfoVO.setAvatar(userInfo.getAvatar());
+    userInfoVO.setAccount(ValueUtils.getMaskAccount(request.getAttribute("account").toString()));
+    userInfoVO.setNickname(userInfo.getNickName());
+    if (StringUtils.isNotBlank(userInfo.getTrueName()) && StringUtils.isNotBlank(userInfo.getCerNumber())) {
+      userInfoVO.setIsRealName(1);
+    }else {
+      userInfoVO.setIsRealName(0);
+    }
 
-    // TODO 这里先写死
-    userInfo.setAvatar("http://img.520touxiang.com/uploads/allimg/2018121219/umqqfexihiv.jpg");
 
-    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", userInfo);
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", userInfoVO);
   }
 
   /**
@@ -172,32 +188,44 @@ public class UserService {
    */
   public ResponseResult<Object> realname(RealNameDTO dto) {
 
-    // TODO 查询本地实名库
+    int userId = Integer.parseInt(request.getAttribute("id").toString());
+    // 验证是否已经实名
+    QueryWrapper<UserInfo> infoWrapper = new QueryWrapper<>();
+    infoWrapper.lambda().eq(UserInfo::getUserId, userId);
+    UserInfo info = userInfoMapper.selectOne(infoWrapper);
+    if (null == info) {
+      return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+    }
+    if (StringUtils.isNotBlank(info.getTrueName()) && StringUtils.isNotBlank(info.getCerNumber())) {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "您已实名，无须重复操作");
+    }
+
+    // 查询本地实名库
     QueryWrapper<UserRealname> realnameWrapper = new QueryWrapper<>();
     realnameWrapper.lambda()
             .eq(UserRealname::getTrueName, dto.getTrueName())
             .eq(UserRealname::getCerNumber, dto.getCerNumber());
     UserRealname userRealname = userRealnameMapper.selectOne(realnameWrapper);
-    if (null == userRealname) {
+    if (null != userRealname) {
+      info.setTrueName(dto.getTrueName());
+      info.setCerNumber(dto.getCerNumber());
+    }else {
       // TODO 调用第三方实名接口
+
+      //if ()
+      // 写入到实名表
+      UserRealname realname = new UserRealname(null, dto.getTrueName(), dto.getCerNumber(), new Date(), new Date());
+      int insert = userRealnameMapper.insert(realname);
+      if (insert <= 0) {
+        return new ResponseResult<>(ResultCode.USER_REAL_NAME_FAILURE.getCode(), ResultCode.USER_REAL_NAME_FAILURE.getMsg());
+      }
+      info.setTrueName("xxx");
+      info.setCerNumber("xxx");
     }
 
     // 写入用户信息表
-    int userId = Integer.parseInt(request.getAttribute("userId").toString());
-    QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-    wrapper.lambda().eq(UserInfo::getUserId, userId);
-    UserInfo userInfo = new UserInfo();
-    userInfo.setTrueName(dto.getTrueName());
-    userInfo.setCerNumber(dto.getCerNumber());
-    int update = userInfoMapper.update(userInfo, wrapper);
+    int update = userInfoMapper.updateById(info);
     if (update <= 0) {
-      return new ResponseResult<>(ResultCode.USER_REAL_NAME_FAILURE.getCode(), ResultCode.USER_REAL_NAME_FAILURE.getMsg());
-    }
-
-    // 写入到实名表
-    UserRealname realname = new UserRealname(null, userId, dto.getTrueName(), dto.getCerNumber(), 1, new Date(), new Date());
-    int insert = userRealnameMapper.insert(realname);
-    if (insert <= 0) {
       return new ResponseResult<>(ResultCode.USER_REAL_NAME_FAILURE.getCode(), ResultCode.USER_REAL_NAME_FAILURE.getMsg());
     }
 

@@ -117,7 +117,7 @@ public class JwtFilter implements Filter {
 
   /** 判断是否为白名单路径 **/
   private boolean isPermitted(String requestURI) {
-    return requestURI.endsWith("/user/login") || requestURI.endsWith("/user/register");
+    return requestURI.endsWith("/user/login") || requestURI.endsWith("/user/register") || requestURI.endsWith("/sms/send");
   }
 
   /**

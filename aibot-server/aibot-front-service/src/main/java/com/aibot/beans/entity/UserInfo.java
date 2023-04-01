@@ -27,6 +27,11 @@ public class UserInfo {
   private String nickName;
 
   /**
+   * 头像
+   */
+  private String avatar;
+
+  /**
    * 真实姓名
    */
   private String trueName;

@@ -21,6 +21,11 @@ public class CreateProductDTO {
   private String productName;
 
   /**
+   * 底价
+   */
+  private BigDecimal miniPrice;
+
+  /**
    * 商品价格
    */
   private BigDecimal productPrice;
