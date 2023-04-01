@@ -1,4 +1,4 @@
-package com.aibot.beans.entity;
+package com.aibot.beans.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,15 +14,9 @@ import java.util.Date;
  * @create: 2023-03-23 18:05
  */
 @Data
-public class Product {
+public class ProductVO {
 
-  @TableId(type = IdType.AUTO)
   private Integer id;
-
-  /**
-   * 租户id
-   */
-  private Integer tenantId;
 
   /**
    * 商品名称
@@ -45,23 +39,8 @@ public class Product {
   private Integer count;
 
   /**
-   * 是否上架
-   */
-  private Integer putStatus;
-
-  /**
    * 商品描述
    */
   private String productDescription;
-
-  /**
-   * 创建时间
-   */
-  private Date createTime;
-
-  /**
-   * 修改时间
-   */
-  private Date updateTime;
 
 }

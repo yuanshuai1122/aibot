@@ -1,7 +1,6 @@
 package com.aibot.config;
 
 import com.aibot.constants.enums.UserRoleEnum;
-import com.aibot.utils.EntityUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
@@ -59,15 +58,9 @@ public class MyBatisPlusConfig {
          * @TableName 这个注解能否完成该职责，目前还未测试，以后再说。
          */
         List<String> list = new ArrayList<>();
-        // 超管不做拦截
-        if (!UserRoleEnum.SUPER_ADMIN.getRole().equals(request.getAttribute("role").toString())) {
-          list.add("user");
-          list.add("product");
-          list.add("user_orders");
-          list.add("distribution_level_config");
-          list.add("distribution_config");
-        }
-
+        list.add("user");
+        list.add("product");
+        list.add("user_orders");
         return !list.contains(tableName);
 
       }

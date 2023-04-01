@@ -66,9 +66,15 @@ public class UserService {
     // 获取所有用户信息
     MPJLambdaWrapper<User> wrapper = new MPJLambdaWrapper<User>()
             .select(User::getId, User::getAccount, User::getUserParentId, User::getShareCode, User::getRole, User::getCreateTime, User::getStatus)
-            .innerJoin(UserInfo.class, UserInfo::getUserId, User::getId)
-            .select(UserInfo::getNickName, UserInfo::getTrueName, UserInfo::getCerNumber)
-            .innerJoin(UserMoney.class, UserMoney::getUserId, User::getId)
+            .leftJoin(UserInfo.class, UserInfo::getUserId, User::getUserParentId, ext->ext
+                    .selectAs(UserInfo::getNickName,UserList::getUserParentName))
+            .leftJoin(UserInfo.class, UserInfo::getUserId, User::getId, ext -> ext
+                    .selectAs(UserInfo::getNickName, UserList::getNickName)
+                    .selectAs(UserInfo::getTrueName, UserList::getTrueName)
+                    .selectAs(UserInfo::getCerNumber, UserList::getCerNumber))
+            .leftJoin(UserInfo.class, UserInfo::getUserId, User::getTenantId, ext -> ext
+                    .selectAs(UserInfo::getNickName, UserList::getTenantName))
+            .leftJoin(UserMoney.class, UserMoney::getUserId, User::getId)
             .select(UserMoney::getAmount)
             .like(StringUtils.isNotBlank(account), User::getAccount, account)
             .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
@@ -78,19 +84,9 @@ public class UserService {
 
     // 分页
     Page<UserList> listPage = userMapper.selectJoinPage(new Page<>(pageNum, pageSize), UserList.class, wrapper);
-    List<UserList> result = new ArrayList<>();
-    List<UserList> records = listPage.getRecords();
-    for (UserList record1 : records) {
-      for (UserList record2 : records) {
-        if (record2.getUserParentId().equals(record1.getId())) {
-          record2.setUserParentName(record1.getNickName());
-          result.add(record2);
-        }
-      }
-    }
 
     HashMap<String, Object> map = new HashMap<>();
-    map.put("userList", result);
+    map.put("userList", listPage.getRecords());
     map.put("totalCount", listPage.getTotal());
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);

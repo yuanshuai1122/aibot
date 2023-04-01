@@ -34,12 +34,12 @@ public class OrderService {
 
     MPJLambdaWrapper<UserOrders> wrapper = new MPJLambdaWrapper<UserOrders>()
             .select(UserOrders::getId, UserOrders::getQuantity, UserOrders::getTotalAmount, UserOrders::getOrderStatus, UserOrders::getOrderTime, UserOrders::getPayTime)
-            .innerJoin(UserInfo.class, UserInfo::getUserId, UserOrders::getUserId)
-            .selectAs(UserInfo::getNickName, UserOrdersVO::getNickName)
-            //.innerJoin(UserInfo.class, UserInfo::getUserId, UserOrders::getTenantId)
-            //.selectAs(UserInfo::getNickName, UserOrdersVO::getTenantName)
-            .innerJoin(Product.class, Product::getId, UserOrders::getProductId)
-            .select(Product::getProductName)
+            .leftJoin(UserInfo.class, UserInfo::getUserId, UserOrders::getUserId, ext->ext
+                    .selectAs(UserInfo::getNickName, UserOrdersVO::getNickName))
+            .leftJoin(UserInfo.class, UserInfo::getUserId, UserOrders::getTenantId, ext->ext
+                    .selectAs(UserInfo::getNickName, UserOrdersVO::getTenantName))
+            .leftJoin(Product.class, Product::getId, UserOrders::getProductId)
+            .selectAs(Product::getProductName, UserOrdersVO::getProductName)
             .like(StringUtils.isNotBlank(nickName), UserInfo::getNickName, nickName)
             .like(StringUtils.isNotBlank(productName), Product::getProductName, productName)
             .eq(StringUtils.isNotBlank(orderStatus), UserOrders::getOrderStatus, orderStatus);

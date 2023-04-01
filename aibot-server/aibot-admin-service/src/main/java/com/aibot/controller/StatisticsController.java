@@ -1,35 +1,33 @@
 package com.aibot.controller;
 
-import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.vo.ProductVO;
-import com.aibot.service.ProductService;
+import com.aibot.beans.vo.StatisticsVO;
+import com.aibot.service.StatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
- * 商品控制器
+ * 统计控制器
  *
  * @author: yuanshuai
- * @create: 2023-03-29 10:16
+ * @create: 2023-03-31 21:59
  */
 @RestController
 @Slf4j
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/statistics")
+public class StatisticsController {
 
   @Autowired
-  private ProductService productService;
+  private StatisticsService statisticsService;
 
 
   @GetMapping("/list")
-  public ResponseResult<List<ProductVO>> productList() {
-    return productService.productList();
+  public ResponseResult<StatisticsVO> totalList() {
+
+    return statisticsService.totalList();
   }
 
 }

@@ -31,6 +31,11 @@ public class UserList {
   private Integer userParentId;
 
   /**
+   * 租户id
+   */
+  private String tenantName;
+
+  /**
    * 上级用户姓名
    */
   private String userParentName;

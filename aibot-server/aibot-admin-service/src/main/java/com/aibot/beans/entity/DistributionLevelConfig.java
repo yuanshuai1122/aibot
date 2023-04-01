@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 商品实体
+ * 分销等级配置
  *
  * @author: yuanshuai
- * @create: 2023-03-23 18:05
+ * @create: 2023-03-31 18:16
  */
 @Data
-public class Product {
+public class DistributionLevelConfig {
+
 
   @TableId(type = IdType.AUTO)
   private Integer id;
@@ -25,34 +25,14 @@ public class Product {
   private Integer tenantId;
 
   /**
-   * 商品名称
+   * 能开最大等级
    */
-  private String productName;
+  private Integer maxLevel;
 
   /**
-   * 商品价格
+   * 状态
    */
-  private BigDecimal productPrice;
-
-  /**
-   * 商品背景图
-   */
-  private String imgUrl;
-
-  /**
-   * 商品剩余数量
-   */
-  private Integer count;
-
-  /**
-   * 是否上架
-   */
-  private Integer putStatus;
-
-  /**
-   * 商品描述
-   */
-  private String productDescription;
+  private Integer status;
 
   /**
    * 创建时间
@@ -63,5 +43,4 @@ public class Product {
    * 修改时间
    */
   private Date updateTime;
-
 }
