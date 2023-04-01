@@ -12,6 +12,7 @@
     <artifactId>aibot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>aibot</name>
+    <packaging>pom</packaging>
     <description>aibot服务端</description>
     <properties>
         <java.version>17</java.version>
@@ -21,7 +22,6 @@
     <modules>
         <module>aibot-admin-service</module>
         <module>aibot-front-service</module>
-        <module>aibot-center-service</module>
     </modules>
 
     <build>

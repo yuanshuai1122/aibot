@@ -22,6 +22,8 @@ public class User {
   @TableId(type = IdType.AUTO)
   private Integer id;
 
+  private Integer tenantId;
+
   private String account;
 
   private String password;

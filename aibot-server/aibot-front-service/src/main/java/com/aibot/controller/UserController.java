@@ -30,6 +30,7 @@ public class UserController {
   @PostMapping("/login")
   public ResponseResult<String> login(@RequestBody @Valid LoginDTO dto) {
     log.info("开始请求登录, account: {}", dto.getAccount());
+
     return userService.login(dto);
 
   }
@@ -37,6 +38,7 @@ public class UserController {
   @PostMapping("/register")
   public ResponseResult<String> register(@RequestBody @Valid RegisterDTO dto) {
     log.info("开始请求注册，account: {}", dto.getAccount());
+
     return userService.register(dto);
 
   }

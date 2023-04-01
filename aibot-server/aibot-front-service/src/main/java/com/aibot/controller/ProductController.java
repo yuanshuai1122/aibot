@@ -2,6 +2,7 @@ package com.aibot.controller;
 
 import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.ProductVO;
 import com.aibot.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProductController {
 
 
   @GetMapping("/list")
-  public ResponseResult<List<Product>> productList() {
+  public ResponseResult<List<ProductVO>> productList() {
     return productService.productList();
   }
 

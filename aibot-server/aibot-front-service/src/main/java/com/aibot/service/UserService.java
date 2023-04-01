@@ -90,7 +90,10 @@ public class UserService {
    */
   public ResponseResult<String> register(RegisterDTO dto) {
 
-    Integer userParentId = 0;
+    // 获取站点租户id
+    int tenantId = Integer.parseInt(request.getAttribute("tenantId").toString());
+    // 这里谁的站点 就初始化为谁的id
+    Integer userParentId = tenantId;
 
     // 验证推广码是否存在
     if (StringUtils.isNotBlank(dto.getShareCode())) {
@@ -113,7 +116,7 @@ public class UserService {
     }
 
     // 开始注册
-    User registerUser = new User(null, dto.getAccount(), dto.getPassword(), userParentId, null, UserRoleEnum.USER.getRole(), 0, new Date());
+    User registerUser = new User(null, tenantId, dto.getAccount(), dto.getPassword(), userParentId, null, UserRoleEnum.USER.getRole(), 0, new Date());
     int flag = userMapper.insert(registerUser);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.USER_REGISTER_ERROR.getCode(), ResultCode.USER_REGISTER_ERROR.getMsg());
@@ -129,8 +132,10 @@ public class UserService {
 
     // 插入到关系表
     UserRelation userRelation = new UserRelation(null, registerUser.getId(), registerUser.getId(), 0);
+    // 先把自己和自己的关系插入
     userRelationMapper.insert(userRelation);
-    if (userParentId != 0) {
+    // 如果有推荐人 则将推荐关系都写入
+    if (userParentId != tenantId) {
       userRelationMapper.insertRegRelation(registerUser.getId(), userParentId);
     }
 

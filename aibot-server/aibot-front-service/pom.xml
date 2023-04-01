@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.aibot</groupId>
-    <artifactId>aibot</artifactId>
+    <artifactId>front</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>aibot-server</name>
+    <name>aibot-front</name>
     <description>aibot服务端</description>
     <properties>
         <java.version>17</java.version>

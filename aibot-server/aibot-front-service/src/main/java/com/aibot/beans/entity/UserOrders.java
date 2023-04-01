@@ -24,6 +24,11 @@ public class UserOrders {
   private Integer id;
 
   /**
+   * 租户id
+   */
+  private Integer tenantId;
+
+  /**
    * 用户id
    */
   private Integer userId;

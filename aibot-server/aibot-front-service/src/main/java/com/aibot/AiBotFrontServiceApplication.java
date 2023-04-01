@@ -9,16 +9,9 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.aibot.filter")
-public class AiBotFrontApplication {
+public class AiBotFrontServiceApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(AiBotFrontApplication.class, args);
+    SpringApplication.run(AiBotFrontServiceApplication.class, args);
   }
-
-  @Bean
-  public RestTemplate restTemplate(RestTemplateBuilder builder)
-  {
-    return builder.build();
-  }
-
 }
