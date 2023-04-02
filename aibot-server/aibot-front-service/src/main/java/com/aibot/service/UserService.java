@@ -2,6 +2,7 @@ package com.aibot.service;
 
 import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.entity.*;
+import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.*;
@@ -230,5 +231,23 @@ public class UserService {
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "实名成功", null);
+  }
+
+  public ResponseResult<RealNameVO> realnameInfo() {
+
+    Integer userId = Integer.parseInt(request.getAttribute("id").toString());
+
+    QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(UserInfo::getUserId, userId);
+    UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+    if (null == userInfo) {
+      return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+    }
+    RealNameVO realName = new RealNameVO();
+    realName.setTrueName(userInfo.getTrueName());
+    realName.setCerNumber(userInfo.getCerNumber());
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "查询成功", realName);
+
   }
 }

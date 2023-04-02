@@ -4,6 +4,7 @@ import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.dto.RegisterDTO;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,12 @@ public class UserController {
   @PostMapping("/realname")
   public ResponseResult<Object> realname(@RequestBody @Valid RealNameDTO dto) {
     return userService.realname(dto);
+  }
+
+  @GetMapping("/realname/info")
+  public ResponseResult<RealNameVO> realnameInfo() {
+
+    return userService.realnameInfo();
   }
 
 }
