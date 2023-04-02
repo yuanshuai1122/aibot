@@ -92,4 +92,12 @@ public class UserService {
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", map);
 
   }
+
+  public ResponseResult<String> userRole() {
+
+    String role = request.getAttribute("role").toString();
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", role);
+
+  }
 }

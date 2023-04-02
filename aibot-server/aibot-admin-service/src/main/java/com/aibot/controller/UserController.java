@@ -45,4 +45,10 @@ public class UserController {
     return userService.subUsers(account, nickName,trueName, cerNumber ,pageNum, pageSize);
   }
 
+  @GetMapping("/role")
+  public ResponseResult<String> userRole() {
+
+    return userService.userRole();
+  }
+
 }
