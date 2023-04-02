@@ -64,6 +64,8 @@ export default {
           this.$router.push({
             path:'/index'
           })
+        }else{
+          Toast(res.msg)
         }
       })
     },

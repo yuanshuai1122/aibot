@@ -1,8 +1,8 @@
 <template>
-  <div class="app-container">
-    <div class="chat-center">
+  <div class="app-container" >
+    <div class="chat-center" ref="QAContent">
       <van-empty v-show="messageList.length==0" style="padding-top: 15vh" image="search" description="发送消息给AI" />
-      <div v-for="item in messageList">
+      <div v-for="item in messageList" class="message-container" >
         <van-cell :value="item.message">
           <template #title>
               <van-image
@@ -42,13 +42,13 @@
 </template>
 
 <script>
+
 import { getUserInfo } from "@/api/user.js";
 import { chatSign } from "@/api/message";
 import api from "@/api";
 import { baseApi } from "@/config/env.development";
 import { getToken } from "@/utils/auth";
 import { EventSourcePolyfill } from "event-source-polyfill";
-
 export default {
   name: 'chat',
   data(){
@@ -69,6 +69,10 @@ export default {
   },
   created(){
     this.getUser()
+
+  },
+  mounted() {
+    this.scrollToBottom()
   },
   methods:{
     //  获取用户详细信息
@@ -117,9 +121,17 @@ export default {
         })
       })
     },
+    scrollToBottom() {
+      var _this=this;
+      this.$nextTick(function(){
+        var container = _this.$el.querySelector(".chat-center");
+        container.scrollTop = 999999999;
+      });
+    },
+
     //用户发送
     sendBtn(){
-
+      this.scrollToBottom()
       const userMessage = this.content
 
       const obj={
@@ -166,9 +178,13 @@ export default {
   border-radius: 1vh;
   width: 8vh;
 }
+.app-container{
+  min-height: 90vh;
+}
 .chat-center{
-  height: 87.2vh;
+  min-height: 80vh;
   overflow-y: auto
+  /*overflow: auto;*/
 }
 .van-cell__title, .van-cell__value {
   -webkit-box-flex: 1;

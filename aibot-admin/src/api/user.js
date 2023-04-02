@@ -7,6 +7,14 @@ export function login(data) {
     data
   })
 }
+//获取权限
+export function getRole(data) {
+  return request({
+    url: '/user/role',
+    method: 'get',
+    data
+  })
+}
 
 export function getInfo(token) {
   return request({

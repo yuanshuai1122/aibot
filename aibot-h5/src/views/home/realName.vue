@@ -1,6 +1,6 @@
 <template>
 <div class="realName-container">
-  <div  v-if="isSuccess" class="isReal">
+  <div  v-if="isSuccess" class="realName-container">
     <div class="realName-header">
       <img src="../../assets/dui.png" style="width: 3vh;height: 3vh;vertical-align: middle;">
       <span style="font-size: 2vh;color: #f8f8f8">您已实名认证</span>
@@ -8,10 +8,10 @@
     <div class="realName-body">
       <div class="body-container">
         <div style="display: flex;flex-direction: column;width: 90%;font-size: 2vh;">
-          <p style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh;padding-top: 2vh">姓名</p>
-          <p style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh"></p>
-          <p style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh">身份证号</p>
-          <p style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh"></p>
+          <span style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh;padding-top: 1vh">姓名:</span>
+          <span style="padding-left: 2vh;color: #f8f8f8;">{{realNameInfo.trueName}}</span>
+          <span style="padding-left: 2vh;color: #f8f8f8;margin-top: 1vh">身份证号:</span>
+          <span style="padding-left: 2vh;color: #f8f8f8;">{{realNameInfo.cerNumber}}</span>
         </div>
       </div>
     </div>
@@ -23,10 +23,9 @@
         <van-field class="field" v-model="realForm.trueName" label="真实姓名" placeholder="请输入真实姓名" />
         <van-field class="field" v-model="realForm.cerNumber" label="身份证号" placeholder="请输入身份证号" />
       </van-cell-group>
-<!--      <p style="color: #f8f8f8;font-size: 2vh;margin: 2vh 2vh">根据法律法规要求，实名信息须与注册手机号持有人相符， 且年满20周岁（不含）以上，60周岁（含）以下。 信息安全保障中，以下信息仅用于身份确认，未经您同意不 会用于其他用途。</p>-->
     </div>
-    <div class="realNo-footer">
-      <van-button>立即认证</van-button>
+      <div class="realNo-footer">
+      <van-button @click="subRealName">立即认证</van-button>
     </div>
   </div>
 
@@ -35,7 +34,7 @@
 
 <script>
 
-import { realNameApi } from '@/api/user'
+import { getRealName, realNameApi } from '@/api/user'
 
 export default {
   name: 'realName',
@@ -45,20 +44,35 @@ export default {
       realForm:{
         trueName:'',
         cerNumber:''
+      },
+      realNameInfo:{
+        trueName: '',
+        cerNumber: ''
       }
     }
   },
   created() {
+    console.log(this.$route.query.isSuccess)
     this.isSuccess=this.$route.query.isSuccess
+    console.log(this.isSuccess)
+    this.getRealNameInfo()
   },
   methods:{
     subRealName(){
       realNameApi(this.realForm).then(res=>{
+        console.log(res)
         if(res.code==200){
           this.$router.push({
             path:'/about'
           })
         }
+      })
+    },
+    getRealNameInfo(){
+      getRealName().then(res=>{
+        console.log(res)
+        this.realNameInfo=res.data
+        console.log(this.realNameInfo)
       })
     }
   }
@@ -76,6 +90,7 @@ export default {
   /*justify-content: center;*/
   align-items: center;
   position: relative;
+  width: 100%;
 }
 .realName-header{
   margin-top: 5vh;
@@ -101,13 +116,13 @@ export default {
 .van-cell-group{
   background-color: #1F2058 ;
   border-radius: 2vh;
-  min-height: 20vh;
+  min-height: 15vh;
 
 }
 .van-cell{
   background: none;
-  min-height: 10vh;
-  line-height: 8vh;
+  min-height: 4vh;
+  line-height: 4vh;
 }
 [class*=van-hairline]::after{
   border: 0;
@@ -130,6 +145,12 @@ export default {
   font-size: 3.733333vw;
   width: 80%;
   border-radius: 2vh;
+}
+.van-field__control{
+  color: #f8f8f8;
+}
+.van-field__label{
+  color: #f8f8f8;
 }
 .van-button--default {
   color: #323233;

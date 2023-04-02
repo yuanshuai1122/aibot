@@ -46,11 +46,20 @@ export function getEditList(params) {
     hideloading: true
   })
 }
-// 获取创作列表
+// 认证实名信息
 export function realNameApi(data) {
   return request({
     url: api.RealName,
     method: 'post',
+    data:data,
+    hideloading: true
+  })
+}
+// 认证实名信息
+export function getRealName(data) {
+  return request({
+    url: api.GetReal,
+    method: 'get',
     data:data,
     hideloading: true
   })

@@ -21,7 +21,7 @@
     </div>
     <div class="container-footer">
       <van-cell title="我的订单" is-link to="index"/>
-      <van-cell title="我的认证" is-link to="realName" value="已认证" @click="toReal"/>
+      <van-cell title="我的认证" is-link :value="userForm.isRealName=='1'?'已认证':'未认证'" @click="toReal"/>
       <van-cell title="账号与安全" is-link to="index"/>
       <van-cell title="隐私设置" is-link to="index"/>
       <van-cell title="关于云网AI" is-link to="index"/>

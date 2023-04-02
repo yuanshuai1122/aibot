@@ -6,9 +6,9 @@
     </div>
     <div class="login-content">
       <van-cell-group class="content" :ref="rules">
-        <van-field type="number" label-width="6vh" class="field" v-model="logForm.account" label="手机号" placeholder="请输入11位手机号"
+        <van-field type="number" label-width="7vh" class="field" v-model="logForm.account" label="手机号" placeholder="请输入11位手机号"
                    oninput="if(value.length>11)value=value.slice(0,11)" />
-        <van-field label-width="6vh" class="field" v-model="logForm.verifyCode" label="验证码" placeholder="请输入验证码">
+        <van-field label-width="7vh" class="field" v-model="logForm.verifyCode" label="验证码" placeholder="请输入验证码">
           <template #button>
             <span
               v-show="show"
@@ -20,11 +20,11 @@
             <span v-show="!show" class="count">{{count}}s后重新获取</span>
           </template>
         </van-field>
-        <van-field label-width="6vh" class="field" v-model="passwordOne" label="密码" placeholder="请输入登录密码"/>
-        <van-field label-width="6vh" class="field" v-model="passwordTwo" label="密码" placeholder="请再次输入登录密码"
+        <van-field label-width="7vh" class="field" v-model="passwordOne" label="密码" placeholder="请输入登录密码"/>
+        <van-field label-width="7vh" class="field" v-model="passwordTwo" label="密码" placeholder="请再次输入登录密码"
                    @blur="checkPass()"/>
         <span v-show="toast" class="toast-text">两次输入不一致，请重新输入</span>
-        <van-field label-width="6vh" class="field" v-model="logForm.shareCode" label="邀请码" placeholder="请输入邀请码（选填）"/>
+        <van-field label-width="7vh" class="field" v-model="logForm.shareCode" label="邀请码" placeholder="请输入邀请码（选填）"/>
       </van-cell-group>
       <div style="display: flex;justify-content: center;align-items: center;margin-top: 2vh">
         <van-radio-group v-model="radio" @change="changeRadio">

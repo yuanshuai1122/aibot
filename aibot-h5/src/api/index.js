@@ -5,7 +5,8 @@ const api = {
   ChatSign:'/api/chat/sign',
   ChatStream:'/api/chat/stream',
   EditList:'/api/creation/list',
-  RealName:'/api/user/realname'
+  RealName:'/api/user/realname',
+  GetReal:'/api/user/realname/info'
 }
 
 export default api

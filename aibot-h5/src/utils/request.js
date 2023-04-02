@@ -36,17 +36,17 @@ service.interceptors.response.use(
     Toast.clear()
     const res = response.data
     if (res.status && res.status !== 200) {
-      if (res.status === 401) {
-        removeToken()
-      }
+
     } else {
       return Promise.resolve(res)
     }
   },
   error => {
     Toast.clear()
-    // 删除token
-    removeToken()
+    if (error.message.includes("401")) {
+      console.log("登录过期，删除本地缓存")
+      removeToken()
+    }
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }

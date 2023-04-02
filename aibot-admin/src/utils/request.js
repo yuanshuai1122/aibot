@@ -44,6 +44,7 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    console.log(response)
     // if (response.code == 401) {
     //   console.log("登录过期，删除本地缓存")
     //   removeToken()
@@ -52,11 +53,13 @@ service.interceptors.response.use(
     return Promise.resolve(response.data)
   },
   error => {
-    // console.log("登录过期，删除本地缓存")
-    // removeToken()
+    if (error.message.includes("401")) {
+      console.log("登录过期，删除本地缓存")
+      removeToken()
+    }
     console.log('err' + error) // for debug
     Message({
-      message: error.message,
+      message: "登录已失效，请刷新页面",
       type: 'error',
       duration: 5 * 1000
     })
