@@ -26,6 +26,11 @@ public class UserInfoVO {
    */
   private String nickname;
 
+  /**
+   * 是否实名
+   */
+  private Integer isRealName;
+
 
   // ...
 

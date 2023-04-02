@@ -44,7 +44,7 @@ public class ProductService {
   public ResponseResult<HashMap<String, Object>> productList(String productName, Integer pageNum, Integer pageSize) {
 
     MPJLambdaWrapper<Product> wrapper = new MPJLambdaWrapper<Product>()
-            .select(Product::getId, Product::getProductName, Product::getProductPrice, Product::getImgUrl, Product::getCount, Product::getPutStatus, Product::getProductDescription, Product::getCreateTime, Product::getUpdateTime)
+            .select(Product::getId, Product::getProductName,Product::getMiniPrice, Product::getProductPrice, Product::getImgUrl, Product::getCount, Product::getPutStatus, Product::getProductDescription, Product::getCreateTime, Product::getUpdateTime)
             .innerJoin(UserInfo.class, UserInfo::getUserId, Product::getTenantId)
             .selectAs(UserInfo::getNickName, ProductVO::getTenantName)
             .eq(Product::getPutStatus, 1)
@@ -81,7 +81,7 @@ public class ProductService {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "用户权限不足", null);
     }
 
-    Product product = new Product(dto.getId(),null,  dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), null, new Date());
+    Product product = new Product(dto.getId(),null,  dto.getProductName(), dto.getMiniPrice(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), null, new Date());
     int flag = productMapper.updateById(product);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.PRODUCT_UPDATE_FAILURE.getCode(), ResultCode.PRODUCT_UPDATE_FAILURE.getMsg());
@@ -99,7 +99,7 @@ public class ProductService {
 
     String tenantId = request.getAttribute("tenantId").toString();
 
-    Product product = new Product(null, Integer.parseInt(tenantId),dto.getProductName(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), new Date(), new Date());
+    Product product = new Product(null, Integer.parseInt(tenantId),dto.getProductName(), dto.getMiniPrice(), dto.getProductPrice(), dto.getImgUrl(), dto.getCount(), dto.getPutStatus(), dto.getProductDescription(), new Date(), new Date());
     int flag = productMapper.insert(product);
     if (flag <= 0) {
       return new ResponseResult<>(ResultCode.PRODUCT_CREATE_FAILURE.getCode(), ResultCode.PRODUCT_CREATE_FAILURE.getMsg());

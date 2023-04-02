@@ -25,9 +25,9 @@ import java.util.Map;
 @Slf4j
 public class SmsService {
 
-  private final String mtAppId = "";
+  private final String mtAppId = "cszh";
 
-  private final String mtSecretKey = "";
+  private final String mtSecretKey = "AT5SvyPYXB1fCp6s";
 
 
   /**

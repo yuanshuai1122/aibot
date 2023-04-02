@@ -3,6 +3,7 @@ package com.aibot;
 import com.aibot.beans.entity.User;
 import com.aibot.config.TenantIdManager;
 import com.aibot.mapper.UserMapper;
+import com.aibot.service.SystemService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ class AibotAdminServiceApplicationTests {
 
   @Autowired
   private UserMapper userMapper;
+
+  @Autowired
+  private SystemService systemService;
 
   @Test
   void contextLoads() {
@@ -38,6 +42,11 @@ class AibotAdminServiceApplicationTests {
     for (User user : userBeanList) {
       System.out.println(user);
     }
+  }
+
+  @Test
+  private void checkBilling() {
+    systemService.checkBilling("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");
   }
 
 }

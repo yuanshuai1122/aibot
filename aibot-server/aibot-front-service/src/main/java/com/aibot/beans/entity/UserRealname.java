@@ -23,11 +23,6 @@ public class UserRealname {
   private Integer id;
 
   /**
-   * 用户id
-   */
-  private Integer userId;
-
-  /**
    * 真实姓名
    */
   private String trueName;
@@ -36,11 +31,6 @@ public class UserRealname {
    * 身份证号
    */
   private String cerNumber;
-
-  /**
-   * 是否实名
-   */
-  private Integer isVerify;
 
   /**
    * 创建时间

@@ -61,6 +61,7 @@ public class MyBatisPlusConfig {
         list.add("user");
         list.add("product");
         list.add("user_orders");
+        list.add("creation_config");
         return !list.contains(tableName);
 
       }

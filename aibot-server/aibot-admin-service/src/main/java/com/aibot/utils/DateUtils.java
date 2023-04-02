@@ -1,8 +1,12 @@
 package com.aibot.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 日期工具类
@@ -141,6 +145,21 @@ public class DateUtils {
     cal.setTime(getCurrentYearStartTime());
     cal.add(Calendar.YEAR, -1);
     return cal.getTime();
+  }
+
+
+  // 获取今年是哪一年
+  public static Integer getNowYear() {
+    Date date = new Date();
+    GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
+    gc.setTime(date);
+    return Integer.valueOf(gc.get(1));
+  }
+
+  public static Date getStartOfYear() {
+    LocalDate now = LocalDate.now();
+    LocalDate yearStart = LocalDate.of(now.getYear(), Month.JANUARY, 1);
+    return Date.from(yearStart.atStartOfDay(ZoneId.systemDefault()).toInstant());
   }
 
 }

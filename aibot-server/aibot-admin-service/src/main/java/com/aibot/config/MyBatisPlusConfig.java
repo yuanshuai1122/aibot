@@ -66,6 +66,7 @@ public class MyBatisPlusConfig {
           list.add("user_orders");
           list.add("distribution_level_config");
           list.add("distribution_config");
+          list.add("creation_config");
         }
 
         return !list.contains(tableName);
