@@ -37,9 +37,10 @@ public class SmsService {
    */
   public ResponseResult<Object> smsSend(SmsSendDTO dto) {
 
-    Map params = new HashMap<>(1);
+    Map params = new HashMap<>();
     // 填充参数
     params.put("phoneNumber", dto.getPhone());
+    params.put("smsSignId", "0000");
 
     // 这里替换成您的 appId 和 secretKey
     String appId = mtAppId;
