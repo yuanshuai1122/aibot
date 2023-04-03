@@ -19,7 +19,8 @@
             <van-image width="32" height="32"
               :src="message.direction === 'received' ? targetAvatar : sourceAvatar" />
             <van-button class= "message-button" type="default" size="small">
-              <span class="message-span">{{ message.text }}</span>
+<!--              <span class="message-span">{{ message.text }}</span>-->
+              <span v-html="markdownToHtml(message.text)"></span>
             </van-button>
           </div>
         </div>
@@ -50,6 +51,7 @@ import VanImage from 'vant/lib/image'
 import 'vant/lib/image/style'
 import VanField from 'vant/lib/field'
 import 'vant/lib/field/style'
+import {marked} from 'marked'
 
 export default {
   name: 'Chat',
@@ -161,6 +163,11 @@ export default {
     },
     scrollToBottom () {
       this.$refs.contentContainer.scrollTop = Number.MAX_SAFE_INTEGER
+    },
+
+    // text转markdown方法
+    markdownToHtml(md) {
+      return marked(md);
     }
   }
 }

@@ -77,7 +77,7 @@ export default {
         // 提前创建好回复
         this.$refs.chat.appendNew(
           {
-            text: null,
+            text: "",
             time: new Date(),
             direction: 'received'
           }
