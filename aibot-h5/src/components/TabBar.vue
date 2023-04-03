@@ -1,7 +1,7 @@
 <template>
   <div>
-    <van-tabbar fixed route v-model="active" @change="handleChange">
-      <van-tabbar-item v-for="(item, index) in data" :to="item.to" :icon="item.icon" :key="index">
+    <van-tabbar class="tab-bar" fixed route v-model="active" @change="handleChange">
+      <van-tabbar-item class="tab-item" v-for="(item, index) in data" :to="item.to" :icon="item.icon" :key="index">
         {{ item.title }}
       </van-tabbar-item>
     </van-tabbar>
@@ -37,18 +37,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  height: 7vh;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
 }
 </style>

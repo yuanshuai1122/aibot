@@ -1,97 +1,87 @@
 <template>
-  <div class="app-container" >
-    <div class="chat-center" ref="QAContent">
-      <van-empty v-show="messageList.length==0" style="padding-top: 15vh" image="search" description="发送消息给AI" />
-      <div v-for="item in messageList" class="message-container" >
-        <van-cell :value="item.message">
-          <template #title>
-              <van-image
-                v-if="item.role=='user'"
-                style="margin: 1vh"
-                width="5vh"
-                height="5vh"
-                fit="contain"
-                :src="avatar"
-
-              />
-            <van-image
-              v-else
-              style="margin: 1vh"
-              width="5vh"
-              height="5vh"
-              fit="fill"
-              src="https://img01.yzcdn.cn/vant/cat.jpeg"
-            />
-          </template>
-        </van-cell>
-      </div>
-    </div>
-
-    <div class="chat-footer">
-      <van-cell-group style="background: none">
-        <van-field style="background: none" v-model="content" label="" placeholder="请输入" >
-          <template #button>
-            <van-button size="small" type="default" @click="sendBtn">发送</van-button>
-          </template>
-        </van-field>
-      </van-cell-group>
-
-    </div>
+  <div class="container">
+    <!-- 组件引入的方式，应提供双方的头像，加载历史消息的方式（函数）和发送消息的方式（函数） -->
+    <ChatBox ref="chat"
+      :sourceAvatar="sourceAvatar" :targetAvatar="targetAvatar"
+      :loadHistory="loadHistory" :sendMessage="sendMessage" />
   </div>
-
 </template>
 
 <script>
+import ChatBox from '../../components/chat'
+import { chatSign } from '@/api/message'
+import { EventSourcePolyfill } from 'event-source-polyfill'
+import { baseApi } from '@/config/env.development'
+import api from '@/api'
+import { getToken } from '@/utils/auth'
+//import '../../components/chat.css'
 
-import { getUserInfo } from "@/api/user.js";
-import { chatSign } from "@/api/message";
-import api from "@/api";
-import { baseApi } from "@/config/env.development";
-import { getToken } from "@/utils/auth";
-import { EventSourcePolyfill } from "event-source-polyfill";
 export default {
-  name: 'chat',
-  data(){
-    return{
-      //用户头像
-      avatar:'',
-      //用户输入内容
-      content:'',
-      //  用户发送
-      messageList:[
-      ],
-      userSend:'',
-      //  用户接受
-      userHear:'',
-      chatMessage: '',
+  name: 'ChatDemo',
+  components: {
+    ChatBox
+  },
+  data () {
+    return {
+      sourceAvatar: 'https://qianp.com/uploads/images/xiaz/2023/0104/1672816810529.jpg',
+      targetAvatar: 'https://i.pinimg.com/236x/d0/bc/43/d0bc4356568d3d01181d029b8b5caf28.jpg',
+      // 最后一个索引
       messageListIndex: null,
+      // 收集推流消息
+      chatMessage: "",
     }
   },
-  created(){
-    this.getUser()
-
-  },
-  mounted() {
-    this.scrollToBottom()
-  },
-  methods:{
-    //  获取用户详细信息
-    getUser(){
-      getUserInfo().then(res=>{
-        console.log(res)
-        this.avatar=res.data.avatar
-      })
+  methods: {
+    // 定义加载历史消息的方式，该函数应该返回一个对象（`{ messages, hasMore }`），或者是返回该对象的 Promise （异步）。
+    loadHistory () {
+      return {
+        // 消息数据，字段如下，应以时间的倒序给出。
+        messages: [
+          { text: "Really cute!", time: new Date(2020, 8, 4), direction: 'sent' },
+          { text: "Hey, I'm a bear!", time: new Date(2020, 7, 4), direction: 'received' },
+          { text: 'Hello, who are you?', time: new Date(2020, 7, 4), direction: 'sent' },
+        ],
+        // 定义是否还有历史消息，如果为 false，将停止加载。读者可将其改为 true 演示一下自动滚动更新的效果。
+        hasMore: false
+      }
     },
+
+    // 定义发送消息的方式。如果发送成功，应该返回成功发送的消息数据，或者 Promise.
+    sendMessage ({ text }) {
+      // 请求推流接口
+      const chatReq = {
+        prompt: text,
+        conversionId: ""
+      }
+      this.getMessage(chatReq)
+
+      return {
+        text,
+        time: new Date(),
+        direction: 'sent'
+      }
+
+    },
+
+    // 该函数演示如何加载新消息（一般通过 WebSocket 实时收取）
+    receiveMessage (message) {
+      this.$refs.chat.appendNew(message)
+    },
+
+    // 发送消息
     getMessage(data) {
       // 请求流式签名
       chatSign(data).then(res => {
         // 获取最后一个下标
-        this.messageListIndex = this.messageList.length
+        this.messageListIndex = this.$refs.chat.messages.length
         // 提前创建好回复
-        this.messageList.push({
-          role: 'chat',
-          message: ''
-        })
+        this.$refs.chat.appendNew(
+          {
+            text: null,
+            time: new Date(),
+            direction: 'received'
+          }
+        )
         // 开始推流
         const eventSource = new EventSourcePolyfill(baseApi + api.ChatStream + "?signKey=" + res.data, {
           headers: {
@@ -112,89 +102,23 @@ export default {
             eventSource.close()
             return
           }
+          console.log("2222")
           console.log(message.content);
+          console.log("3333")
           // 收集推流值
           this.chatMessage = this.chatMessage + message.content
           console.log(this.chatMessage);
           // 流式更新
-          this.messageList[this.messageListIndex].message = this.chatMessage
+          this.$refs.chat.messages[this.messageListIndex].text = this.chatMessage
         })
       })
     },
-    scrollToBottom() {
-      var _this=this;
-      this.$nextTick(function(){
-        var container = _this.$el.querySelector(".chat-center");
-        container.scrollTop = 999999999;
-      });
-    },
-
-    //用户发送
-    sendBtn(){
-      this.scrollToBottom()
-      const userMessage = this.content
-
-      const obj={
-        role: 'user',
-        message: userMessage
-      }
-      this.messageList.push(obj)
-      // this.userSend=this.content
-      this.content=''
-
-      // 请求推流接口
-      const chatReq = {
-        prompt: userMessage,
-        conversionId: ""
-      }
-      this.getMessage(chatReq)
-
-    },
-
-  },
+  }
 }
 </script>
 
-<style scoped>
-.chat-footer{
-  position: fixed;
-  bottom: 7vh;
-  width: 95%;
-  padding: 1vh 1vh 0 1vh;
-  background: none;
-}
-.van-cell{
-  width: 95%;
-  display: flex;
-  /*justify-content: center;*/
-  align-items: center;
-  /*height: 5vh;*/
-  border-radius: 1vh;
-  border: 0.1vh solid #cccccc;
-  padding: 1vh;
-  margin: 1vh;
-}
-.van-button{
-  border-radius: 1vh;
-  width: 8vh;
-}
-.app-container{
-  min-height: 90vh;
-}
-.chat-center{
-  min-height: 80vh;
-  overflow-y: auto
-  /*overflow: auto;*/
-}
-.van-cell__title, .van-cell__value {
-  -webkit-box-flex: 1;
-   -webkit-flex: 0;
-   flex: inherit;
-
-}
-.van-cell__value>span{
-  display: inline-block;
-  text-align: left;
-  word-break: break-all;
+<style lang="scss" scoped>
+.container {
+  height: 93vh;
 }
 </style>
