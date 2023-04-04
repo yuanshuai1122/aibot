@@ -1,5 +1,7 @@
 package com.aibot;
 
+import com.aibot.beans.dto.JourneyCreateDTO;
+import com.aibot.service.ImagesService;
 import com.aibot.utils.ValueUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Test {
 
-  @Autowired
-
   public static void main(String[] args) {
-    System.out.println(ValueUtils.getApiKey());
+
   }
 }

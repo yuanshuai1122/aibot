@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ChatApiService {
+public class ChatService {
 
   @Autowired
   private ChatApiKeyMapper chatApiKeyMapper;
