@@ -37,9 +37,9 @@ export default {
       return {
         // 消息数据，字段如下，应以时间的倒序给出。
         messages: [
-          { text: "Really cute!", time: new Date(2020, 8, 4), direction: 'sent' },
-          { text: "Hey, I'm a bear!", time: new Date(2020, 7, 4), direction: 'received' },
-          { text: 'Hello, who are you?', time: new Date(2020, 7, 4), direction: 'sent' },
+          // { text: "Really cute!", time: new Date(2020, 8, 4), direction: 'sent' },
+          { text: "我是AI机器人，请问有什么想要问我的吗？", time: new Date(2023, 4, 1), direction: 'received' },
+          // { text: 'Hello, who are you?', time: new Date(2020, 7, 4), direction: 'sent' },
         ],
         // 定义是否还有历史消息，如果为 false，将停止加载。读者可将其改为 true 演示一下自动滚动更新的效果。
         hasMore: false
@@ -119,6 +119,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  height: 93vh;
+  height: 81vh;
 }
 </style>

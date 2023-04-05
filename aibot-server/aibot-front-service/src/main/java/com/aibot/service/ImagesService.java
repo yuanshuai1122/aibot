@@ -34,24 +34,25 @@ public class ImagesService {
 
 
 
-
-
   public ResponseResult<JourneyCreateVO> journeyCreate(JourneyCreateDTO dto) {
+
+
+    HashMap<String, Object> hashMap = new HashMap<>();
+    hashMap.put("prompt", dto.getPrompt());
+    hashMap.put("width", dto.getWidth());
+    hashMap.put("height", dto.getHeight());
+    hashMap.put("num_outputs", dto.getNumOutputs());
+    hashMap.put("num_inference_steps", dto.getNumInferenceSteps());
+    hashMap.put("guidance_scale", dto.getGuidanceScale());
+    hashMap.put("seed", dto.getSeed());
+
 
     OkHttpUtils client = OkHttpUtils.builder();
     client.url(OPEN_JOURNEY_URL);
     client.addHeader("Content-Type", "application/json");
     client.addHeader("Authorization", "Token " + REPLICATE_API_TOKEN);
     client.addParam("version", "9936c2001faa2194a261c01381f90e65261879985476014a0a37a334593a05eb");
-    HashMap<String, Object> hashMap = new HashMap<>();
-    hashMap.put("prompt", dto.getPrompt());
     client.addParam("input", hashMap);
-    client.addParam("width", dto.getWidth());
-    client.addParam("height", dto.getHeight());
-    client.addParam("num_outputs",dto.getNumOutputs());
-    client.addParam("num_inference_steps", dto.getNumInferenceSteps());
-    client.addParam("guidance_scale", dto.getGuidanceScale());
-    client.addParam("seed", dto.getSeed());
     String sync = client.post(true).sync();
     System.out.println(sync);
 
