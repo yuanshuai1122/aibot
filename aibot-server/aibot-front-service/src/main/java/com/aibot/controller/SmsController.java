@@ -1,5 +1,6 @@
 package com.aibot.controller;
 
+import com.aibot.annotation.AccessLimit;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.SmsSendDTO;
 import com.aibot.service.SmsService;
@@ -28,6 +29,8 @@ public class SmsController {
 
 
   @PostMapping("/send")
+  //    表示此接口 3 秒内最大访问次数为 2，禁用时长为 40 秒
+  //@AccessLimit(second = 3, maxTime = 2, forbiddenTime = 40L)
   public ResponseResult<Object> smsSend(@RequestBody @Valid SmsSendDTO dto) {
 
     return smsService.smsSend(dto);

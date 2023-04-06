@@ -33,7 +33,6 @@ public class UserController {
     log.info("开始请求登录, account: {}", dto.getAccount());
 
     return userService.login(dto);
-
   }
 
   @PostMapping("/register")

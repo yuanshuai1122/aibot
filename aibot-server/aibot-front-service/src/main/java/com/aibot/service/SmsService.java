@@ -3,17 +3,23 @@ package com.aibot.service;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.SmsSendDTO;
 import com.aibot.constants.enums.ResultCode;
+import com.aibot.constants.enums.SmsTypeEnum;
 import com.aibot.utils.MtUtils;
+import com.aibot.utils.RedisKeyUtils;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 短信服务
@@ -29,6 +35,9 @@ public class SmsService {
 
   private final String mtSecretKey = "VT9xdDkGaHc3ZQyn";
 
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
+
 
   /**
    * 根据手机号发短信
@@ -37,10 +46,20 @@ public class SmsService {
    */
   public ResponseResult<Object> smsSend(SmsSendDTO dto) {
 
+    //  TODO 这里做防刷
+
+    // 获取短信类型
+    SmsTypeEnum typeEnum = SmsTypeEnum.search(dto.getType());
+    if (null == typeEnum) {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "非法短信类型");
+    }
+    // 获取模板code
+    String code = typeEnum.getCode();
+
     Map params = new HashMap<>();
     // 填充参数
     params.put("phoneNumber", dto.getPhone());
-    params.put("smsSignId", "0000");
+    params.put("smsSignId", code);
 
     // 这里替换成您的 appId 和 secretKey
     String appId = mtAppId;
@@ -79,6 +98,11 @@ public class SmsService {
       int statusCode = response.getStatusLine().getStatusCode();
       if(statusCode == 200){
         // 请求成功，可根据业务码（请求体中的code）进行逻辑处理
+        JSONObject jsonObject = JSON.parseObject(resStr);
+        String verifyCode = jsonObject.get("verificationCode").toString();
+        // 存redis
+        redisTemplate.opsForValue().set(RedisKeyUtils.getSmsVerifyKey(typeEnum.getType(), dto.getPhone()), verifyCode, 5, TimeUnit.MINUTES);
+        return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "短信发送成功", null);
       } else if(statusCode == 610){
         // 用户输入的参数问题，可直接提示用户
         return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "短信发送成功", null);
@@ -99,8 +123,6 @@ public class SmsService {
       log.info("发送短信出现异常, {}", e.toString());
       return new ResponseResult<>(ResultCode.SMS_SYSTEM_ERROR.getCode(), ResultCode.SMS_SYSTEM_ERROR.getMsg(), null);
     }
-
-    return new ResponseResult<>(ResultCode.SMS_FALIURE_ERROR.getCode(), ResultCode.SMS_FALIURE_ERROR.getMsg(), null);
 
   }
 }

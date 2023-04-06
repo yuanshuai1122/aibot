@@ -1,8 +1,10 @@
 package com.aibot.beans.dto;
 
+import com.aibot.constants.RegConstants;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * 注册DTO
@@ -16,7 +18,7 @@ public class RegisterDTO {
   /**
    * 账号
    */
-  @NotBlank
+  @Pattern(regexp = RegConstants.PHONE_REG)
   private String account;
 
   /**
@@ -33,6 +35,7 @@ public class RegisterDTO {
   /**
    * 短信验证码
    */
+  @NotBlank
   private String verifyCode;
 
 }

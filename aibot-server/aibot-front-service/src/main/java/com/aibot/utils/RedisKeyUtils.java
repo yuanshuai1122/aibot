@@ -9,20 +9,10 @@ package com.aibot.utils;
 public class RedisKeyUtils {
 
 
-  public static String getFlushKey(String ip) {
-    return "flush-".concat(ip);
+
+  public static String getSmsVerifyKey(String type, String phone) {
+    return "sms-".concat(type).concat("-").concat(phone);
   }
 
-  public static String getUserKey(String chatKey) {
-    return "user-".concat(chatKey);
-  }
-
-  public static String getChatKey(String chatKey) {
-    return "chatkey-".concat(chatKey);
-  }
-
-  public static String getLoginKey(String account) {
-    return "Login-".concat(account);
-  }
 
 }

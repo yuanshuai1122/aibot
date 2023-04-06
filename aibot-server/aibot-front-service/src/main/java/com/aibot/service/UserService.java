@@ -4,9 +4,12 @@ import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
+import com.aibot.constants.LoginTypeConstants;
+import com.aibot.constants.enums.SmsTypeEnum;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.*;
 import com.aibot.utils.JwtUtil;
+import com.aibot.utils.RedisKeyUtils;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -67,6 +70,8 @@ public class UserService {
 
     // TODO 这里记得做防刷
 
+    String referer = request.getHeader("referer");
+
     // 查询租户
     String serverName = request.getServerName();
     log.info("登录域名：{}", serverName);
@@ -78,14 +83,46 @@ public class UserService {
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "站点异常，请联系管理员");
     }
 
-    // 查询数据库
-    User user = userMapper.selectUserLogin(dto.getAccount(), dto.getPassword(), tenantInfo.getTenantId());
-    // 用户不存在
-    if (null == user) {
-      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
-    }
-    if (user.getStatus() == 1) {
-      return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
+    User user = null;
+
+    // 短信登录
+    if (LoginTypeConstants.LOGIN_SMS.equals(dto.getType())) {
+      if (StringUtils.isBlank(dto.getVerifyCode())) {
+        return new ResponseResult<>(ResultCode.PARAM_IS_INVAlID.getCode(), ResultCode.SMS_PARAMS_ERROR.getMsg());
+      }
+      // 验证短信验证码
+      String code = redisTemplate.opsForValue().get(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.LOGIN.getType(), dto.getAccount()));
+      if (StringUtils.isBlank(code) || !code.equals(dto.getVerifyCode())) {
+        return new ResponseResult<>(ResultCode.FAILED.getCode(), "短信验证码错误", null);
+      }
+      // 删除短信验证码
+      redisTemplate.delete(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.LOGIN.getType(), dto.getAccount()));
+
+      user = userMapper.selectUserLoginSMS(dto.getAccount(), tenantInfo.getTenantId());
+      if (null == user) {
+        return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
+      }
+      if (user.getStatus() == 1) {
+        return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
+      }
+
+    }else if (LoginTypeConstants.LOGIN_PASSWORD.equals(dto.getType())) {
+      // 账密登录
+      if (StringUtils.isBlank(dto.getPassword())) {
+        return new ResponseResult<>(ResultCode.PARAM_IS_INVAlID.getCode(), ResultCode.SMS_PARAMS_ERROR.getMsg());
+      }
+      // 查询数据库
+      user = userMapper.selectUserLogin(dto.getAccount(), dto.getPassword(), tenantInfo.getTenantId());
+      // 用户不存在
+      if (null == user) {
+        return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
+      }
+      if (user.getStatus() == 1) {
+        return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
+      }
+
+    }else {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "非法登录类型", null);
     }
 
     // 返回token
@@ -98,6 +135,14 @@ public class UserService {
    * @return 注册结果
    */
   public ResponseResult<String> register(RegisterDTO dto) {
+
+    // 验证验证码
+    String code = redisTemplate.opsForValue().get(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.REGISTER.getType(), dto.getAccount()));
+    if (StringUtils.isBlank(code) || !dto.getVerifyCode().equals(code)) {
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "短信验证码错误", null);
+    }
+    // 删除短信验证码
+    redisTemplate.delete(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.REGISTER.getType(), dto.getAccount()));
 
     // 获取站点租户id
     int tenantId = Integer.parseInt(request.getAttribute("tenantId").toString());

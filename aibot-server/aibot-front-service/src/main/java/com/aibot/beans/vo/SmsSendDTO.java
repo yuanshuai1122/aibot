@@ -1,8 +1,10 @@
 package com.aibot.beans.vo;
 
+import com.aibot.constants.RegConstants;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * 发短信dto
@@ -13,7 +15,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class SmsSendDTO {
 
-  @NotBlank
+  @Pattern(regexp = RegConstants.PHONE_REG)
   private String phone;
+
+  @NotBlank
+  private String type;
 
 }

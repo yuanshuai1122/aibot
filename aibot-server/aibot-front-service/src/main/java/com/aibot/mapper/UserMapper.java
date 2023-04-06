@@ -27,4 +27,14 @@ public interface UserMapper extends MPJBaseMapper<User> {
   @InterceptorIgnore(tenantLine = "true")
   User selectUserLogin(@Param("account") String account, @Param("password") String password, @Param("tenantId") Integer tenantId);
 
+
+  /**
+   * 登录绕过租户
+   * @param account 账号
+   * @return
+   */
+  @Select("select * from user where account = #{account} and tenant_id = #{tenantId}")
+  @InterceptorIgnore(tenantLine = "true")
+  User selectUserLoginSMS(@Param("account") String account, @Param("tenantId") Integer tenantId);
+
 }
