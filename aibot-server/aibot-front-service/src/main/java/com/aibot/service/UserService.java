@@ -5,6 +5,7 @@ import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.LoginTypeConstants;
+import com.aibot.constants.RegConstants;
 import com.aibot.constants.enums.SmsTypeEnum;
 import com.aibot.constants.enums.UserRoleEnum;
 import com.aibot.mapper.*;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 用户服务
@@ -70,13 +73,23 @@ public class UserService {
 
     // TODO 这里记得做防刷
 
-    String referer = request.getHeader("referer");
+    String url = request.getHeader("referer");
+    if (StringUtils.isBlank(url)) {
+      log.info("租户不存在，请联系管理员");
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "站点异常");
+    }
+    log.info("请求url为： {}", url);
+    String domain = "";
+    Pattern p = Pattern.compile(RegConstants.URL_REG);
+    Matcher m = p.matcher(url);
+    if (m.find()) {
+      domain = m.group(1);
+    }
 
     // 查询租户
-    String serverName = request.getServerName();
-    log.info("登录域名：{}", serverName);
+    log.info("登录域名：{}", domain);
     QueryWrapper<TenantInfo> wrapper = new QueryWrapper<>();
-    wrapper.lambda().eq(TenantInfo::getTenantHost, serverName);
+    wrapper.lambda().eq(TenantInfo::getTenantHost, domain);
     TenantInfo tenantInfo = tenantInfoMapper.selectOne(wrapper);
     log.info("租户信息: {}", tenantInfo);
     if (null == tenantInfo) {

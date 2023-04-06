@@ -3,6 +3,7 @@ package com.aibot.filter;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.entity.TenantInfo;
 import com.aibot.config.TenantIdManager;
+import com.aibot.constants.RegConstants;
 import com.aibot.mapper.TenantInfoMapper;
 import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
@@ -10,6 +11,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * JWT过滤器，拦截 /secure的请求
@@ -76,12 +80,22 @@ public class JwtFilter implements Filter {
       }
 
       // 获取请求url
-      String serverName = request.getServerName();
-      log.info("请求url为： {}", serverName);
+      String url = request.getHeader("referer");
+      if (StringUtils.isBlank(url)) {
+        log.info("租户不存在，请联系管理员");
+        return;
+      }
+      log.info("请求url为： {}", url);
+      String domain = "";
+      Pattern p = Pattern.compile(RegConstants.URL_REG);
+      Matcher m = p.matcher(url);
+      if (m.find()) {
+        domain = m.group(1);
+      }
 
       // 查询站点租户id
       QueryWrapper<TenantInfo> wrapper = new QueryWrapper<>();
-      wrapper.lambda().eq(TenantInfo::getTenantHost, serverName);
+      wrapper.lambda().eq(TenantInfo::getTenantHost, domain);
       TenantInfo tenantInfo = tenantInfoMapper.selectOne(wrapper);
       if (null == tenantInfo) {
         response401(response, "站点异常，请稍后再试");
