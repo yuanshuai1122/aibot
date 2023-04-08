@@ -11,7 +11,7 @@ import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +47,7 @@ public class JwtFilter implements Filter {
   public void init(FilterConfig filterConfig) throws ServletException {
   }
 
+  @SneakyThrows
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     final HttpServletRequest request = (HttpServletRequest) req;
@@ -139,7 +140,7 @@ public class JwtFilter implements Filter {
   /**
    * 无需转发，直接返回Response信息
    */
-  private void response401(ServletResponse resp, String msg) {
+  private void response401(ServletResponse resp, String msg) throws CommonException {
     HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
     httpServletResponse.setStatus(401);
     httpServletResponse.setCharacterEncoding("UTF-8");

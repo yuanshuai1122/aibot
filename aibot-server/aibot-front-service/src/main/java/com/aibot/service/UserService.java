@@ -160,6 +160,7 @@ public class UserService {
     // 验证验证码
     String code = redisTemplate.opsForValue().get(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.REGISTER.getType(), dto.getAccount()));
     if (StringUtils.isBlank(code) || !dto.getVerifyCode().equals(code)) {
+      log.info("注册失败：短信验证码错误，account:{}", dto.getAccount());
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "短信验证码错误", null);
     }
     // 删除短信验证码
@@ -175,6 +176,7 @@ public class UserService {
       Integer shareId = ShareCodeUtils.codeToId(dto.getShareCode());
       User shareUser = userMapper.selectById(shareId);
       if (null == shareUser) {
+        log.info("注册失败：推广码不存在，account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getCode(), ResultCode.USER_REGISTER_SHARE_CODE_NOT_EXIT.getMsg());
       }
       userParentId = shareUser.getId();
@@ -187,6 +189,7 @@ public class UserService {
     User user = userMapper.selectOne(wrapper);
     // 已经注册
     if (null != user) {
+      log.info("注册失败：用户已经注册，account:{}", dto.getAccount());
       return new ResponseResult<>(ResultCode.USER_REGISTER_REPEAT.getCode(), ResultCode.USER_REGISTER_REPEAT.getMsg());
     }
 
@@ -218,6 +221,7 @@ public class UserService {
     UserMoney userMoney = new UserMoney(null, registerUser.getId(), new BigDecimal(0), new Date(), new Date());
     userMoneyMapper.insert(userMoney);
 
+    log.info("注册成功，account:{}", dto.getAccount());
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "注册成功");
   }
 

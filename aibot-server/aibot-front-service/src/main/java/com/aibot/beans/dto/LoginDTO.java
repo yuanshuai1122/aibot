@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @Data
 public class LoginDTO {
 
-  @Pattern(regexp = RegConstants.PHONE_REG)
+  @NotBlank
   private String account;
 
   private String password;

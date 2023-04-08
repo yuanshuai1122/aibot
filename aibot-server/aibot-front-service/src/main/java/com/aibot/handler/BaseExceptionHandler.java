@@ -33,9 +33,9 @@ public class BaseExceptionHandler {
 //            // 登录凭证token已经失效
 //            return new ResponseResult(ResultCode.TOKEN_LOSE_EFFICACY.getCode(), ResultCode.TOKEN_LOSE_EFFICACY.getMsg());
 //        }
-//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHORISE.getMsg())) {
+//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHORISED.getMsg())) {
 //            // 访问权限不足
-//            return new ResponseResult(ResultCode.UNAUTHORISE.getCode(), ResultCode.UNAUTHORISE.getMsg());
+//            return new ResponseResult(ResultCode.UNAUTHORISED.getCode(), ResultCode.UNAUTHORISED.getMsg());
 //        }
 //        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.REQUEST_METHOD_NOT_SUPPORT.message())) {
 //            // 不支持的请求方法类型

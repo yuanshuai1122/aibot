@@ -33,6 +33,7 @@ public class SmsController {
   //@AccessLimit(second = 3, maxTime = 2, forbiddenTime = 40L)
   public ResponseResult<Object> smsSend(@RequestBody @Valid SmsSendDTO dto) {
 
+    log.info("开始发送短信，phone:{}, type: {}", dto.getPhone(), dto.getType());
     return smsService.smsSend(dto);
   }
 
