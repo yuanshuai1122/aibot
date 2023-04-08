@@ -36,7 +36,8 @@ export default {
     return{
       logForm:{
       account: "",
-      password: ""
+      password: "",
+      type: "PASSWORD"
       },
       radio:"",
       radioChange:false

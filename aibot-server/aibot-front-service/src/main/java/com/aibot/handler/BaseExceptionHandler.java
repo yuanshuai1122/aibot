@@ -25,17 +25,17 @@ public class BaseExceptionHandler {
 //            // 请求参数缺失
 //            return new Result(ResultCode.REQUEST_PARARMETER_MISS);
 //        }
-//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHENTICATED.message())) {
+//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHENTICATED.getMsg())) {
 //            // 未登录/token非法
-//            return new Result(ResultCode.UNAUTHENTICATED);
+//            return new ResponseResult(ResultCode.UNAUTHENTICATED.getCode(), ResultCode.UNAUTHENTICATED.getMsg());
 //        }
-//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.TOKEN_LOSE_EFFICACY.message())) {
+//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.TOKEN_LOSE_EFFICACY.getMsg())) {
 //            // 登录凭证token已经失效
-//            return new Result(ResultCode.TOKEN_LOSE_EFFICACY);
+//            return new ResponseResult(ResultCode.TOKEN_LOSE_EFFICACY.getCode(), ResultCode.TOKEN_LOSE_EFFICACY.getMsg());
 //        }
-//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHORISE.message())) {
+//        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.UNAUTHORISE.getMsg())) {
 //            // 访问权限不足
-//            return new Result(ResultCode.UNAUTHORISE);
+//            return new ResponseResult(ResultCode.UNAUTHORISE.getCode(), ResultCode.UNAUTHORISE.getMsg());
 //        }
 //        if (exception.getMessage() != null && exception.getMessage().equals(ResultCode.REQUEST_METHOD_NOT_SUPPORT.message())) {
 //            // 不支持的请求方法类型
@@ -50,7 +50,7 @@ public class BaseExceptionHandler {
             return new ResponseResult(10001, exception.getMessage(), false);
         }
         // 请求失败
-        return new ResponseResult(ResultCode.FAILED.getCode(), ResultCode.FAILED.getMsg());
+        return new ResponseResult(ResultCode.FAILED.getCode(), "请求失败");
     }
 
 

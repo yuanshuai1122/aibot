@@ -44,6 +44,9 @@ public enum ResultCode {
    * 用户访问某个接口过于频繁--接口防刷
    */
   ACCESS_FREQUENT(50001, "访问过于频繁"),
+  UNAUTHORISE(50002, "访问权限不足"),
+  UNAUTHENTICATED(50003, "未登录/token非法"),
+  TOKEN_LOSE_EFFICACY(50004, "登录凭证token已经失效"),
   SERVER_ERROR(99999, "抱歉，系统繁忙，请稍后重试！");
 
 

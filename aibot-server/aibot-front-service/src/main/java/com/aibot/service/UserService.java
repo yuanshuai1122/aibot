@@ -71,8 +71,6 @@ public class UserService {
    */
   public ResponseResult<String> login(LoginDTO dto) {
 
-    // TODO 这里记得做防刷
-
     String url = request.getHeader("referer");
     if (StringUtils.isBlank(url)) {
       log.info("租户不存在，请联系管理员");
@@ -100,12 +98,15 @@ public class UserService {
 
     // 短信登录
     if (LoginTypeConstants.LOGIN_SMS.equals(dto.getType())) {
+      log.info("短信登录开始, account: {}, verifyCode:{}", dto.getAccount(), dto.getVerifyCode());
       if (StringUtils.isBlank(dto.getVerifyCode())) {
+        log.info("短信登录失败：短信验证码为空, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.PARAM_IS_INVAlID.getCode(), ResultCode.SMS_PARAMS_ERROR.getMsg());
       }
       // 验证短信验证码
       String code = redisTemplate.opsForValue().get(RedisKeyUtils.getSmsVerifyKey(SmsTypeEnum.LOGIN.getType(), dto.getAccount()));
       if (StringUtils.isBlank(code) || !code.equals(dto.getVerifyCode())) {
+        log.info("短信登录失败：短信验证码错误, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.FAILED.getCode(), "短信验证码错误", null);
       }
       // 删除短信验证码
@@ -113,32 +114,39 @@ public class UserService {
 
       user = userMapper.selectUserLoginSMS(dto.getAccount(), tenantInfo.getTenantId());
       if (null == user) {
+        log.info("短信登录失败：用户不存在, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
       }
       if (user.getStatus() == 1) {
+        log.info("短信登录失败：用户账号被封停, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
       }
 
     }else if (LoginTypeConstants.LOGIN_PASSWORD.equals(dto.getType())) {
       // 账密登录
       if (StringUtils.isBlank(dto.getPassword())) {
+        log.info("账密登录失败：密码为空, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.PARAM_IS_INVAlID.getCode(), ResultCode.SMS_PARAMS_ERROR.getMsg());
       }
       // 查询数据库
       user = userMapper.selectUserLogin(dto.getAccount(), dto.getPassword(), tenantInfo.getTenantId());
       // 用户不存在
       if (null == user) {
+        log.info("账密登录失败：用户不存在, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), ResultCode.USER_LOGIN_ERROR.getMsg());
       }
       if (user.getStatus() == 1) {
+        log.info("账密登录失败：用户账号被封停, account:{}", dto.getAccount());
         return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "登录失败，账号状态异常");
       }
 
     }else {
+      log.info("登录失败：非法登录类型, account:{}", dto.getAccount());
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "非法登录类型", null);
     }
 
     // 返回token
+    log.info("登录成功, account:{}", dto.getAccount());
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
   }
 

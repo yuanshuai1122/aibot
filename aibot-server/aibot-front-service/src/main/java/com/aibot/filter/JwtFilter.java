@@ -4,6 +4,8 @@ import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.entity.TenantInfo;
 import com.aibot.config.TenantIdManager;
 import com.aibot.constants.RegConstants;
+import com.aibot.constants.enums.ResultCode;
+import com.aibot.exception.CommonException;
 import com.aibot.mapper.TenantInfoMapper;
 import com.aibot.utils.JwtUtil;
 import com.alibaba.fastjson2.JSON;
@@ -69,13 +71,13 @@ public class JwtFilter implements Filter {
     else {
 
       if (token == null) {
-        response401(response, "请登录");
+        response401(response, "未登录/token非法");
         return;
       }
 
       Map<String, Claim> userData = JwtUtil.verifyToken(token);
       if (userData == null) {
-        response401(response, "登录已失效，请重新登录");
+        response401(response, "登录凭证token已经失效");
         return;
       }
 
@@ -145,7 +147,7 @@ public class JwtFilter implements Filter {
     PrintWriter out = null;
     try {
       out = httpServletResponse.getWriter();
-      String data = JSON.toJSONString(new ResponseResult<String>(401, "无权访问(Unauthorized):" + msg, null));
+      String data = JSON.toJSONString(new ResponseResult<String>(401, msg, null));
       out.append(data);
     } catch (IOException e) {
       log.error(e.getMessage());
