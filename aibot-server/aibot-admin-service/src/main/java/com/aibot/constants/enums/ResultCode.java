@@ -31,8 +31,14 @@ public enum ResultCode {
   PRODUCT_CREATE_FAILURE(304, "新增商品信息失败"),
 
 
-
-  VISIT_OUT_TIMES(401,"访问频繁，请稍后再试")
+  /**
+   * 用户访问某个接口过于频繁--接口防刷
+   */
+  ACCESS_FREQUENT(50001, "访问过于频繁"),
+  UNAUTHORISED(403, "访问权限不足"),
+  UNAUTHENTICATED(401, "未登录/token非法"),
+  TOKEN_LOSE_EFFICACY(401, "登录凭证token已经失效"),
+  SERVER_ERROR(99999, "抱歉，系统繁忙，请稍后重试！");
 
 
   ;
