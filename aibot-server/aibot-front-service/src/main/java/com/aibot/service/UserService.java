@@ -71,18 +71,21 @@ public class UserService {
    */
   public ResponseResult<String> login(LoginDTO dto) {
 
-    String url = request.getHeader("referer");
-    if (StringUtils.isBlank(url)) {
-      log.info("租户不存在，请联系管理员");
-      return new ResponseResult<>(ResultCode.FAILED.getCode(), "站点异常");
-    }
-    log.info("请求url为： {}", url);
-    String domain = "";
-    Pattern p = Pattern.compile(RegConstants.URL_REG);
-    Matcher m = p.matcher(url);
-    if (m.find()) {
-      domain = m.group(1);
-    }
+    //String url = request.getHeader("referer");
+    //if (StringUtils.isBlank(url)) {
+    //  log.info("租户不存在，请联系管理员");
+    //  return new ResponseResult<>(ResultCode.FAILED.getCode(), "站点异常");
+    //}
+    //log.info("请求url为： {}", url);
+    //String domain = "";
+    //Pattern p = Pattern.compile(RegConstants.URL_REG);
+    //Matcher m = p.matcher(url);
+    //if (m.find()) {
+    //  domain = m.group(1);
+    //}
+
+    // 这里写死localhost
+    String domain = "localhost";
 
     // 查询租户
     log.info("登录域名：{}", domain);

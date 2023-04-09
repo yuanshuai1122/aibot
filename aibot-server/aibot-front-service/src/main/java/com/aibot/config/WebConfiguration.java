@@ -1,6 +1,7 @@
 package com.aibot.config;
 
 import com.aibot.interceptor.AccessLimintInterceptor;
+import com.aibot.interceptor.JwtInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.Resource;
 
 /**
  * @author: Zero
@@ -28,13 +31,23 @@ public class WebConfiguration implements WebMvcConfigurer {
         return new AccessLimintInterceptor();
     }
 
+    @Resource
+    private JwtInterceptor jwtInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(createAccessLimintInterceptor())
                 .addPathPatterns("/**");
-//                .addPathPatterns("/pass/post")
-//                .addPathPatterns("/refuse/get")
-//                .addPathPatterns("/refuse/post");
+        // 注册拦截器，要声明拦截器对象和要拦截的请求
+        registry.addInterceptor(jwtInterceptor)
+                //所有路径都被拦截
+                .addPathPatterns("/**")
+                // 登录
+                .excludePathPatterns("/user/login")
+                // 注册
+                .excludePathPatterns("/user/register")
+                // 发短信
+                .excludePathPatterns("/sms/send");
     }
 
     /**

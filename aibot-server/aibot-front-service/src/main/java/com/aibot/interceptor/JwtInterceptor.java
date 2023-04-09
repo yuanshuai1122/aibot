@@ -1,6 +1,5 @@
-package com.aibot.filter;
+package com.aibot.interceptor;
 
-import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.entity.TenantInfo;
 import com.aibot.config.TenantIdManager;
 import com.aibot.constants.RegConstants;
@@ -8,33 +7,30 @@ import com.aibot.constants.enums.ResultCode;
 import com.aibot.exception.CommonException;
 import com.aibot.mapper.TenantInfoMapper;
 import com.aibot.utils.JwtUtil;
-import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.Claim;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * JWT过滤器，拦截 /secure的请求
+ * jwt拦截器
  *
  * @author: yuanshuai
- * @create: 2023-03-20 11:35
+ * @create: 2023-04-09 15:12
  */
+@Component
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = "/*", asyncSupported = true)
-public class JwtFilter implements Filter {
+public class JwtInterceptor implements HandlerInterceptor {
+
 
   @Autowired
   private TenantIdManager tenantIdManager;
@@ -42,16 +38,9 @@ public class JwtFilter implements Filter {
   @Autowired
   private TenantInfoMapper tenantInfoMapper;
 
-
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
-  }
-
-  @SneakyThrows
-  @Override
-  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-    final HttpServletRequest request = (HttpServletRequest) req;
-    final HttpServletResponse response = (HttpServletResponse) res;
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+          throws Exception {
 
     response.setCharacterEncoding("UTF-8");
     //获取 header里的token
@@ -59,34 +48,26 @@ public class JwtFilter implements Filter {
 
     if ("OPTIONS".equals(request.getMethod())) {
       response.setStatus(HttpServletResponse.SC_OK);
-      chain.doFilter(request, response);
-    }
-
-    // 如果是白名单路径，直接继续执行
-    if (isPermitted(request.getRequestURI())) {
-      response.setStatus(HttpServletResponse.SC_OK);
-      chain.doFilter(request, response);
+      return true;
     }
 
     // Except OPTIONS, other request should be checked by JWT
     else {
 
       if (token == null) {
-        response401(response, "未登录/token非法");
-        return;
+        throw new CommonException(ResultCode.UNAUTHENTICATED);
       }
 
       Map<String, Claim> userData = JwtUtil.verifyToken(token);
       if (userData == null) {
-        response401(response, "登录凭证token已经失效");
-        return;
+        throw new CommonException(ResultCode.TOKEN_LOSE_EFFICACY);
       }
 
       // 获取请求url
       String url = request.getHeader("referer");
       if (StringUtils.isBlank(url)) {
         log.info("租户不存在，请联系管理员");
-        return;
+        throw new CommonException(ResultCode.UNAUTHORISED);
       }
       log.info("请求url为： {}", url);
       String domain = "";
@@ -96,13 +77,15 @@ public class JwtFilter implements Filter {
         domain = m.group(1);
       }
 
+      // TODO 这里写死localhost 为了测试
+      domain = "localhost";
+
       // 查询站点租户id
       QueryWrapper<TenantInfo> wrapper = new QueryWrapper<>();
       wrapper.lambda().eq(TenantInfo::getTenantHost, domain);
       TenantInfo tenantInfo = tenantInfoMapper.selectOne(wrapper);
       if (null == tenantInfo) {
-        response401(response, "站点异常，请稍后再试");
-        return;
+        throw new CommonException(ResultCode.UNAUTHORISED);
       }
 
       Integer id = userData.get("id").asInt();
@@ -124,39 +107,11 @@ public class JwtFilter implements Filter {
       request.setAttribute("shareCode", shareCode);
       request.setAttribute("role", role);
       request.setAttribute("tenantId", tenantId);
-      chain.doFilter(req, res);
+      return true;
     }
-  }
 
-  @Override
-  public void destroy() {
-  }
 
-  /** 判断是否为白名单路径 **/
-  private boolean isPermitted(String requestURI) {
-    return requestURI.endsWith("/user/login") || requestURI.endsWith("/user/register") || requestURI.endsWith("/sms/send");
-  }
 
-  /**
-   * 无需转发，直接返回Response信息
-   */
-  private void response401(ServletResponse resp, String msg) throws CommonException {
-    HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-    httpServletResponse.setStatus(401);
-    httpServletResponse.setCharacterEncoding("UTF-8");
-    httpServletResponse.setContentType("application/json; charset=utf-8");
-    PrintWriter out = null;
-    try {
-      out = httpServletResponse.getWriter();
-      String data = JSON.toJSONString(new ResponseResult<String>(401, msg, null));
-      out.append(data);
-    } catch (IOException e) {
-      log.error(e.getMessage());
-    } finally {
-      if (out != null) {
-        out.close();
-      }
-    }
   }
 
 }

@@ -30,9 +30,6 @@ public enum ResultCode {
   PRODUCT_NOT_FOUND(302, "商品不存在"),
   PRODUCT_NOT_PERMIT(303, "商品库存不足或已下架"),
 
-
-  VISIT_OUT_TIMES(401,"访问频繁，请稍后再试"),
-
   /* 短信错误 */
   SMS_PARAMS_ERROR(610, "发送短信失败：用户输入的参数有误"),
   SMS_DATA_ERROR(611, "发送短信失败：系统准备的数据出现问题"),
@@ -46,9 +43,9 @@ public enum ResultCode {
    * 用户访问某个接口过于频繁--接口防刷
    */
   ACCESS_FREQUENT(50001, "访问过于频繁"),
-  UNAUTHORISED(50002, "访问权限不足"),
-  UNAUTHENTICATED(50003, "未登录/token非法"),
-  TOKEN_LOSE_EFFICACY(50004, "登录凭证token已经失效"),
+  UNAUTHORISED(403, "访问权限不足"),
+  UNAUTHENTICATED(401, "未登录/token非法"),
+  TOKEN_LOSE_EFFICACY(401, "登录凭证token已经失效"),
   SERVER_ERROR(99999, "抱歉，系统繁忙，请稍后重试！");
 
 
