@@ -1,17 +1,24 @@
 package com.aibot.service;
 
+import com.aibot.beans.dto.UpdateKeyStatusDTO;
+import com.aibot.beans.entity.ChatApiKey;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.ChatApiKeyVO;
 import com.aibot.beans.vo.CheckBillingVO;
 import com.aibot.constants.enums.ResultCode;
+import com.aibot.mapper.ChatApiKeyMapper;
 import com.aibot.utils.DateUtils;
 import com.aibot.utils.OkHttpUtils;
 import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统服务
@@ -31,6 +38,9 @@ public class SystemService {
   private static final String URL_USAGE = "https://api.openai.com/v1/dashboard/billing/usage";
   // 格式化
   private static final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+  @Autowired
+  private ChatApiKeyMapper chatApiKeyMapper;
 
   public ResponseResult<CheckBillingVO> checkBilling(String apiKey) {
 
@@ -64,5 +74,51 @@ public class SystemService {
 
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", checkBilling);
+  }
+
+  /**
+   * 获取api的key列表
+   * @return api的key列表
+   */
+  public ResponseResult<List<ChatApiKeyVO>> keyList() {
+
+    List<ChatApiKey> chatApiKeys = chatApiKeyMapper.selectList(null);
+
+    ArrayList<ChatApiKeyVO> apiKeys = new ArrayList<>();
+    for (ChatApiKey chatApiKey : chatApiKeys) {
+      ChatApiKeyVO chatApiKeyVO = new ChatApiKeyVO();
+      chatApiKeyVO.setId(chatApiKey.getId());
+      chatApiKeyVO.setApiKey(chatApiKey.getApiKey());
+      chatApiKeyVO.setAccount(chatApiKey.getAccount());
+      if (chatApiKey.getStatus() == 0) {
+        chatApiKeyVO.setStatus(true);
+      }
+
+      apiKeys.add(chatApiKeyVO);
+    }
+
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", apiKeys);
+  }
+
+  /**
+   * 更新key状态
+   * @param dto key状态dto
+   * @return
+   */
+  public ResponseResult<Object> updateKeyStatus(UpdateKeyStatusDTO dto) {
+
+    ChatApiKey chatApiKey = new ChatApiKey();
+    chatApiKey.setId(dto.getId());
+    if (dto.getStatus()) {
+      chatApiKey.setStatus(0);
+    }else {
+      chatApiKey.setStatus(1);
+    }
+
+    chatApiKeyMapper.updateById(chatApiKey);
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "更新成功", null);
+
   }
 }

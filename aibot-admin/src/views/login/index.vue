@@ -50,8 +50,8 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import {login} from "@/api/user.js"
-import { setToken } from '@/utils/auth'
+import { getLoginRole, login } from '@/api/user.js'
+import { setRole, setToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
 export default {
@@ -113,6 +113,11 @@ export default {
             message: '登录成功',
             type: 'success',
             duration: 5 * 1000
+          })
+          getLoginRole().then(res=>{
+            console.log(res)
+            // 设置role的cookie
+            setRole(res.data)
           })
           this.$router.push({
             path:'/dashboard'

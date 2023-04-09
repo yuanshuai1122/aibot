@@ -2,6 +2,7 @@ package com.aibot.controller;
 
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class UserController {
   public ResponseResult<String> userRole() {
 
     return userService.userRole();
+  }
+
+
+  @GetMapping("/login/info")
+  public ResponseResult<UserInfoVO> info() {
+    return userService.info();
   }
 
 }

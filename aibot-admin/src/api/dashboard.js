@@ -8,3 +8,11 @@ export function getDataList(params) {
     params
   })
 }
+
+// 获取登录信息
+export function getLoginInfo() {
+  return request({
+    url: '/user/login/info',
+    method: 'get'
+  })
+}

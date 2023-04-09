@@ -8,7 +8,7 @@ export function login(data) {
   })
 }
 //获取权限
-export function getRole(data) {
+export function getLoginRole(data) {
   return request({
     url: '/user/role',
     method: 'get',

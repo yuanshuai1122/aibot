@@ -33,13 +33,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getDataList } from '@/api/dashboard'
+import { getDataList, getLoginInfo } from '@/api/dashboard'
 
 export default {
   name: 'Dashboard',
   data(){
     return{
-      dataInfo:{}
+      dataInfo:{},
     }
   },
   computed: {
@@ -51,11 +51,12 @@ export default {
     this.getInfo()
   },
   methods:{
+    // 获取首页信息
     getInfo(){
       getDataList().then(res=>{
         this.dataInfo=res.data
       })
-    }
+    },
 
   },
 }

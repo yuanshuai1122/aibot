@@ -2,12 +2,15 @@ package com.aibot.service;
 
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.entity.*;
+import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.beans.vo.UserList;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.constants.enums.UserRoleEnum;
+import com.aibot.mapper.UserInfoMapper;
 import com.aibot.mapper.UserMapper;
 import com.aibot.mapper.UserRelationMapper;
 import com.aibot.utils.JwtUtil;
+import com.aibot.utils.ValueUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -39,6 +42,9 @@ public class UserService {
   @Autowired
   private UserRelationMapper userRelationMapper;
 
+  @Autowired
+  private UserInfoMapper userInfoMapper;
+
 
   /**
    * 用户登录服务
@@ -55,6 +61,9 @@ public class UserService {
     }
     if (user.getStatus() != 0) {
       return new ResponseResult<>(ResultCode.USER_LOGIN_ERROR.getCode(), "账号状态异常，登录失败");
+    }
+    if (!user.getRole().equals(UserRoleEnum.SUPER_ADMIN.getRole()) && !user.getRole().equals(UserRoleEnum.CHANNEL.getRole())) {
+      return new ResponseResult<>(ResultCode.UNAUTHORISED.getCode(), ResultCode.UNAUTHORISED.getMsg());
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "登录成功", JwtUtil.createToken(user));
@@ -100,4 +109,32 @@ public class UserService {
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", role);
 
   }
+
+  /**
+   * 获取登录用户信息
+   * @return 登录用户信息
+   */
+  public ResponseResult<UserInfoVO> info() {
+
+    QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(UserInfo::getUserId, Integer.parseInt(request.getAttribute("id").toString()));
+    UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+    if (null == userInfo) {
+      return new ResponseResult<>(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMsg());
+    }
+
+    UserInfoVO userInfoVO = new UserInfoVO();
+    userInfoVO.setAvatar(userInfo.getAvatar());
+    userInfoVO.setAccount(ValueUtils.getMaskAccount(request.getAttribute("account").toString()));
+    userInfoVO.setNickname(userInfo.getNickName());
+    if (StringUtils.isNotBlank(userInfo.getTrueName()) && StringUtils.isNotBlank(userInfo.getCerNumber())) {
+      userInfoVO.setIsRealName(1);
+    }else {
+      userInfoVO.setIsRealName(0);
+    }
+
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", userInfoVO);
+  }
+
 }

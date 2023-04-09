@@ -13,3 +13,20 @@ export function setToken(token) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+
+
+
+// 角色cookie
+const RoleKey = 'ROLE'
+
+export function getRole() {
+  return Cookies.get(RoleKey)
+}
+
+export function setRole(role) {
+  return Cookies.set(RoleKey, role)
+}
+
+export function removeRole() {
+  return Cookies.remove(RoleKey)
+}

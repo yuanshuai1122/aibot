@@ -19,6 +19,12 @@
         align="center">
       </el-table-column>
       <el-table-column
+        prop="tenantName"
+        label="所属商户"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
         prop="productName"
         label="商品名称"
         width="180"
