@@ -9,10 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="aibot-admin-service" />
         <module name="aibot-front-service" />
-        <module name="aibot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="aibot-center-service" target="17" />
       <module name="aibot-server" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -20,6 +20,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="aibot" options="-parameters" />
       <module name="aibot-admin-service" options="-parameters" />
+      <module name="aibot-center-service" options="-parameters" />
       <module name="aibot-front-service" options="-parameters" />
       <module name="aibot-server" options="-parameters" />
     </option>

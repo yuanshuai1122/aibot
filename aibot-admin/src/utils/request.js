@@ -45,24 +45,22 @@ service.interceptors.response.use(
    */
   response => {
     console.log(response)
-    // if (response.code == 401) {
-    //   console.log("登录过期，删除本地缓存")
-    //   removeToken()
-    // }
+    if (response.data.code == 401) {
+      console.log("登录过期，删除本地缓存")
+      removeToken()
+      // 提示语
+      Message({
+        message: "登录已失效，请刷新页面",
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
 
     return Promise.resolve(response.data)
   },
   error => {
-    if (error.message.includes("401")) {
-      console.log("登录过期，删除本地缓存")
-      removeToken()
-    }
+
     console.log('err' + error) // for debug
-    Message({
-      message: "登录已失效，请刷新页面",
-      type: 'error',
-      duration: 5 * 1000
-    })
     return Promise.reject(error)
   }
 )

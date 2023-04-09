@@ -25,6 +25,11 @@
         align="center">
       </el-table-column>
       <el-table-column
+        prop="miniPrice"
+        label="商品底价"
+        align="center">
+      </el-table-column>
+      <el-table-column
         prop="productPrice"
         label="商品价格"
         align="center">
