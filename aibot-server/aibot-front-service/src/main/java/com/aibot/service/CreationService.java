@@ -27,11 +27,19 @@ public class CreationService {
   private CreationConfigMapper creationConfigMapper;
 
 
-  public ResponseResult<List<CreationVO>> creationList() {
+  /**
+   * 根据类型id获取创作列表
+   *
+   * @param typeId 类型ID
+   * @return {@link ResponseResult}<{@link List}<{@link CreationVO}>>
+   */
+  public ResponseResult<List<CreationVO>> creationList(Integer typeId) {
 
     MPJLambdaWrapper<CreationConfig> wrapper = new MPJLambdaWrapper<CreationConfig>()
             .select(CreationConfig::getId, CreationConfig::getTitle, CreationConfig::getDes, CreationConfig::getImgUrl, CreationConfig::getUseCount, CreationConfig::getWordCount, CreationConfig::getKeywords)
-            .eq(CreationConfig::getStatus, 0);
+            .eq(CreationConfig::getStatus, 0)
+            .eq(CreationConfig::getTypeId, typeId)
+            ;
 
     List<CreationVO> creations = creationConfigMapper.selectJoinList(CreationVO.class, wrapper);
 

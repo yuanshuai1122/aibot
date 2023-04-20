@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,10 +27,16 @@ public class CreationController {
   private CreationService creationService;
 
 
+  /**
+   * 根据类型id获取创作列表
+   *
+   * @param typeId 类型ID
+   * @return {@link ResponseResult}<{@link List}<{@link CreationVO}>>
+   */
   @GetMapping("/list")
-  public ResponseResult<List<CreationVO>> creationList() {
+  public ResponseResult<List<CreationVO>> creationList(@RequestParam("typeId") Integer typeId) {
 
-    return creationService.creationList();
+    return creationService.creationList(typeId);
 
   }
 

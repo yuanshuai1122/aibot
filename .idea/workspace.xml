@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d42bf3f-f619-44ce-84d0-08de02d2bbe2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aibot-server/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-server/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +48,7 @@
       <updated>1679815518741</updated>
       <workItem from="1679815522105" duration="40000" />
       <workItem from="1679844947281" duration="18000" />
+      <workItem from="1681028821588" duration="1000" />
     </task>
     <servers />
   </component>
@@ -64,6 +65,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

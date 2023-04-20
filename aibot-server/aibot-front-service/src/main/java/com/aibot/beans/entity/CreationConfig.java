@@ -24,6 +24,11 @@ public class CreationConfig {
   private Integer tenantId;
 
   /**
+   * 类型ID
+   */
+  private Integer typeId;
+
+  /**
    * 标题
    */
   private String title;
