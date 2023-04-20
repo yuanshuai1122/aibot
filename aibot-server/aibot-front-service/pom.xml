@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.aibot</groupId>
-    <artifactId>front</artifactId>
+    <artifactId>aibot-front-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>aibot-front</name>
     <description>aibot服务端</description>
