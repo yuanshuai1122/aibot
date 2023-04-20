@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 下单商品dto
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 17:55
  */
 @Data

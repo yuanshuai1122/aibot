@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 生成图片dto
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 14:27
  */
 @Data

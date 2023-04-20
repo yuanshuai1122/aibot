@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 分销等级Mapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-31 18:17
  */
 @Mapper

@@ -3,7 +3,7 @@ package com.aibot.constants;
 /**
  * 登录类型
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-06 14:39
  */
 public class LoginTypeConstants {

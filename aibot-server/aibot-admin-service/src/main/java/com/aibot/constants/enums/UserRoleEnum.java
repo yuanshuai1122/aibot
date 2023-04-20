@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * 用户角色枚举
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-26 20:36
  */
 @Getter

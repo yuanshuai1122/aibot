@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * chat普通版
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-15 09:47
  */
 @Data

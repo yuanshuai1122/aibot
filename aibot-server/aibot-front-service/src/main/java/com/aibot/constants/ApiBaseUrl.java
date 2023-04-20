@@ -3,7 +3,7 @@ package com.aibot.constants;
 /**
  * chat的baseUrl
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 14:01
  */
 public class ApiBaseUrl {

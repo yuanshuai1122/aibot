@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 生成图片返回体
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 15:01
  */
 @Data

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 失败日志mapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-24 20:39
  */
 @Mapper

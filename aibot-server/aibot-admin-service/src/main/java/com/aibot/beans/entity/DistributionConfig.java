@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 分销配置表
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-31 18:12
  */
 @Data

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 添加渠道商
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 21:41
  */
 @Data

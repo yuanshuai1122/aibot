@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 更新chat的key
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-25 22:28
  */
 @Data

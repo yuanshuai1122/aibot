@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 分销服务
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-31 18:20
  */
 @Service

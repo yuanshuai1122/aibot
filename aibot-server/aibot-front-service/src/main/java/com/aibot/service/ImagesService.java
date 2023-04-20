@@ -21,7 +21,7 @@ import java.util.HashMap;
 /**
  * 图片处理服务
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 14:36
  */
 @Service

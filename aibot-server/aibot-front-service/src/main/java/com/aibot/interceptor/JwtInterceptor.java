@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * jwt拦截器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 15:12
  */
 @Component

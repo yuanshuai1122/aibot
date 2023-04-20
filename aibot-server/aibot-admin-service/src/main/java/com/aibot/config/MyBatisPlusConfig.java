@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * mp分页插件
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-28 17:29
  */
 @Configuration

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 分销配置mapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-31 18:15
  */
 @Mapper

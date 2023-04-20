@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * jwt
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-27 22:20
  */
 public class JwtUtil {

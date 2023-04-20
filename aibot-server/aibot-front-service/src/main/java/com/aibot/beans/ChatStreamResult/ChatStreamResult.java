@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * ChatStreamResult
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-08 22:14
  */
 @Data

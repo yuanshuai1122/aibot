@@ -20,7 +20,7 @@ import java.util.HashMap;
 /**
  * 渠道商控制器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 19:35
  */
 @Slf4j

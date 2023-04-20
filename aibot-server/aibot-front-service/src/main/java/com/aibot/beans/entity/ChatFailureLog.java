@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * chat失败日志表
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-24 20:35
  */
 @Getter

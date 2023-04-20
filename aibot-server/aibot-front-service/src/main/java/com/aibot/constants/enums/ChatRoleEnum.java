@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * chat角色枚举
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-14 12:09
  */
 @Getter
