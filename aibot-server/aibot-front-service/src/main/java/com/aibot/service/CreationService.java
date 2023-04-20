@@ -1,10 +1,13 @@
 package com.aibot.service;
 
 import com.aibot.beans.entity.CreationConfig;
+import com.aibot.beans.entity.CreationTypeConfig;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.CreationTypeVO;
 import com.aibot.beans.vo.CreationVO;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.mapper.CreationConfigMapper;
+import com.aibot.mapper.CreationTypeConfigMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,9 @@ public class CreationService {
   @Autowired
   private CreationConfigMapper creationConfigMapper;
 
+  @Autowired
+  private CreationTypeConfigMapper creationTypeConfigMapper;
+
 
   /**
    * 根据类型id获取创作列表
@@ -44,6 +50,22 @@ public class CreationService {
     List<CreationVO> creations = creationConfigMapper.selectJoinList(CreationVO.class, wrapper);
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", creations);
+
+  }
+
+  /**
+   * 创建类型列表
+   *
+   * @return {@link ResponseResult}<{@link List}<{@link CreationVO}>>
+   */
+  public ResponseResult<List<CreationTypeVO>> creationTypeList() {
+
+    MPJLambdaWrapper<CreationTypeConfig> wrapper = new MPJLambdaWrapper<CreationTypeConfig>()
+            .select(CreationTypeConfig::getId, CreationTypeConfig::getCreationType)
+            ;
+    List<CreationTypeVO> creationTypes = creationTypeConfigMapper.selectJoinList(CreationTypeVO.class, wrapper);
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", creationTypes);
 
   }
 }

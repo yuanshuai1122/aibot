@@ -1,6 +1,8 @@
 package com.aibot.controller;
 
+import com.aibot.beans.entity.CreationTypeConfig;
 import com.aibot.beans.entity.ResponseResult;
+import com.aibot.beans.vo.CreationTypeVO;
 import com.aibot.beans.vo.CreationVO;
 import com.aibot.service.CreationService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,19 @@ public class CreationController {
   public ResponseResult<List<CreationVO>> creationList(@RequestParam("typeId") Integer typeId) {
 
     return creationService.creationList(typeId);
+
+  }
+
+
+  /**
+   * 创建类型列表
+   *
+   * @return {@link ResponseResult}<{@link List}<{@link CreationTypeVO}>>
+   */
+  @GetMapping("/type/list")
+  public ResponseResult<List<CreationTypeVO>> creationTypeList() {
+
+    return creationService.creationTypeList();
 
   }
 
