@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 商品控制器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-29 10:16
  */
 @RestController

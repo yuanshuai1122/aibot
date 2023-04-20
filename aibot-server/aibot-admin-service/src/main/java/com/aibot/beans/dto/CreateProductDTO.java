@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * 商品实体
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 18:05
  */
 @Data

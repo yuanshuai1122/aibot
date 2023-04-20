@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 请求工具类
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 22:59
  */
 public class RequestUtils {

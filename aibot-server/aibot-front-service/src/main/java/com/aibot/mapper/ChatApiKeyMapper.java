@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * chat api key mapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-24 20:52
  */
 @Mapper

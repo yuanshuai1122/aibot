@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * chat返回值实体
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-08 20:49
  */
 @Data

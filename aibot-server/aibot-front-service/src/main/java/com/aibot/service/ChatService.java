@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 /**
  * chatGPT api版本服务
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-08 16:55
  */
 @Service

@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99e14ed7-dc25-4f7e-a577-88f96da853f9" name="Changes" comment="后台管理统一异常处理">
-      <change beforePath="$PROJECT_DIR$/../aibot-admin/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../aibot-admin/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/aibot-admin-service/src/main/java/com/aibot/utils/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +43,9 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="wm3ijr7l" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -72,12 +76,12 @@
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="19" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/aibot-front-service/doc" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3229885" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.other" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -149,13 +153,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
+    <configuration name="AiBotFrontServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="front" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.aibot.AiBotFrontServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -179,6 +179,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AibotAdminServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="admin" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.aibot.AibotAdminServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AibotAdminServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="aibot-admin-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.aibot.AibotAdminServiceApplication" />
@@ -188,17 +195,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Test" />
-      <item itemvalue="JUnit.All in front" />
       <item itemvalue="JUnit.AibotAdminServiceApplicationTests.checkBilling" />
-      <item itemvalue="Spring Boot.AibotAdminServiceApplication" />
+      <item itemvalue="JUnit.All in front" />
       <item itemvalue="Spring Boot.AiBotFrontServiceApplication" />
+      <item itemvalue="Spring Boot.AibotAdminServiceApplication" />
+      <item itemvalue="Spring Boot.AiBotFrontServiceApplication (1)" />
+      <item itemvalue="Spring Boot.AibotAdminServiceApplication (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Test" />
-        <item itemvalue="JUnit.AibotAdminServiceApplicationTests.checkBilling" />
         <item itemvalue="JUnit.All in front" />
-        <item itemvalue="Spring Boot.AiBotFrontServiceApplication" />
+        <item itemvalue="JUnit.AibotAdminServiceApplicationTests.checkBilling" />
+        <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>
@@ -242,6 +250,9 @@
       <workItem from="1680767144686" duration="2991000" />
       <workItem from="1680786003865" duration="1424000" />
       <workItem from="1680962275277" duration="13335000" />
+      <workItem from="1681135077069" duration="2230000" />
+      <workItem from="1681992082999" duration="436000" />
+      <workItem from="1681992527417" duration="112000" />
     </task>
     <task id="LOCAL-00001" summary="代码调试优化">
       <created>1679821084867</created>
@@ -462,7 +473,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

@@ -8,7 +8,7 @@ import lombok.*;
 /**
  * 用户关系表
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-21 12:04
  */
 @Getter

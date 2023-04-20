@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * chat的api列表
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-24 20:51
  */
 @Data

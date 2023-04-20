@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 /**
  * 发短信dto
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-27 11:48
  */
 @Data

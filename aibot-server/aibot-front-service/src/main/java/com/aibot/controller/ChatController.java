@@ -16,7 +16,7 @@ import javax.validation.Valid;
 /**
  * chatgpt的api版控制器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-06 11:58
  */
 @RestController

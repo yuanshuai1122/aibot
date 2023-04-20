@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 用户信息表
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-27 11:19
  */
 @Data

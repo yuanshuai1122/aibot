@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 租户信息
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-01 15:09
  */
 @Data

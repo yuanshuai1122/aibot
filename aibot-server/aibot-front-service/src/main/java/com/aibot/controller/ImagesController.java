@@ -21,7 +21,7 @@ import javax.validation.Valid;
 /**
  * 图片控制器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-04 20:45
  */
 @RestController

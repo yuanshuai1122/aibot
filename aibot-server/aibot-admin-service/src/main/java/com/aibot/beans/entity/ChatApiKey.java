@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * api的key管理
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 17:57
  */
 @Data

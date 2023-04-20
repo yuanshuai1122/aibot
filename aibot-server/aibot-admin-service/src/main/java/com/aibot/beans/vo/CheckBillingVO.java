@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * 检查额度vo
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-02 15:18
  */
 @Data

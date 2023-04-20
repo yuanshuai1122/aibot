@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * api的keyMapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 17:59
  */
 @Mapper

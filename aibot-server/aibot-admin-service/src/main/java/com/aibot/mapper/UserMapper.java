@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * 用户mapper
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-20 11:50
  */
 @Mapper

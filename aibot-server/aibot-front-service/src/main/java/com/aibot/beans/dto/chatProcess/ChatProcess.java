@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * chat流式dto
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-06 17:31
  */
 @Data

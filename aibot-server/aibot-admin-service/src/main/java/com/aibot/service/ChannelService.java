@@ -27,7 +27,7 @@ import java.util.HashMap;
 /**
  * 渠道商服务
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-09 19:37
  */
 @Service

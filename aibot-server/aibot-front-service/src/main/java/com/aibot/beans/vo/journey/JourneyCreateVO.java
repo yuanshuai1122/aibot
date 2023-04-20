@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 创建journey
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-04-04 21:13
  */
 @Data

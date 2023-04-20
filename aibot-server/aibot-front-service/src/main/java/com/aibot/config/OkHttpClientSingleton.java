@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient;
 /**
  * okhttp客户端
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-23 22:24
  */
 public class OkHttpClientSingleton {

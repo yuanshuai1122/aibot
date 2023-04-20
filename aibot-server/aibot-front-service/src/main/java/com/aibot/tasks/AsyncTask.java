@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 /**
  * 异步任务
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-15 18:25
  */
 @Component

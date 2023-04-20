@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 统计控制器
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-31 21:59
  */
 @RestController

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 敏感词日志
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-14 11:58
  */
 @Getter

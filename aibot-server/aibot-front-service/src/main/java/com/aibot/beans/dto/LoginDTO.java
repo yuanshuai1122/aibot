@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 /**
  * 登录DTO
  *
- * @author: yuanshuai
+ * @author: aabb
  * @create: 2023-03-20 11:41
  */
 @Data
