@@ -62,6 +62,7 @@ public class MyBatisPlusConfig {
         list.add("product");
         list.add("user_orders");
         list.add("creation_config");
+        list.add("creation_type_config");
         return !list.contains(tableName);
 
       }

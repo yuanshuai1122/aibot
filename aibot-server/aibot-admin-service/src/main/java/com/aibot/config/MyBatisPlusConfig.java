@@ -67,6 +67,7 @@ public class MyBatisPlusConfig {
           list.add("distribution_level_config");
           list.add("distribution_config");
           list.add("creation_config");
+          list.add("creation_type_config");
         }
 
         return !list.contains(tableName);
