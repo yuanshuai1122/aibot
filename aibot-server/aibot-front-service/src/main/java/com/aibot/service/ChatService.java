@@ -1,5 +1,6 @@
 package com.aibot.service;
 
+import com.aibot.config.ChatExecutorConfig;
 import com.alibaba.fastjson2.JSON;
 import com.aibot.beans.ChatResult.ChatResult;
 import com.aibot.beans.dto.ChatCommonDTO;
@@ -34,28 +35,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class ChatService {
-
-  @Autowired
-  private ChatApiKeyMapper chatApiKeyMapper;
-
-  /**
-   * String Buffer
-   */
-  private volatile StringBuffer chatMessageBuffer = new StringBuffer("");
-
-  /**
-   * 会话id
-   */
-  private volatile String conversionId;
-
-  /**
-   * 消息id
-   */
-  private volatile String messageId;
-
-  @Autowired
-  private AsyncTaskExecutePool asyncTaskExecutePool;
-
+  
   @Autowired
   private AsyncTask asyncTask;
 

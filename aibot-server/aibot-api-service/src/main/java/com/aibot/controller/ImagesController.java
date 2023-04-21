@@ -6,6 +6,7 @@ import com.aibot.beans.dto.entity.ResponseResult;
 import com.aibot.beans.dto.vo.ImagesUrlCreateVO;
 import com.aibot.beans.dto.vo.journey.JourneyCreateVO;
 import com.aibot.beans.dto.vo.journey.JourneyResultVO;
+import com.aibot.config.sign.Signature;
 import com.aibot.service.ImagesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,14 @@ public class ImagesController {
 
 
   @PostMapping("/journey/create")
+  @Signature
   public ResponseResult<JourneyCreateVO> journeyCreateDTO(@RequestBody @Valid JourneyCreateDTO dto) {
     log.info("开始请求图片生成， dto: {}", dto);
     return imagesService.journeyCreate(dto);
   }
 
   @GetMapping("/journey/create")
+  @Signature
   public ResponseResult<JourneyResultVO> journeyCreateDTO(@RequestParam("id") String id) {
 
     return imagesService.getJourney(id);
@@ -42,6 +45,7 @@ public class ImagesController {
 
 
   @PostMapping("/gpt/create")
+  @Signature
   public ResponseResult<ImagesUrlCreateVO> imagesCreate(@RequestBody @Valid ImagesCreateDTO dto) {
     log.info("开始请求图片生成， dto: {}", dto);
     return imagesService.imagesCreate(dto);
