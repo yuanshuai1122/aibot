@@ -144,7 +144,7 @@ public class ChatService {
     ChatSuccessLog chatSuccessLog = new ChatSuccessLog(null, Integer.parseInt(request.getAttribute("id").toString()), ChatRoleEnum.USER.getRole(), ValueUtils.getMessageUUID(), signKey, new Gson().toJson(process.getPrompt()), new Date());
     asyncTask.setChatLog(chatSuccessLog);
     // 放入缓存队列
-    redisTemplate.opsForValue().set(signKey, new Gson().toJson(chatSuccessLog), 5, TimeUnit.MINUTES);
+    redisTemplate.opsForValue().set(signKey, new Gson().toJson(chatSuccessLog), 50, TimeUnit.MINUTES);
 
     // 返回key
     log.info("请求chatSign结束, 返回值key: {}", signKey);

@@ -2,16 +2,25 @@ package com.aibot.service;
 
 import com.aibot.beans.dto.entity.ChatApiKey;
 import com.aibot.beans.dto.entity.ChatFailureLog;
+import com.aibot.beans.dto.entity.ChatResult.ChatResult;
 import com.aibot.beans.dto.entity.ChatStreamResult.ChatStreamResult;
+import com.aibot.beans.dto.entity.ChatSuccessLog;
+import com.aibot.beans.dto.entity.ResponseResult;
+import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
 import com.aibot.beans.dto.vo.ChatStreamVO;
 import com.aibot.config.AsyncTaskExecutePool;
 import com.aibot.config.OkHttpClientSingleton;
 import com.aibot.constants.ApiBaseUrl;
+import com.aibot.enums.ChatRoleEnum;
+import com.aibot.enums.ResultCode;
 import com.aibot.mapper.ChatApiKeyMapper;
 import com.aibot.mapper.ChatSuccessLogMapper;
 import com.aibot.tasks.AsyncTask;
+import com.aibot.utils.OkHttpUtils;
 import com.aibot.utils.RequestUtils;
+import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
@@ -116,7 +125,7 @@ public class ChatService {
     Request req = new Request.Builder()
             .url(ApiBaseUrl.BASE_CHAT_URL)
             .headers(Headers.of(headers))
-            .post(RequestBody.create(JSON.toJSONString(data), MediaType.parse("application/json")))
+            .post(RequestBody.create(new Gson().toJson(data), MediaType.parse("application/json")))
             .build();
     log.info("构建请求request: {}", req);
 
@@ -171,6 +180,42 @@ public class ChatService {
 
     // 返回 SseEmitter 实例
     return emitter;
+  }
+
+
+
+  public ResponseResult<ChatResult> chatCommon(ChatProcess dto) {
+
+    try {
+      log.info("用户: {}",  dto.getPrompt());
+      OkHttpUtils client = OkHttpUtils.builder();
+
+      client.url(ApiBaseUrl.BASE_CHAT_URL);
+      client.addHeader("Content-Type", "application/json");
+      client.addHeader("Authorization", "Bearer " + "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");
+      client.addParam("model", "gpt-3.5-turbo");
+      client.addParam("messages", dto.getPrompt());
+      String sync = client.post(true).sync();
+      ChatResult chatResult = JSON.parseObject(sync, ChatResult.class);
+      System.out.println(chatResult);
+
+
+      // 插入用户提问到数据库
+      log.info("user: {}", dto.getPrompt());
+      ChatSuccessLog userChat = new ChatSuccessLog(null, 1, ChatRoleEnum.USER.getRole(), ValueUtils.getMessageUUID(), chatResult.getId(), new Gson().toJson(dto.getPrompt()), new Date());
+      chatSuccessLogMapper.insert(userChat);
+
+      // 插入到数据库
+      log.info("chat: {}",  chatResult.getChoices().get(0).getMessage().getContent());
+      ChatSuccessLog chatSuccessLog = new ChatSuccessLog(null, 1, ChatRoleEnum.ASSISTANT.getRole(), chatResult.getId(),  chatResult.getId(), chatResult.getChoices().get(0).getMessage().getContent(), new Date());
+      chatSuccessLogMapper.insert(chatSuccessLog);
+
+      return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "请求成功", chatResult);
+    }catch (Exception e) {
+      log.info(e.toString());
+      return null;
+    }
+
   }
 
 

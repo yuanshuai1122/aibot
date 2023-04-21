@@ -1,5 +1,8 @@
 package com.aibot.controller;
 
+import com.aibot.beans.dto.entity.ChatResult.ChatResult;
+import com.aibot.beans.dto.entity.ResponseResult;
+import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
 import com.aibot.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -25,11 +28,11 @@ public class ChatController {
     this.chatService = chatService;
   }
 
-  //@PostMapping("/chat")
-  //public ResponseResult<ChatResult> chatCommon(@RequestBody ChatCommonDTO dto) {
-  //  log.info("开始请求chat：{}", dto);
-  //  return chatApiService.chatCommon(dto);
-  //}
+  @PostMapping("/sync")
+  public ResponseResult<ChatResult> chatCommon(@RequestBody ChatProcess dto) {
+    log.info("开始请求chat：{}", dto);
+    return chatService.chatCommon(dto);
+  }
 
 
   @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

@@ -50,7 +50,7 @@ public class RequestUtils {
     Map<String, Object> data = new HashMap<>();
     data.put("model", "gpt-3.5-turbo");
     data.put("stream", true);
-    data.put("max_tokens", 1024);
+    //data.put("max_tokens", 1024);
     //data.put("temperature", 0.5);
     data.put("messages", chatSuccessLog.getContent());
     return data;
