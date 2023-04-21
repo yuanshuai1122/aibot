@@ -1,4 +1,4 @@
-package com.aibot.beans.dto.chatProcess;
+package com.aibot.beans.dto.entity.chatProcess;
 
 import lombok.Data;
 

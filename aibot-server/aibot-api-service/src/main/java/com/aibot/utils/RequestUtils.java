@@ -1,5 +1,14 @@
 package com.aibot.utils;
 
+import com.aibot.beans.dto.entity.ChatSuccessLog;
+import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
+import com.aibot.beans.dto.entity.chatProcess.ChatPrompt;
+import com.alibaba.fastjson2.JSON;
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +18,7 @@ import java.util.Map;
  * @author: aabb
  * @create: 2023-03-23 22:59
  */
+@Slf4j
 public class RequestUtils {
 
   /**
@@ -25,21 +35,24 @@ public class RequestUtils {
     return headers;
   }
 
+
   /**
-   * 生成请求体
-   * @param key 缓存key
-   * @return
+   * 构建请求参数
+   *
+   * @param value 价值
+   * @return {@link Map}<{@link String}, {@link Object}>
    */
-  public static Map<String, Object> buildRequestParams(String key) {
+  public static Map<String, Object> buildRequestParams(String value) {
+
+    ChatSuccessLog chatSuccessLog = new Gson().fromJson(value, ChatSuccessLog.class);
+    log.info("解析请求消息, messages:{}", chatSuccessLog.getContent());
 
     Map<String, Object> data = new HashMap<>();
     data.put("model", "gpt-3.5-turbo");
     data.put("stream", true);
-    data.put("max_tokens", 256);
+    data.put("max_tokens", 1024);
     //data.put("temperature", 0.5);
-
-    // 从缓存中获取请求消息
-
+    data.put("messages", chatSuccessLog.getContent());
     return data;
   }
 

@@ -59,8 +59,8 @@ public class BaseExceptionHandler {
      *
      * @return
      */
-    @ExceptionHandler(value = Exception.class)
-    public ResponseResult error() {
-        return new ResponseResult(ResultCode.SERVER_ERROR.getCode(), ResultCode.SERVER_ERROR.getMsg());
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public ResponseResult error() {
+//        return new ResponseResult(ResultCode.SERVER_ERROR.getCode(), ResultCode.SERVER_ERROR.getMsg());
+//    }
 }

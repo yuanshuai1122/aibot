@@ -12,8 +12,17 @@ import java.util.List;
  * @create: 2023-03-06 17:31
  */
 @Data
-public class ChatProcess {
+public class ChatPrompt {
 
-  private List<ChatPrompt> prompt;
+  /**
+   * 角色
+   */
+  private String role;
+
+
+  /**
+   * 内容
+   */
+  private String content;
 
 }

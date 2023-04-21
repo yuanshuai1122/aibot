@@ -42,11 +42,4 @@ public class ChatController {
     return chatService.chatSign(process);
   }
 
-  @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public SseEmitter chatStream(@RequestParam("signKey") String signKey) {
-    log.info("开始请求chat(Stream版), key: {}", signKey);
-    return chatService.chatStream(signKey);
-  }
-
-
 }

@@ -81,6 +81,13 @@ public class ChatService {
    */
   public SseEmitter chatStream(String signKey) {
 
+    // 从缓存中获取请求消息
+    String value = redisTemplate.opsForValue().get(signKey);
+    if (StringUtils.isBlank(value)) {
+      log.info("缓存中没查询到请求消息, key:{}", signKey);
+      return null;
+    }
+
     // new SseEmitter timeout设置为0表示不超时
     SseEmitter emitter = new SseEmitter();
     log.info("创建SseEmitter, {}", emitter);
@@ -95,7 +102,7 @@ public class ChatService {
     log.info("构建请求头, headers: {}", headers);
 
     // 构建请求体
-    Map<String, Object> data = RequestUtils.buildRequestParams(signKey);
+    Map<String, Object> data = RequestUtils.buildRequestParams(value);
 
     log.info("构建请求体, data: {}", data);
 
@@ -118,6 +125,7 @@ public class ChatService {
       try (Response response = okHttpClient.newCall(req).execute()) {
         log.info("开始推流......");
         ResponseBody responseBody = response.body();
+        log.info("responseBody:{}", response);
         if (response.isSuccessful() && responseBody != null) {
           // 读取 SSE 事件流数据并发送给客户端
           while (!responseBody.source().exhausted()) {
