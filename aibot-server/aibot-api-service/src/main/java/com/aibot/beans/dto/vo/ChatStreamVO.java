@@ -14,17 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class ChatStreamVO {
-
-  /**
-   * 消息唯一id
-   */
-  private String messageId;
-
-  /**
-   * 会话id
-   */
-  private String conversationId;
-
   /**
    * 会话内容
    */

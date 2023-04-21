@@ -21,6 +21,7 @@ import com.aibot.utils.OkHttpUtils;
 import com.aibot.utils.RequestUtils;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * chatGPT api版本服务
@@ -52,21 +54,6 @@ public class ChatService {
   @Autowired
   private AsyncTask asyncTask;
 
-  /**
-   * String Buffer
-   */
-  private volatile StringBuffer chatMessageBuffer = new StringBuffer("");
-
-  /**
-   * 会话id
-   */
-  private volatile String conversionId;
-
-  /**
-   * 消息id
-   */
-  private volatile String messageId;
-
   @Autowired
   private ChatExecutorConfig chatExecutorConfig;
 
@@ -79,6 +66,8 @@ public class ChatService {
 
   @Autowired
   private HttpServletRequest request;
+  
+  private static final ConcurrentHashMap<Integer, String> apiMap = new ConcurrentHashMap<>(16);
 
 
 
@@ -101,12 +90,29 @@ public class ChatService {
     log.info("创建SseEmitter, {}", emitter);
 
     // 获取随机一条key
-    ChatApiKey apiKey = chatApiKeyMapper.selectRandomKey();
+    if (apiMap.size() == 0) {
+      QueryWrapper<ChatApiKey> wrapper = new QueryWrapper<>();
+      wrapper.lambda().ne(ChatApiKey::getStatus, 1);
+      List<ChatApiKey> chatApiKeys = chatApiKeyMapper.selectList(wrapper);
+      if (chatApiKeys.isEmpty()) {
+        log.info("没有可用apiKey");
+        return null;
+      }
+      for (ChatApiKey chatApiKey : chatApiKeys) {
+        apiMap.put(chatApiKey.getId(), chatApiKey.getApiKey());
+      }
+    }
+    // 获取随机key
+    Integer [] keys = apiMap.keySet().toArray(new Integer[0]);
+    int random = (int) (Math.random()*(keys.length));
+    Integer randomKey = keys[random];
+    String apiKey = apiMap.get(randomKey);
 
-    log.info("开始构造流式请求，id:{}, apiKey:{}", apiKey.getId(), apiKey.getApiKey());
+
+    log.info("开始构造流式请求，id:{}, apiKey:{}", randomKey, apiKey);
 
     // 构建请求头
-    Map<String, String> headers = RequestUtils.buildRequestHeaders(apiKey.getApiKey());
+    Map<String, String> headers = RequestUtils.buildRequestHeaders(apiKey);
     log.info("构建请求头, headers: {}", headers);
 
     // 构建请求体
@@ -116,6 +122,8 @@ public class ChatService {
     Map<String, Object> data = RequestUtils.buildRequestParams(value);
     data.put("messages", prompts);
     log.info("构建请求体, data: {}", data);
+    // 删除缓存
+    redisTemplate.delete(signKey);
 
     // 静态okhttpClient
     OkHttpClient.Builder builder = OkHttpClientSingleton.getInstance().newBuilder();
@@ -159,7 +167,7 @@ public class ChatService {
               // 收集返回值
               String chatItem = chatStreamResult.getChoices().get(0).getDelta().getContent();
               // 构造返回体
-              ChatStreamVO chatStream = new ChatStreamVO(messageId, conversionId, chatItem);
+              ChatStreamVO chatStream = new ChatStreamVO(chatItem);
 
               emitter.send(SseEmitter.event().data(chatStream));
             }
