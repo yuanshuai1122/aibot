@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseResult<BusinessException> processBusinessException(BusinessException businessException) {
         log.error(businessException.getLocalizedMessage());
-        return new ResponseResult( ResultCode.FAILED.getCode(), ResultCode.FAILED.getMsg());
+        return new ResponseResult( ResultCode.FAILED.getCode(), businessException.getLocalizedMessage());
     }
 
     /**

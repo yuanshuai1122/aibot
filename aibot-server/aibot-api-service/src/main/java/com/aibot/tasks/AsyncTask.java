@@ -35,7 +35,7 @@ public class AsyncTask {
    * 写入chatLog任务
    * @param chatSuccessLog chatLog实体
    */
-  @Async("chatAsyncTaskPool")
+  @Async("logAsyncTaskPool")
   public void setChatLog(ChatSuccessLog chatSuccessLog) {
     chatSuccessLogMapper.insert(chatSuccessLog);
   }
@@ -44,7 +44,7 @@ public class AsyncTask {
    * 写入敏感词日志任务
    * @param chatSensitiveLog chatLog实体
    */
-  @Async("chatAsyncTaskPool")
+  @Async("logAsyncTaskPool")
   public void setChatSensitiveLog(ChatSensitiveLog chatSensitiveLog) {
     chatSensitiveLogMapper.insert(chatSensitiveLog);
   }
@@ -53,7 +53,7 @@ public class AsyncTask {
    * 写入失败日志任务
    * @param failure 失败日志实体
    */
-  @Async("chatAsyncTaskPool")
+  @Async("logAsyncTaskPool")
   public void setChatLogFailure(ChatFailureLog failure) {
     chatFailureLogMapper.insert(failure);
   }

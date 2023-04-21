@@ -1,5 +1,7 @@
 package com.aibot.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -16,7 +18,9 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @EnableAsync
 @Configuration
-public class AsyncTaskExecutePool {
+public class ChatExecutorConfig {
+
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   //核心线程池大小
   private final int corePoolSize = 4;
@@ -25,10 +29,11 @@ public class AsyncTaskExecutePool {
   //队列容量
   private final int queueCapacity = 64;
   //活跃时间/秒
-  private final int keepAliveSeconds = 1200;
+  private final int keepAliveSeconds = 60;
 
-  @Bean
+  @Bean("chatAsyncTaskPool")
   public Executor chatAsyncTaskPool() {
+    logger.info("创建业务线程池...");
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     //核心线程池大小
     executor.setCorePoolSize(corePoolSize);
@@ -41,7 +46,8 @@ public class AsyncTaskExecutePool {
     //设置线程池关闭的时候等待所有任务都完成再继续销毁其他的Bean
     executor.setWaitForTasksToCompleteOnShutdown(true);
     //线程名字前缀
-    executor.setThreadNamePrefix("my-async1--");
+    //设置线程名称前缀
+    executor.setThreadNamePrefix("chat-thread->>>");
     // setRejectedExecutionHandler：当pool已经达到max size的时候，如何处理新任务
     // CallerRunsPolicy：不在新线程中执行任务，而是由调用者所在的线程来执行
     executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());

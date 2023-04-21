@@ -9,7 +9,7 @@ import com.aibot.beans.dto.entity.ResponseResult;
 import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
 import com.aibot.beans.dto.entity.chatProcess.ChatPrompt;
 import com.aibot.beans.dto.vo.ChatStreamVO;
-import com.aibot.config.AsyncTaskExecutePool;
+import com.aibot.config.ChatExecutorConfig;
 import com.aibot.config.OkHttpClientSingleton;
 import com.aibot.constants.ApiBaseUrl;
 import com.aibot.enums.ChatRoleEnum;
@@ -29,15 +29,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * chatGPT api版本服务
@@ -71,7 +68,7 @@ public class ChatService {
   private volatile String messageId;
 
   @Autowired
-  private AsyncTaskExecutePool asyncTaskExecutePool;
+  private ChatExecutorConfig chatExecutorConfig;
 
 
   @Autowired
@@ -135,7 +132,7 @@ public class ChatService {
     log.info("构建请求request: {}", req);
 
     // 新建线程发送 SSE 事件流数据
-    asyncTaskExecutePool.chatAsyncTaskPool().execute(() -> {
+    chatExecutorConfig.chatAsyncTaskPool().execute(() -> {
       try (Response response = okHttpClient.newCall(req).execute()) {
         log.info("开始推流......");
         ResponseBody responseBody = response.body();

@@ -2,16 +2,10 @@ package com.aibot.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.aibot.beans.ChatResult.ChatResult;
-import com.aibot.beans.ChatStreamResult.ChatStreamResult;
 import com.aibot.beans.dto.ChatCommonDTO;
 import com.aibot.beans.dto.chatProcess.ChatProcess;
-import com.aibot.beans.entity.ChatApiKey;
-import com.aibot.beans.entity.ChatFailureLog;
 import com.aibot.beans.entity.ChatSuccessLog;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.beans.vo.ChatStreamVO;
-import com.aibot.config.AsyncTaskExecutePool;
-import com.aibot.config.OkHttpClientSingleton;
 import com.aibot.constants.ApiBaseUrl;
 import com.aibot.constants.ApiKeyConfig;
 import com.aibot.constants.enums.ChatRoleEnum;
@@ -20,25 +14,16 @@ import com.aibot.mapper.ChatApiKeyMapper;
 import com.aibot.mapper.ChatSuccessLogMapper;
 import com.aibot.tasks.AsyncTask;
 import com.aibot.utils.OkHttpUtils;
-import com.aibot.utils.RequestUtils;
 import com.aibot.utils.ValueUtils;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * chatGPT api版本服务
