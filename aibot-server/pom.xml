@@ -22,6 +22,7 @@
     <modules>
         <module>aibot-admin-service</module>
         <module>aibot-front-service</module>
+        <module>aibot-api-service</module>
     </modules>
 
     <build>
