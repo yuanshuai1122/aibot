@@ -5,11 +5,13 @@ import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
 import com.aibot.beans.dto.entity.chatProcess.ChatPrompt;
 import com.alibaba.fastjson2.JSON;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,16 +45,11 @@ public class RequestUtils {
    * @return {@link Map}<{@link String}, {@link Object}>
    */
   public static Map<String, Object> buildRequestParams(String value) {
-
-    ChatSuccessLog chatSuccessLog = new Gson().fromJson(value, ChatSuccessLog.class);
-    log.info("解析请求消息, messages:{}", chatSuccessLog.getContent());
-
     Map<String, Object> data = new HashMap<>();
     data.put("model", "gpt-3.5-turbo");
     data.put("stream", true);
     //data.put("max_tokens", 1024);
     //data.put("temperature", 0.5);
-    data.put("messages", chatSuccessLog.getContent());
     return data;
   }
 

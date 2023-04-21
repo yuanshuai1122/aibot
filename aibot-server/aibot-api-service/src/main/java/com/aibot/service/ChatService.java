@@ -7,6 +7,7 @@ import com.aibot.beans.dto.entity.ChatStreamResult.ChatStreamResult;
 import com.aibot.beans.dto.entity.ChatSuccessLog;
 import com.aibot.beans.dto.entity.ResponseResult;
 import com.aibot.beans.dto.entity.chatProcess.ChatProcess;
+import com.aibot.beans.dto.entity.chatProcess.ChatPrompt;
 import com.aibot.beans.dto.vo.ChatStreamVO;
 import com.aibot.config.AsyncTaskExecutePool;
 import com.aibot.config.OkHttpClientSingleton;
@@ -21,6 +22,7 @@ import com.aibot.utils.RequestUtils;
 import com.aibot.utils.ValueUtils;
 import com.alibaba.fastjson2.JSON;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
@@ -111,8 +113,11 @@ public class ChatService {
     log.info("构建请求头, headers: {}", headers);
 
     // 构建请求体
+    ChatSuccessLog chatSuccessLog = new Gson().fromJson(value, ChatSuccessLog.class);
+    List<ChatPrompt> prompts =new Gson().fromJson(chatSuccessLog.getContent(), new TypeToken<List<ChatPrompt>>() {}.getType());
+    log.info("prompts:{}", prompts);
     Map<String, Object> data = RequestUtils.buildRequestParams(value);
-
+    data.put("messages", prompts);
     log.info("构建请求体, data: {}", data);
 
     // 静态okhttpClient
@@ -134,7 +139,6 @@ public class ChatService {
       try (Response response = okHttpClient.newCall(req).execute()) {
         log.info("开始推流......");
         ResponseBody responseBody = response.body();
-        log.info("responseBody:{}", response);
         if (response.isSuccessful() && responseBody != null) {
           // 读取 SSE 事件流数据并发送给客户端
           while (!responseBody.source().exhausted()) {
@@ -144,8 +148,12 @@ public class ChatService {
               line = line.substring(6);
               System.out.println(line);
 
+              if (line.contains("[DONE]")) {
+                continue;
+              }
+
               // json转实体
-              ChatStreamResult chatStreamResult = JSON.parseObject(line, ChatStreamResult.class);
+              ChatStreamResult chatStreamResult = new Gson().fromJson(line, ChatStreamResult.class);
 
               if ("assistant".equals(chatStreamResult.getChoices().get(0).getDelta().getRole())) {
                 continue;
@@ -160,7 +168,7 @@ public class ChatService {
             }
           }
         } else {
-          ChatFailureLog chatFailureLog = new ChatFailureLog(null, 99, messageId, conversionId, "CHAT响应失败或响应为空", new Date());
+          ChatFailureLog chatFailureLog = new ChatFailureLog(null, chatSuccessLog.getUserId(), chatSuccessLog.getMessageId(), chatSuccessLog.getConversationId(), "CHAT响应失败或响应为空", new Date());
           asyncTask.setChatLogFailure(chatFailureLog);
           emitter.completeWithError(new RuntimeException("CHAT响应失败或响应为空"));
         }
@@ -169,7 +177,7 @@ public class ChatService {
         log.info("请求chat流式接口发生异常, e: {}", e.toString());
         // 发送 SSE 事件流数据出现异常时需要调用 completeWithError() 方法
         emitter.completeWithError(new RuntimeException("请求服务器发生异常，请重试"));
-        ChatFailureLog chatFailureLog = new ChatFailureLog(null, Integer.parseInt(request.getAttribute("id").toString()), messageId, conversionId, "请求服务器发生异常，请重试", new Date());
+        ChatFailureLog chatFailureLog = new ChatFailureLog(null, chatSuccessLog.getUserId(), chatSuccessLog.getMessageId(), chatSuccessLog.getConversationId(), "请求服务器发生异常，请重试", new Date());
         asyncTask.setChatLogFailure(chatFailureLog);
         throw new RuntimeException("请求服务器发生异常，请重试");
       }finally {
