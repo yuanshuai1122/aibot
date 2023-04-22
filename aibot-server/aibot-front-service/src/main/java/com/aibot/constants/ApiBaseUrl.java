@@ -19,4 +19,10 @@ public class ApiBaseUrl {
   public static final String BASE_IMAGES_CREATE_URL = "https://api.openai.com/v1/images/generations";
 
 
+  /**
+   * api地址
+   */
+  public static final String BASE_API_URL = "https://api-center.zhixianfu.com";
+
+
 }

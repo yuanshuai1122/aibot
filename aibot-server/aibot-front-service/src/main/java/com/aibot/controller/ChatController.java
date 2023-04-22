@@ -1,5 +1,7 @@
 package com.aibot.controller;
 
+import com.aibot.beans.ChatResult.ChatResult;
+import com.aibot.beans.dto.ChatCommonDTO;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.dto.ImagesCreateDTO;
 import com.aibot.beans.dto.chatProcess.ChatProcess;
@@ -30,12 +32,24 @@ public class ChatController {
     this.chatService = chatService;
   }
 
-  //@PostMapping("/chat")
-  //public ResponseResult<ChatResult> chatCommon(@RequestBody ChatCommonDTO dto) {
-  //  log.info("开始请求chat：{}", dto);
-  //  return chatApiService.chatCommon(dto);
-  //}
+  /**
+   * 聊天（非流）
+   *
+   * @param dto DTO
+   * @return {@link ResponseResult}<{@link ChatResult}>
+   */
+  @PostMapping("/sync")
+  public ResponseResult<ChatResult> chatSync(@RequestBody ChatProcess dto) {
+    log.info("开始请求chat：{}", dto);
+    return chatService.chatSync(dto);
+  }
 
+  /**
+   * 聊天签名
+   *
+   * @param process 制程
+   * @return {@link ResponseResult}<{@link String}>
+   */
   @PostMapping("/sign")
   public ResponseResult<String> chatSign(@RequestBody @Valid ChatProcess process) {
     log.info("开始请求chatsign：{}", process);

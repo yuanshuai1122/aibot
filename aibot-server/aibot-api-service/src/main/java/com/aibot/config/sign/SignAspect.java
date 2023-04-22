@@ -3,6 +3,7 @@ package com.aibot.config.sign;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.aibot.config.exception.BusinessException;
 import com.aibot.utils.SignUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -26,6 +27,7 @@ import java.util.Objects;
  */
 @Aspect
 @Component
+@Slf4j
 public class SignAspect {
 
     /**
@@ -83,6 +85,8 @@ public class SignAspect {
         if (!CollectionUtils.isEmpty(uriTemplateVars)) {
             paths = uriTemplateVars.values().toArray(new String[0]);
         }
+
+        log.info(bodyParam);
 
         return SignUtil.sign(bodyParam, requestParameterMap, paths);
     }
