@@ -1,6 +1,7 @@
 package com.aibot.controller;
 
 import com.aibot.beans.dto.CreationCreateDTO;
+import com.aibot.beans.entity.CreationHistory;
 import com.aibot.beans.entity.CreationTypeConfig;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.CreationTypeVO;
@@ -66,6 +67,29 @@ public class CreationController {
     return creationService.creationCreate(dto);
 
   }
+
+  /**
+   * 创作历史
+   *
+   * @return {@link ResponseResult}<{@link Object}>
+   */
+  @GetMapping("/history")
+  public ResponseResult<List<CreationVO>> creationHistory() {
+
+    return creationService.creationHistory();
+  }
+
+  /**
+   * 通过id查询创作历史
+   *
+   * @return {@link ResponseResult}<{@link Object}>
+   */
+  @GetMapping("/history/detail")
+  public ResponseResult<CreationHistory> creationHistoryDetail(@RequestParam("historyId") Integer historyId) {
+
+    return creationService.creationHistoryDetail(historyId);
+  }
+
 
 
 

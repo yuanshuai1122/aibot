@@ -16,12 +16,14 @@ import com.aibot.enums.UserRoleEnum;
 import com.aibot.mapper.CreationConfigMapper;
 import com.aibot.mapper.CreationHistoryMapper;
 import com.aibot.mapper.CreationTypeConfigMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -126,6 +128,43 @@ public class CreationService {
     }
 
     return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "生成创作成功", chatPosts.getData().getChoices().get(0).getMessage().getContent());
+
+  }
+
+  /**
+   * 创作历史
+   *
+   * @return {@link ResponseResult}<{@link Object}>
+   */
+  public ResponseResult<List<CreationVO>> creationHistory() {
+
+    int userId = Integer.parseInt(request.getAttribute("id").toString());
+
+    MPJLambdaWrapper<CreationConfig> wrapper = new MPJLambdaWrapper<CreationConfig>()
+            .select(CreationConfig::getTitle, CreationConfig::getDes, CreationConfig::getImgUrl, CreationConfig::getUseCount, CreationConfig::getWordCount, CreationConfig::getKeywords)
+            .innerJoin(CreationHistory.class, CreationHistory::getCreationId, CreationConfig::getId)
+            .select(CreationHistory::getId)
+            .eq(CreationConfig::getStatus, 0)
+            .eq(CreationHistory::getUserId, userId);
+            ;
+
+    List<CreationVO> creations = creationConfigMapper.selectJoinList(CreationVO.class, wrapper);
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", creations);
+
+  }
+
+  /**
+   * 通过id查询历史详细信息
+   *
+   * @param historyId 历史ID
+   * @return {@link ResponseResult}<{@link List}<{@link CreationVO}>>
+   */
+  public ResponseResult<CreationHistory> creationHistoryDetail(Integer historyId) {
+
+    CreationHistory history = creationHistoryMapper.selectById(historyId);
+
+    return new ResponseResult<>(ResultCode.SUCCESS.getCode(), "获取成功", history);
 
   }
 }
