@@ -1,5 +1,6 @@
 package com.aibot.controller;
 
+import com.aibot.beans.dto.CreationCreateDTO;
 import com.aibot.beans.entity.CreationTypeConfig;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.CreationTypeVO;
@@ -7,11 +8,9 @@ import com.aibot.beans.vo.CreationVO;
 import com.aibot.service.CreationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,6 +29,18 @@ public class CreationController {
 
 
   /**
+   * 创建类型列表
+   *
+   * @return {@link ResponseResult}<{@link List}<{@link CreationTypeVO}>>
+   */
+  @GetMapping("/type/list")
+  public ResponseResult<List<CreationTypeVO>> creationTypeList() {
+
+    return creationService.creationTypeList();
+
+  }
+
+  /**
    * 根据类型id获取创作列表
    *
    * @param typeId 类型ID
@@ -44,14 +55,15 @@ public class CreationController {
 
 
   /**
-   * 创建类型列表
+   * 创作生成
    *
-   * @return {@link ResponseResult}<{@link List}<{@link CreationTypeVO}>>
+   * @param dto DTO
+   * @return {@link ResponseResult}<{@link Object}>
    */
-  @GetMapping("/type/list")
-  public ResponseResult<List<CreationTypeVO>> creationTypeList() {
+  @PostMapping("/create")
+  public ResponseResult<Object> creationCreate(@RequestBody @Valid CreationCreateDTO dto) {
 
-    return creationService.creationTypeList();
+    return creationService.creationCreate(dto);
 
   }
 
