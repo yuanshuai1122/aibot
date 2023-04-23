@@ -11,5 +11,19 @@ import java.math.BigDecimal;
  */
 public interface PayStrategy {
 
-    ResponseResult<Object> pay(String channel, BigDecimal amount) throws Exception;
+
+    /**
+     * 支付
+     *
+     * @param channel       通道
+     * @param amount        金额
+     * @param merchantId    商户号
+     * @param partner       接入机构号
+     * @param url           URL
+     * @param key           私钥
+     * @param easypayPubKey 易生公钥
+     * @return {@link ResponseResult}<{@link Object}>
+     * @throws Exception 例外情况
+     */
+    ResponseResult<Object> pay(String channel, BigDecimal amount, String merchantId, String partner, String url, String key, String easypayPubKey) throws Exception;
 }

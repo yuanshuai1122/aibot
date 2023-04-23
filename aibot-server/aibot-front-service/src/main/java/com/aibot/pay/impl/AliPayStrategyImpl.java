@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Component("aliPayStrategy")
 public class AliPayStrategyImpl implements PayStrategy {
     @Override
-    public ResponseResult<Object> pay(String channel, BigDecimal amount) throws Exception {
+    public ResponseResult<Object> pay(String channel, BigDecimal amount, String merchantId, String partner, String url, String key, String easypayPubKey) throws Exception {
         // 支付业务逻辑
         return null;
     }

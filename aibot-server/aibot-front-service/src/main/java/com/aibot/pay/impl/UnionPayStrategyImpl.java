@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Component("unionPayStrategy")
 public class UnionPayStrategyImpl implements PayStrategy {
     @Override
-    public ResponseResult<Object> pay(String channel, BigDecimal amount) throws Exception {
+    public ResponseResult<Object> pay(String channel, BigDecimal amount, String merchantId, String partner, String url, String key, String easypayPubKey) throws Exception {
         return null;
     }
 }

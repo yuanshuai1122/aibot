@@ -10,15 +10,15 @@ public enum PayEnum {
     /**
      * 支付宝支付
      */
-    ALI_PAY("ali","支付宝支付","aliPayStrategy"),
+    ALI_PAY("aliPay","支付宝支付","aliPayStrategy"),
     /**
      * 微信支付
      */
-    WECHAT_PAY("wechat","微信支付","wechatPayStrategy"),
+    WECHAT_PAY("wxNative","微信支付","wechatPayStrategy"),
     /**
      * 银联支付
      */
-    UNION_PAY("union","银联支付","unionPayStrategy")
+    UNION_PAY("unionNative","银联支付","unionPayStrategy")
 
 
     ;

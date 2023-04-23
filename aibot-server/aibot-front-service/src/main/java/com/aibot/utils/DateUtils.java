@@ -1,5 +1,6 @@
 package com.aibot.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,6 +38,12 @@ public class DateUtils {
     cal.add(Calendar.DAY_OF_MONTH, 3 * step);
     return cal.getTime();
 
+  }
+
+  public static String getOutTradeNo(){
+    Date d = new Date();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    return sdf.format(d) +  System.currentTimeMillis();
   }
 
 }
