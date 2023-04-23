@@ -1,7 +1,7 @@
 package com.aibot.handler;
 
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.exception.CommonException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

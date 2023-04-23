@@ -3,7 +3,7 @@ package com.aibot.service;
 import com.aibot.beans.dto.OrderProductDTO;
 import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.mapper.ProductMapper;
 import com.aibot.pay.PayService;
 import lombok.extern.slf4j.Slf4j;

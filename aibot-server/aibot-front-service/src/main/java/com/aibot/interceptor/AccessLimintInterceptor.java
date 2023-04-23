@@ -1,7 +1,7 @@
 package com.aibot.interceptor;
 
 import com.aibot.annotation.AccessLimit;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

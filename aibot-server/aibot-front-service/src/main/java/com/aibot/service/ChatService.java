@@ -1,21 +1,17 @@
 package com.aibot.service;
 
 import com.aibot.beans.entity.UserService;
-import com.aibot.config.ChatExecutorConfig;
-import com.aibot.constants.enums.ServiceTypeEnum;
+import com.aibot.enums.ServiceTypeEnum;
 import com.aibot.mapper.UserServiceMapper;
 import com.aibot.utils.SignUtil;
 import com.alibaba.fastjson2.JSON;
 import com.aibot.beans.ChatResult.ChatResult;
-import com.aibot.beans.dto.ChatCommonDTO;
 import com.aibot.beans.dto.chatProcess.ChatProcess;
 import com.aibot.beans.entity.ChatSuccessLog;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.constants.ApiBaseUrl;
-import com.aibot.constants.ApiKeyConfig;
-import com.aibot.constants.enums.ChatRoleEnum;
-import com.aibot.constants.enums.ResultCode;
-import com.aibot.mapper.ChatApiKeyMapper;
+import com.aibot.enums.ChatRoleEnum;
+import com.aibot.enums.ResultCode;
 import com.aibot.mapper.ChatSuccessLogMapper;
 import com.aibot.tasks.AsyncTask;
 import com.aibot.utils.OkHttpUtils;

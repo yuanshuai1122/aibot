@@ -1,6 +1,6 @@
 package com.aibot.beans.entity;
 
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**

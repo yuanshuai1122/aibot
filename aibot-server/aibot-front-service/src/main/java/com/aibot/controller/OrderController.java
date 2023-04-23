@@ -2,7 +2,7 @@ package com.aibot.controller;
 
 import com.aibot.beans.dto.OrderProductDTO;
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,18 +5,16 @@ import com.aibot.beans.entity.*;
 import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.LoginTypeConstants;
-import com.aibot.constants.RegConstants;
-import com.aibot.constants.enums.SmsTypeEnum;
-import com.aibot.constants.enums.UserRoleEnum;
+import com.aibot.enums.SmsTypeEnum;
+import com.aibot.enums.UserRoleEnum;
 import com.aibot.mapper.*;
 import com.aibot.utils.JwtUtil;
 import com.aibot.utils.RedisKeyUtils;
 import com.aibot.utils.ValueUtils;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RegisterDTO;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.utils.ShareCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -27,8 +25,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 用户服务

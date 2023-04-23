@@ -1,6 +1,6 @@
 package com.aibot.factory;
 
-import com.aibot.constants.enums.PayEnum;
+import com.aibot.enums.PayEnum;
 import com.aibot.pay.PayStrategy;
 import com.aibot.utils.SpringContextUtil;
 

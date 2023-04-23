@@ -1,4 +1,4 @@
-package com.aibot.constants.enums;
+package com.aibot.enums;
 
 
 /**
@@ -18,11 +18,10 @@ public enum PayEnum {
     /**
      * 银联支付
      */
-    UNION_PAY("union","银联支付","unionPayStrategy"),
-    /**
-     * 小米支付
-     */
-    XIAO_MI_PAY("xiaomi","小米支付","xiaomiPayStrategy");
+    UNION_PAY("union","银联支付","unionPayStrategy")
+
+
+    ;
 
 
     /**

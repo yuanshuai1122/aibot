@@ -1,4 +1,4 @@
-package com.aibot.constants.enums;
+package com.aibot.enums;
 
 import lombok.Getter;
 

@@ -3,7 +3,7 @@ package com.aibot.interceptor;
 import com.aibot.beans.entity.TenantInfo;
 import com.aibot.config.TenantIdManager;
 import com.aibot.constants.RegConstants;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.exception.CommonException;
 import com.aibot.mapper.TenantInfoMapper;
 import com.aibot.utils.JwtUtil;

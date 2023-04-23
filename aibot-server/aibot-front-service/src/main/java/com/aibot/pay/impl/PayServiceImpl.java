@@ -1,7 +1,7 @@
 package com.aibot.pay.impl;
 
 import com.aibot.beans.entity.ResponseResult;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.factory.PayStrategyFactory;
 import com.aibot.pay.PayService;
 import com.aibot.pay.PayStrategy;

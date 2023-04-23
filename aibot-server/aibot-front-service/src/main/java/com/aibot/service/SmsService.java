@@ -2,8 +2,8 @@ package com.aibot.service;
 
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.SmsSendDTO;
-import com.aibot.constants.enums.ResultCode;
-import com.aibot.constants.enums.SmsTypeEnum;
+import com.aibot.enums.ResultCode;
+import com.aibot.enums.SmsTypeEnum;
 import com.aibot.utils.MtUtils;
 import com.aibot.utils.RedisKeyUtils;
 import com.alibaba.fastjson2.JSON;

@@ -3,16 +3,13 @@ package com.aibot.service;
 import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.ProductVO;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.mapper.ProductMapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.yulichang.query.MPJLambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

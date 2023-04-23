@@ -1,7 +1,7 @@
 package com.aibot.exception;
 
 
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 
 /**
  * @author: Zero

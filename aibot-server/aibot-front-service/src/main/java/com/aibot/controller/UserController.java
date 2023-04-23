@@ -1,6 +1,5 @@
 package com.aibot.controller;
 
-import com.aibot.annotation.AccessLimit;
 import com.aibot.beans.dto.LoginDTO;
 import com.aibot.beans.dto.RealNameDTO;
 import com.aibot.beans.dto.RegisterDTO;
@@ -8,7 +7,7 @@ import com.aibot.beans.entity.ResponseResult;
 import com.aibot.beans.vo.RealNameVO;
 import com.aibot.beans.vo.UserInfoVO;
 import com.aibot.constants.RegConstants;
-import com.aibot.constants.enums.ResultCode;
+import com.aibot.enums.ResultCode;
 import com.aibot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
