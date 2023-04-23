@@ -5,11 +5,13 @@ import com.aibot.beans.entity.Product;
 import com.aibot.beans.entity.ResponseResult;
 import com.aibot.constants.enums.ResultCode;
 import com.aibot.mapper.ProductMapper;
+import com.aibot.pay.PayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 /**
  * 支付服务
@@ -26,6 +28,9 @@ public class OrderService {
 
   @Autowired
   private HttpServletRequest request;
+
+  @Autowired
+  private PayService payService;
 
   /**
    * 购买商品
@@ -51,6 +56,16 @@ public class OrderService {
     //        dto.getCount(), product.getProductPrice().multiply(new BigDecimal(dto.getCount())),
     //
     //);
+
+    // 支付
+    try {
+      payService.pay(dto.getChannel(), new BigDecimal(1));
+    }catch (Exception e) {
+      log.info("支付发生异常, e:{}", e);
+      return new ResponseResult<>(ResultCode.FAILED.getCode(), "支付失败，请稍后再试", null);
+    }
+
+
 
 
     return null;

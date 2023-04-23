@@ -25,4 +25,10 @@ public class OrderProductDTO {
   @NotBlank
   private Integer count;
 
+
+  /**
+   * 支付渠道
+   */
+  private String channel;
+
 }

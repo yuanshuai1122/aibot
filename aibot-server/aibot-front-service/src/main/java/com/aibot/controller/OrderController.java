@@ -28,6 +28,12 @@ public class OrderController {
   private OrderService orderService;
 
 
+  /**
+   * 创建订单
+   *
+   * @param dto DTO
+   * @return {@link ResponseResult}<{@link Object}>
+   */
   @PostMapping("/create")
   public ResponseResult<Object> orderProduct(@RequestBody @Valid OrderProductDTO dto) {
     if (dto.getProductId() <= 0 || dto.getCount() <= 0) {
