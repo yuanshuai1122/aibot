@@ -31,7 +31,8 @@ public class PayServiceImpl implements PayService {
     /**
      * URL
      */
-    private static final String URL = "https://newbox.bhecard.com/api_gateway.do";
+    //private static final String URL = "https://newbox.bhecard.com/api_gateway.do";
+    private static final String URL = "http://test_nucc.bhecard.com:9088/api_gateway.do";
 
     /**
      * 密钥

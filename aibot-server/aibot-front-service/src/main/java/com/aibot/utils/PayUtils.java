@@ -18,14 +18,16 @@ public class PayUtils {
 
     public static JSONObject qrcodeAndJsPayPush(String payType, String merchantId) {
         JSONObject sParaTemp = new JSONObject();
+        sParaTemp.put("subject", "Echannell");
         sParaTemp.put("merchant_id", merchantId);
-        sParaTemp.put("seller_email", "18679106330@gmail.com");
-        sParaTemp.put("amount", 1);
+        //sParaTemp.put("out_trade_no", "2019040138759235");
+        sParaTemp.put("out_trade_no", "demo" + DateUtils.getOutTradeNo() + "_");
+        //sParaTemp.put("seller_email", "18679106330@gmail.com");
+        sParaTemp.put("amount", 100);
+        sParaTemp.put("pay_type", payType);
         sParaTemp.put("business_time", "2017-12-07 15:35:00");
         sParaTemp.put("notify_url", "https://www.baidu.com");
-        sParaTemp.put("order_desc", "Echannell");
-        sParaTemp.put("subject", "Echannell");
-        sParaTemp.put("pay_type", payType);
+        //sParaTemp.put("order_desc", "Echannell");
 
         HashMap<String, Object> identityMap = new HashMap<String, Object>(30);
         identityMap.put("name", "测试");
@@ -34,9 +36,7 @@ public class PayUtils {
         identityMap.put("id_no", "340827199311101111");
         identityMap.put("min_age", "18");
 
-        sParaTemp.put("identity", identityMap);
-
-        sParaTemp.put("out_trade_no", "demo" + DateUtils.getOutTradeNo() + "_");
+        //sParaTemp.put("identity", identityMap);
         return sParaTemp;
     }
 
