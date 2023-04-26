@@ -39,8 +39,8 @@ public class WechatPayStrategyImpl implements PayStrategy {
         String charset = "UTF-8";
 
         //根据请求参数生成的机密串
-        //String sign = PayUtils.getSign(key, charset, bizContent,sign_type);
-        String sign = "Nnki6qyFcWkbQJU+2802oYhiMoJ0rMbeFSF5sCGT0QuGTTgd8J6Xo0IdEnOsyqt4ZO78uQQdIbmc92Xnhy0ybcrX/YJHkuy+MNfzAACXp2Yr68zvvSMKMthW4Qi3+twqNExzhzGKy1iw2bOCnnWbv9MXKnkNFwr5NPoOXoGv3ag=";
+        String sign = PayUtils.getSign(key, charset, bizContent,sign_type);
+        //String sign = "Nnki6qyFcWkbQJU+2802oYhiMoJ0rMbeFSF5sCGT0QuGTTgd8J6Xo0IdEnOsyqt4ZO78uQQdIbmc92Xnhy0ybcrX/YJHkuy+MNfzAACXp2Yr68zvvSMKMthW4Qi3+twqNExzhzGKy1iw2bOCnnWbv9MXKnkNFwr5NPoOXoGv3ag=";
         log.info("计算签名数据为：{}", sign);
 
         OkHttpUtils client = OkHttpUtils.builder();
