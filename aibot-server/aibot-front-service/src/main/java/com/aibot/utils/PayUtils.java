@@ -16,6 +16,13 @@ public class PayUtils {
     //常量定义
     public static final String TEST_RSA_ENCODE_TYPE = "RSA";
 
+    /**
+     * Qrcode和js支付推送
+     *
+     * @param payType    支付类型
+     * @param merchantId 商户ID
+     * @return {@link JSONObject}
+     */
     public static JSONObject qrcodeAndJsPayPush(String payType, String merchantId) {
         JSONObject sParaTemp = new JSONObject();
         sParaTemp.put("subject", "Echannell");
@@ -37,6 +44,27 @@ public class PayUtils {
         identityMap.put("min_age", "18");
 
         //sParaTemp.put("identity", identityMap);
+        return sParaTemp;
+    }
+
+
+    /**
+     * 易生支付h5推送
+     *
+     * @param merchantId 商户ID
+     * @return {@link JSONObject}
+     */
+    public static JSONObject easyPayH5Push(String merchantId) {
+        JSONObject sParaTemp = new JSONObject();
+        sParaTemp.put("merchant_id", merchantId);
+        sParaTemp.put("out_trade_no", "demo" + DateUtils.getOutTradeNo() + "_");
+        sParaTemp.put("bank_code", "EASYPAY");
+        sParaTemp.put("account_type", 1);
+        sParaTemp.put("subject", "测试商品标题");
+        sParaTemp.put("body", "测试商品详情");
+        sParaTemp.put("amount", 100);
+        sParaTemp.put("front_url", "https://www.baidu.com");
+        sParaTemp.put("notify_url", "https://www.baidu.com");
         return sParaTemp;
     }
 

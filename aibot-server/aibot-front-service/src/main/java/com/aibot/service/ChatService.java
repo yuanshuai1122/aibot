@@ -178,4 +178,13 @@ public class ChatService {
   }
 
 
+  /**
+   * 热门数据
+   *
+   * @return {@link ResponseResult}<{@link Object}>
+   */
+  public ResponseResult<Object> hotData() {
+
+    return null;
+    }
 }

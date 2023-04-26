@@ -15,6 +15,12 @@ public enum PayEnum {
      * 微信支付
      */
     WECHAT_PAY("wxNative","微信支付","wechatPayStrategy"),
+
+    /**
+     * 微信支付
+     */
+    EASY_PAY_H5("easyPayh5","易生H5支付","easyPayh5Strategy"),
+
     /**
      * 银联支付
      */

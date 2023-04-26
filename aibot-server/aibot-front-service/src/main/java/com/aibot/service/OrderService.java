@@ -75,18 +75,21 @@ public class OrderService {
     //
     //);
 
+
+    ResponseResult<Object> pay = null;
     // 支付
     try {
-      payService.pay(dto.getChannel(), new BigDecimal(1));
+      pay = payService.pay(dto.getChannel(), new BigDecimal(1));
+      if (!pay.getCode().equals(ResultCode.SUCCESS.getCode())) {
+        return new ResponseResult<>(ResultCode.FAILED.getCode(), "支付失败");
+      }
     }catch (Exception e) {
       log.info("支付发生异常, e:{}", e);
       return new ResponseResult<>(ResultCode.FAILED.getCode(), "支付失败，请稍后再试", null);
     }
 
 
-
-
-    return null;
+    return pay;
 
 
   }

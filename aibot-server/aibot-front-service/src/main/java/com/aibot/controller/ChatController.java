@@ -56,4 +56,15 @@ public class ChatController {
     return chatService.chatSign(process);
   }
 
+  /**
+   * 热门数据
+   *
+   * @return {@link ResponseResult}<{@link Object}>
+   */
+  @GetMapping("/hot")
+  public ResponseResult<Object> hotData() {
+
+    return chatService.hotData();
+  }
+
 }
