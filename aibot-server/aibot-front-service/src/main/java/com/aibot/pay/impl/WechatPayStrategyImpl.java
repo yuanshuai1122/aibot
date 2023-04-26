@@ -40,12 +40,10 @@ public class WechatPayStrategyImpl implements PayStrategy {
 
         //根据请求参数生成的机密串
         String sign = PayUtils.getSign(key, charset, bizContent,sign_type);
-        //String sign = "Nnki6qyFcWkbQJU+2802oYhiMoJ0rMbeFSF5sCGT0QuGTTgd8J6Xo0IdEnOsyqt4ZO78uQQdIbmc92Xnhy0ybcrX/YJHkuy+MNfzAACXp2Yr68zvvSMKMthW4Qi3+twqNExzhzGKy1iw2bOCnnWbv9MXKnkNFwr5NPoOXoGv3ag=";
         log.info("计算签名数据为：{}", sign);
 
         OkHttpUtils client = OkHttpUtils.builder();
         client.url(url);
-        client.addHeader("Content-Type", "application/json");
         client.addParam("service", service);
         client.addParam("partner", partner);
         client.addParam("sign", sign);
@@ -53,7 +51,7 @@ public class WechatPayStrategyImpl implements PayStrategy {
         client.addParam("charset", charset);
         client.addParam("biz_content", bizContent);
 
-        String sync = client.post(true).sync();
+        String sync = client.post(false).sync();
         log.info("请求结果为：{}", sync);
 
         //易生公钥验证返回签名
